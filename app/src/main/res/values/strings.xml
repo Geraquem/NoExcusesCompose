@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">No excuses compose</string>
+
+    <string name="empty"> </string>
+
+    <!-- ERROR -->
+    <string name="error_title">Ha ocurrido un problema</string>
+    <string name="error_description">Inténtalo de nuevo más tarde</string>
+    <string name="error_btn">Aceptar</string>
+
+    <!-- TOOLBAR -->
+    <string name="toolbar_back">Volver</string>
+
+    <!-- BOTTOM NAV -->
+    <string name="bottom_nav_home">Inicio</string>
+    <string name="bottom_nav_maximum">Máximos</string>
+    <string name="bottom_nav_calendar">Calendario</string>
+    <string name="bottom_nav_notes">Notas</string>
+    <string name="bottom_nav_stretching">Estiramientos</string>
+
 </resources>

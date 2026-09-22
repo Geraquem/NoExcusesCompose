@@ -121,7 +121,7 @@ fun LoadingLottie(modifier: Modifier = Modifier) {
         val dynamicProperties = rememberLottieDynamicProperties(
             rememberLottieDynamicProperty(
                 property = LottieProperty.COLOR,
-                value = Color.White.toArgb(),
+                value = Color.Blue.toArgb(),
                 keyPath = arrayOf("**")
             )
         )

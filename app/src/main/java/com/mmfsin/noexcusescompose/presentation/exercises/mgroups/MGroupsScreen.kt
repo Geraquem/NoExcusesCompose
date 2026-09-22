@@ -31,7 +31,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.mmfsin.noexcusescompose.domain.models.MuscularGroup
-import com.mmfsin.noexcusescompose.domain.models.getMuscularGroupColor
+import com.mmfsin.noexcusescompose.domain.models.MuscularGroupType.Companion.getMuscularGroupColor
 import com.mmfsin.noexcusescompose.domain.models.getMuscularGroupsExamples
 import com.mmfsin.noexcusescompose.presentation.core.components.CustomToolbar
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText

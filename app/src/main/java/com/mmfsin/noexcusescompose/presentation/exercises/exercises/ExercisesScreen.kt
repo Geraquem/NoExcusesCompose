@@ -27,7 +27,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mmfsin.noexcusescompose.domain.models.Exercise
+import com.mmfsin.noexcusescompose.domain.models.MuscularGroupType.Companion.getMuscularGroupName
 import com.mmfsin.noexcusescompose.presentation.core.components.CustomToolbar
+import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
 import com.mmfsin.noexcusescompose.presentation.core.theme.Black
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
@@ -66,6 +68,7 @@ fun ExercisesContent(
         topBar = {
             CustomToolbar(
                 goBack = { goBack() },
+                title = getMuscularGroupName(uiStates.mGroupId)
             )
         }
     ) { innerPadding ->
@@ -75,6 +78,7 @@ fun ExercisesContent(
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp)
         ) {
+            if (uiStates.exercises.isEmpty()) LoadingLottie()
             ExercisesList(uiStates.exercises)
         }
     }

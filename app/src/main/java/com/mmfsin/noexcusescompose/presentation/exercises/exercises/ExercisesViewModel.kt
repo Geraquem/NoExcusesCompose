@@ -23,12 +23,9 @@ class ExercisesViewModel @Inject constructor(
         executeUseCase(
             { getExerciseByMGroupUseCase(mGroupId) },
             { exercises ->
-                if (exercises.isEmpty()) println("VACCCCIIIIOOOOOO")
-                exercises.forEach {
-                    println("---------- ${it.name}")
-                }
                 _uiState.update {
                     it.copy(
+                        mGroupId = mGroupId,
                         exercises = exercises
                     )
                 }

@@ -42,4 +42,17 @@
     <string name="menu_notes_title">Notas</string>
     <string name="menu_notes_description">Está bien confiar en la memoria de uno mismo, pero siempre es mejor dejarlo por escrito.</string>
 
+    <!-- MUSCULAR GROUPS -->
+    <string name="mgroups_toolbar">Grupos musculares</string>
+    <string name="mgroups_forearm">Antebrazo</string>
+    <string name="mgroups_biceps">Bíceps</string>
+    <string name="mgroups_cardio">Cardio</string>
+    <string name="mgroups_core">Core</string>
+    <string name="mgroups_back">Espalda</string>
+    <string name="mgroups_glutes">Glúteos</string>
+    <string name="mgroups_shoulder">Hombros</string>
+    <string name="mgroups_chest">Pecho</string>
+    <string name="mgroups_legs">Piernas</string>
+    <string name="mgroups_triceps">Tríceps</string>
+
 </resources>

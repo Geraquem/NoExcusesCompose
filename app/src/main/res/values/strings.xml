@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">No excuses compose</string>
+    <string name="app_name">No excuses</string>
 
     <string name="empty"> </string>
 
@@ -17,5 +17,29 @@
     <string name="bottom_nav_calendar">Calendario</string>
     <string name="bottom_nav_notes">Notas</string>
     <string name="bottom_nav_stretching">Estiramientos</string>
+
+    <!-- MENU -->
+    <string name="menu_none_routine_pinned">¡Fija aqui la rutina que estés haciendo!</string>
+    <string name="menu_none_routine_pinned_date">Fijada desde el %s</string>
+    <string name="menu_none_routine_pinned_description">Solo tienes que pulsar el icono</string>
+    <string name="menu_default_routines_title">Rutinas</string>
+    <string name="menu_default_routines_description">Ponte en forma con los planes de entrenamiento creados para ganar masa muscular, definir o simplemente mantener la línea.</string>
+    <string name="menu_my_routines_title">Mis entrenamientos</string>
+    <string name="menu_my_routines_description">Crea tus propias rutinas de entrenamiento.Divide la rutina en días para ser más eficiente y llevar tu entrenamiento al siguiente nivel.</string>
+    <string name="menu_my_routines_new_routine">Crear nueva rutina</string>
+    <string name="menu_my_routines_calendar">Calendario</string>
+    <string name="menu_my_routines_calendar_description">Cuando registres una rutina aparecerá en el calendario el día que hayas entrenado y las rutinas realizadas. Organízate y lleva un registro de todo tu trabajo y de tus planes de entrenamientos.</string>
+    <string name="menu_my_routines_calendar_nothing_saved">No tienes nada registrado</string>
+    <string name="menu_my_routines_calendar_one_saved">Tienes registrada 1 sesión</string>
+    <string name="menu_my_routines_calendar_saved">Tienes registradas %s sesiones</string>
+    <string name="menu_my_actual_routine">Actualmente estás haciendo:</string>
+    <string name="menu_exercises_title">Ejercicios</string>
+    <string name="menu_exercises_description">Echa un vistazo más detallado a todos los ejercicios.</string>
+    <string name="menu_stretch_title">Estiramientos</string>
+    <string name="menu_stretch_description">La práctica regular de estiramientos antes y después del ejercicio es fundamental para maximizar el rendimiento, prevenir lesiones, y mejorar la flexibilidad y la recuperación muscular.</string>
+    <string name="menu_favs_title">Ejercicios favoritos</string>
+    <string name="menu_favs_description">Para marcar un ejercicio como favorito, accede al ejercicio que más te guste y dale a la estrellita que aparece al lado del nombre del ejercicio.</string>
+    <string name="menu_notes_title">Notas</string>
+    <string name="menu_notes_description">Está bien confiar en la memoria de uno mismo, pero siempre es mejor dejarlo por escrito.</string>
 
 </resources>

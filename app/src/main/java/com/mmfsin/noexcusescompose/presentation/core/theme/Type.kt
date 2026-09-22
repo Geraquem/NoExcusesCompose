@@ -14,23 +14,25 @@ val barlow = FontFamily(Font(R.font.barlow, weight = FontWeight.Normal))
 val courier = FontFamily(Font(R.font.courier, weight = FontWeight.Normal))
 val kineks = FontFamily(Font(R.font.kineks, weight = FontWeight.Normal))
 val manaspace = FontFamily(Font(R.font.manaspace, weight = FontWeight.Normal))
+val montserrat_regular = FontFamily(Font(R.font.montserrat_regular, weight = FontWeight.Normal))
+val montserrat_bold = FontFamily(Font(R.font.montserrat_bold, weight = FontWeight.Normal))
 
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodySmall = TextStyle(
-        fontFamily = barlow,
+        fontFamily = montserrat_regular,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
     ),
 
     bodyLarge = TextStyle(
-        fontFamily = barlow,
+        fontFamily = montserrat_regular,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
     ),
 
     titleLarge = TextStyle(
-        fontFamily = barlow,
+        fontFamily = montserrat_regular,
         fontWeight = FontWeight.Normal,
         fontSize = 20.sp,
     ),

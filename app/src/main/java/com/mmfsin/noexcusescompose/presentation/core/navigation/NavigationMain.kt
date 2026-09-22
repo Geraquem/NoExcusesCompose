@@ -1,7 +1,5 @@
 package com.mmfsin.noexcusescompose.presentation.core.navigation
 
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -21,7 +19,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.presentation.calendar.CalendarScreen
-import com.mmfsin.noexcusescompose.presentation.core.components.CustomToolbar
+import com.mmfsin.noexcusescompose.presentation.core.components.CustomMainToolbar
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
 import com.mmfsin.noexcusescompose.presentation.maximums.MaximumsScreen
 import com.mmfsin.noexcusescompose.presentation.menu.MenuScreen
@@ -30,7 +28,6 @@ import com.mmfsin.noexcusescompose.util.BN_CALENDAR_ID
 import com.mmfsin.noexcusescompose.util.BN_HOME_ID
 import com.mmfsin.noexcusescompose.util.BN_MAXIMUMS_ID
 import com.mmfsin.noexcusescompose.util.BN_NOTES_ID
-import kotlinx.serialization.Serializable
 
 @Composable
 fun NavigationMain() {
@@ -47,7 +44,11 @@ fun NavigationMain() {
     val currentDestination = navBackStackEntry?.destination?.route
 
     Scaffold(
-        topBar = { CustomToolbar({}, false, R.string.app_name) },
+        topBar = {
+            CustomMainToolbar(
+                onRightIconClick = {}
+            )
+        },
         bottomBar = {
             NavigationBar(modifier = Modifier.fillMaxWidth()) {
                 bottomNavItems.forEach { item ->
@@ -89,10 +90,6 @@ fun NavigationMain() {
         }
     }
 }
-
-/** SCREENS */
-@Serializable
-object Menu
 
 data class BottomNavItem(
     val id: String,

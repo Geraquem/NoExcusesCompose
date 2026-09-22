@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.presentation.core.theme.Black
+import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_regular
 
 @Preview(showBackground = true)
 @Composable
@@ -34,7 +35,7 @@ fun SmallText(
     fontWeight: FontWeight = FontWeight.Normal,
     gravity: TextAlign = TextAlign.Start,
     fontSize: TextUnit = MaterialTheme.typography.bodySmall.fontSize,
-    fontFamily: FontFamily = FontFamily.SansSerif,
+    fontFamily: FontFamily = montserrat_regular,
     textDecoration: TextDecoration = TextDecoration.None,
     allCaps: Boolean = false
 ) {
@@ -59,7 +60,7 @@ fun SmallText(
     fontWeight: FontWeight = FontWeight.Normal,
     gravity: TextAlign = TextAlign.Start,
     fontSize: TextUnit = MaterialTheme.typography.bodySmall.fontSize,
-    fontFamily: FontFamily = FontFamily.SansSerif,
+    fontFamily: FontFamily = montserrat_regular,
     textDecoration: TextDecoration = TextDecoration.None,
     allCaps: Boolean = false
 ) {
@@ -85,7 +86,7 @@ fun MediumText(
     fontWeight: FontWeight = FontWeight.Normal,
     gravity: TextAlign = TextAlign.Start,
     fontSize: TextUnit = MaterialTheme.typography.bodyLarge.fontSize,
-    fontFamily: FontFamily = FontFamily.SansSerif,
+    fontFamily: FontFamily = montserrat_regular,
     textDecoration: TextDecoration = TextDecoration.None,
     allCaps: Boolean = false
 ) {
@@ -110,7 +111,7 @@ fun MediumText(
     fontWeight: FontWeight = FontWeight.Normal,
     gravity: TextAlign = TextAlign.Start,
     fontSize: TextUnit = MaterialTheme.typography.bodyLarge.fontSize,
-    fontFamily: FontFamily = FontFamily.SansSerif,
+    fontFamily: FontFamily = montserrat_regular,
     textDecoration: TextDecoration = TextDecoration.None,
     allCaps: Boolean = false
 ) {
@@ -136,7 +137,7 @@ fun BigText(
     fontWeight: FontWeight = FontWeight.Normal,
     gravity: TextAlign = TextAlign.Start,
     fontSize: TextUnit = MaterialTheme.typography.titleLarge.fontSize,
-    fontFamily: FontFamily = FontFamily.SansSerif,
+    fontFamily: FontFamily = montserrat_regular,
     textDecoration: TextDecoration = TextDecoration.None,
     allCaps: Boolean = false
 ) {
@@ -161,7 +162,7 @@ fun BigText(
     fontWeight: FontWeight = FontWeight.Normal,
     gravity: TextAlign = TextAlign.Start,
     fontSize: TextUnit = MaterialTheme.typography.titleLarge.fontSize,
-    fontFamily: FontFamily = FontFamily.SansSerif,
+    fontFamily: FontFamily = montserrat_regular,
     textDecoration: TextDecoration = TextDecoration.None,
     allCaps: Boolean = false
 ) {

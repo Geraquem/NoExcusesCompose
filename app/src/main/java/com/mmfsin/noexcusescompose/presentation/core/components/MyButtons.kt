@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -24,9 +25,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.presentation.core.theme.Black
+import com.mmfsin.noexcusescompose.presentation.core.theme.BlueMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.OrangeMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
+import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_regular
 
 val alphazetFont = FontFamily(
     Font(R.font.alphazet, weight = FontWeight.Normal),
@@ -61,7 +64,7 @@ fun ButtonCustom(
     modifier: Modifier = Modifier,
     textModifier: Modifier = Modifier,
     enabled: Boolean = true,
-    color: Color = GrayMedium,
+    color: Color = White,
     textColor: Color = Black
 ) {
     Button(
@@ -71,13 +74,18 @@ fun ButtonCustom(
         colors = ButtonDefaults.buttonColors(
             containerColor = color
         ),
-        shape = RoundedCornerShape(50)
+        shape = RoundedCornerShape(25),
+        elevation = ButtonDefaults.buttonElevation(
+            defaultElevation = 4.dp,
+            pressedElevation = 2.dp,
+            disabledElevation = 0.dp
+        )
     ) {
         MediumText(
             text = text,
             color = textColor,
             modifier = textModifier.padding(vertical = 4.dp),
-            fontFamily = alphazetFont,
+            fontFamily = montserrat_regular,
             allCaps = true,
             fontWeight = FontWeight.SemiBold
         )
@@ -92,12 +100,16 @@ fun ButtonCustomIcon(
     textModifier: Modifier = Modifier,
     icon: Int,
     enabled: Boolean = true,
-    color: Color = OrangeMedium,
+    color: Color = BlueMedium,
     textColor: Color = White
 ) {
     Row(
         modifier = modifier
-            .clip(RoundedCornerShape(50))
+            .shadow(
+                elevation = 4.dp,
+                shape = RoundedCornerShape(25)
+            )
+            .clip(RoundedCornerShape(25))
             .background(if (enabled) color else GrayMedium)
             .clickable(onClick = { if (enabled) onClick() })
             .padding(horizontal = 12.dp, vertical = 8.dp),
@@ -112,7 +124,7 @@ fun ButtonCustomIcon(
             text = text,
             color = textColor,
             modifier = textModifier.padding(vertical = 4.dp),
-            fontFamily = alphazetFont,
+            fontFamily = montserrat_regular,
             allCaps = true
         )
     }
@@ -125,20 +137,20 @@ fun OutlinedButtonCustom(
     modifier: Modifier = Modifier,
     textModifier: Modifier = Modifier,
     enabled: Boolean = true,
-    textColor: Color = OrangeMedium
+    textColor: Color = BlueMedium
 ) {
     OutlinedButton(
         onClick = { onClick() },
         modifier = modifier,
         enabled = enabled,
         border = BorderStroke(1.dp, textColor),
-        shape = RoundedCornerShape(50)
+        shape = RoundedCornerShape(25)
     ) {
         MediumText(
             text = text,
             color = textColor,
             modifier = textModifier.padding(vertical = 4.dp),
-            fontFamily = alphazetFont,
+            fontFamily = montserrat_regular,
             allCaps = true
         )
     }

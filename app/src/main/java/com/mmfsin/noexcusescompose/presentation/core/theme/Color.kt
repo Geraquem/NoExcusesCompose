@@ -40,6 +40,10 @@ val BlueLight = Color(0xFF84ADEE)
 val BlueMedium = Color(0xFF4B87E7)
 val BlueHard = Color(0xFF0449BF)
 
+val PurpleLight = Color(0xFFB588CB)
+val Purple = Color(0xFF7A2493)
+val PurpleDark = Color(0xFF764186)
+
 /** Backgrounds */
 val Background = Color(0xFFEDEDED)
 val BackgroundBlack = Color(0xFF353741)

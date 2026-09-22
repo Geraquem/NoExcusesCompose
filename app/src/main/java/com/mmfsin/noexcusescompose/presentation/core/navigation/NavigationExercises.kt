@@ -11,12 +11,12 @@ import com.mmfsin.noexcusescompose.presentation.exercises.mgroups.MGroupsScreen
 import kotlinx.serialization.Serializable
 
 @Composable
-fun NavigationExercises(mgroup: String?) {
+fun NavigationExercises(mgroupId: String?) {
     val navController = rememberNavController()
 
     NavHost(
         navController = navController,
-        startDestination = if (mgroup == null) MuscularGroups else Exercises,
+        startDestination = if (mgroupId == null) MuscularGroups else Exercises(mgroupId),
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None },
         popEnterTransition = { EnterTransition.None },

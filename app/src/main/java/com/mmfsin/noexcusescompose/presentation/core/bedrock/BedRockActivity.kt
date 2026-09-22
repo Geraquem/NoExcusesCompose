@@ -23,7 +23,7 @@ class BedRockActivity : ComponentActivity() {
 
         setContent {
             when (navGraph) {
-                NAV_EXERCISES -> NavigationExercises(mgroup = strArgs)
+                NAV_EXERCISES -> NavigationExercises(mgroupId = strArgs)
                 else -> finish()
             }
         }

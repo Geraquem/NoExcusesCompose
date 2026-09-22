@@ -129,7 +129,9 @@ fun MenuContent(
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         uiStates.muscularGroups.forEach { mGroup ->
                             item {
-                                Box(Modifier.size(120.dp).background(GreenHard))
+                                Box(Modifier.size(120.dp).background(GreenHard).clickable(onClick = {
+                                    goToExercises(mGroup.id)
+                                }))
                             }
                         }
                     }

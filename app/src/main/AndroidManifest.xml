@@ -11,6 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NoExcusesCompose">
+
+        <activity
+            android:name=".presentation.core.bedrock.BedRockActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.NoExcusesCompose" />
+
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true"

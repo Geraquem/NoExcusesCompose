@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "921285535887",
+    "firebase_url": "https://noexcusesgym-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "noexcusesgym",
+    "storage_bucket": "noexcusesgym.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921285535887:android:07bc20a5705d5cf4b568fa",
+        "android_client_info": {
+          "package_name": "com.mmfsin.noexcuses"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4y1CshWSZoDpQnroF_sZx9zjMYZz4KX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921285535887:android:851f1d9ccd0347d2b568fa",
+        "android_client_info": {
+          "package_name": "com.mmfsin.noexcusescompose"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4y1CshWSZoDpQnroF_sZx9zjMYZz4KX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

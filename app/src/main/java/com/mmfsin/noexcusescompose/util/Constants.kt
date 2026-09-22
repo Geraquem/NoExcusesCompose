@@ -6,6 +6,13 @@ const val BN_CALENDAR_ID = "bottom_nav_calendar_id"
 const val BN_MAXIMUMS_ID = "bottom_nav_maximums_id"
 const val BN_NOTES_ID = "bottom_nav_notes_id"
 
+/** BEDROCK ARGS */
+const val BEDROCK_NAV_GRAPH = "bedrock_nav_graph"
+const val BEDROCK_STR_ARGS = "bedrock_str_args"
+const val BEDROCK_BOOL_ARGS = "bedrock_bool_args"
+
+const val NAV_EXERCISES = "nav_instr_ranking_offline"
+
 /** ROOM */
 const val DDBB_NAME = "noexcuses_room_ddbb"
 const val TABLE_MUSCULAR_GROUPS = "table_muscular_groups"

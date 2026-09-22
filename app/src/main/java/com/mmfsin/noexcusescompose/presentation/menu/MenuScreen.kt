@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,28 +44,36 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.OrangeHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.PurpleDark
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
+import com.mmfsin.noexcusescompose.util.NAV_EXERCISES
+import com.mmfsin.noexcusescompose.util.openBedRockActivity
 
 @Preview
 @Composable
 fun MenuScreenPV() {
     MenuContent(
-        uiStates = MenuStates()
+        uiStates = MenuStates(
+
+        ),
+        { }
     )
 }
 
 @Composable
 fun MenuScreen(viewModel: MenuViewModel = hiltViewModel()) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+
     MenuContent(
-        uiStates = uiStates
+        uiStates = uiStates,
+        goToExercises = { context.openBedRockActivity(NAV_EXERCISES, it) }
     )
 }
 
 @Composable
 fun MenuContent(
     uiStates: MenuStates,
-
-    ) {
+    goToExercises: (String?) -> Unit
+) {
     CompositionLocalProvider(
         LocalOverscrollFactory provides null
     ) {
@@ -113,12 +122,12 @@ fun MenuContent(
                     title = R.string.menu_exercises_title,
                     titleColor = Black,
                     description = R.string.menu_exercises_description,
-                    onClick = {}
+                    onClick = { goToExercises(null) }
                 )
                 if (uiStates.muscularGroups.isNotEmpty()) {
                     SpacerSmall()
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        uiStates.muscularGroups.forEach { _ ->
+                        uiStates.muscularGroups.forEach { mGroup ->
                             item {
                                 Box(Modifier.size(120.dp).background(GreenHard))
                             }

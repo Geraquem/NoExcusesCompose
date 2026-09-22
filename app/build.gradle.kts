@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.parecelize)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
-//    id("com.google.gms.google-services")
+    id("com.google.gms.google-services")
 }
 
 android {

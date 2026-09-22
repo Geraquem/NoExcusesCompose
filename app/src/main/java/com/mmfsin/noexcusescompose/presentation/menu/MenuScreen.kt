@@ -75,8 +75,6 @@ fun MenuContent(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
-            SpacerSmall()
-
             MenuBox(
                 icon = R.drawable.ic_df_routines,
                 iconColor = GreenHard,

@@ -9,8 +9,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -32,6 +33,7 @@ import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.presentation.core.components.ButtonCustom
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerCustom
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
 import com.mmfsin.noexcusescompose.presentation.core.theme.Black
 import com.mmfsin.noexcusescompose.presentation.core.theme.BlueMedium
@@ -39,7 +41,6 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.GreenHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.OrangeHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.PurpleDark
-import com.mmfsin.noexcusescompose.presentation.core.theme.RedHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 
@@ -75,6 +76,8 @@ fun MenuContent(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
+            SpacerMini()
+
             MenuBox(
                 icon = R.drawable.ic_df_routines,
                 iconColor = GreenHard,
@@ -86,7 +89,7 @@ fun MenuContent(
 
             Column {
                 MenuBox(
-                    icon = R.drawable.ic_df_routines,
+                    icon = R.drawable.ic_my_routines,
                     iconColor = BlueMedium,
                     title = R.string.menu_my_routines_title,
                     titleColor = BlueMedium,
@@ -112,13 +115,21 @@ fun MenuContent(
                     description = R.string.menu_exercises_description,
                     onClick = {}
                 )
-                SpacerSmall()
-                Box(Modifier.fillMaxWidth().height(20.dp).background(RedHard))
+                if (uiStates.muscularGroups.isNotEmpty()) {
+                    SpacerSmall()
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        uiStates.muscularGroups.forEach { _ ->
+                            item {
+                                Box(Modifier.size(120.dp).background(GreenHard))
+                            }
+                        }
+                    }
+                }
             }
 
             MenuBox(
                 icon = R.drawable.ic_stretching,
-                iconColor = BlueMedium,
+                iconColor = PurpleDark,
                 title = R.string.menu_stretch_title,
                 titleColor = PurpleDark,
                 description = R.string.menu_stretch_description,

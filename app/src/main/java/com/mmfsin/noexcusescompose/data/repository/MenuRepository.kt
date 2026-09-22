@@ -41,111 +41,109 @@ class MenuRepository @Inject constructor(
             }
             return firebaseMuscularGroups.toMuscularGroupList()
 
-        } else {
-            return muscularGroupsDAO.getMuscularGroups().toMuscularGroupList()
-        }
+        } else return muscularGroupsDAO.getMuscularGroups().toMuscularGroupList()
     }
 
-//    override fun getMyActualRoutine(): Routine? {
-//        val myRoutines = realmDatabase.getObjectsFromRealm {
-//            query<MyRoutineDTO>("$ROUTINE_DOING_IT == $0", true).find()
-//        }
-//        if (myRoutines.isNotEmpty()) return myRoutines.first().toRoutine()
-//
-//        val dfRoutines = realmDatabase.getObjectsFromRealm {
-//            query<DefaultRoutineDTO>("$ROUTINE_DOING_IT == $0", true).find()
-//        }
-//        if (dfRoutines.isNotEmpty()) return dfRoutines.first().toRoutine()
-//        return null
-//    }
-//
-//    override fun getMyActualRoutineDays(routineId: String): List<Day> {
-//        val routine = getMyActualRoutine()
-//        routine?.let {
-//            if (routine.createdByUser) {
-//                val days = realmDatabase.getObjectsFromRealm {
-//                    query<DayDTO>("$ROUTINE_ID == $0", routineId).find()
-//                }
-//                return days.toDayListFromDayDTO()
-//            } else {
-//                val days = realmDatabase.getObjectsFromRealm {
-//                    query<DefaultDayDTO>("$ROUTINE_ID == $0", routineId).find()
-//                }
-//                return days.toDayListFromDefaultDayDTO()
-//            }
-//        }
-//        return emptyList()
-//    }
-//
-//    override suspend fun unpinRoutineFromMenu(routineId: String) {
-//        realmDatabase.write {
-//             DefaultRoutineDTO
-//            query<DefaultRoutineDTO>("$ID == $0", routineId).first().find()?.let {
-//                it.doingIt = false
-//            }
-//
-//             MyRoutineDTO
-//            query<MyRoutineDTO>("$ID == $0", routineId).first().find()?.let {
-//                it.doingIt = false
-//            }
-//        }
-//    }
-//
-//    override suspend fun unpinNoteFromMenu(noteId: String) {
-//        realmDatabase.write {
-//            val note = query<NoteDTO>("$ID == $0", noteId).first().find()
-//            note?.let {
-//                it.pinned = false
-//            }
-//        }
-//    }
-//
-//    override fun checkBodyImage(): Boolean {
-//        val sharedPrefs = context.getSharedPreferences(MY_SHARED_PREFS, MODE_PRIVATE)
-//        return sharedPrefs.getBoolean(BODY_IMAGE_WOMAN_SELECTED, false)
-//    }
-//
-//    override fun editBodyImage(womanImageSelected: Boolean) {
-//        val sharedPrefs = context.getSharedPreferences(MY_SHARED_PREFS, MODE_PRIVATE)
-//        sharedPrefs.edit().apply {
-//            putBoolean(BODY_IMAGE_WOMAN_SELECTED, womanImageSelected)
-//            apply()
-//        }
-//    }
+    //    override fun getMyActualRoutine(): Routine? {
+    //        val myRoutines = realmDatabase.getObjectsFromRealm {
+    //            query<MyRoutineDTO>("$ROUTINE_DOING_IT == $0", true).find()
+    //        }
+    //        if (myRoutines.isNotEmpty()) return myRoutines.first().toRoutine()
+    //
+    //        val dfRoutines = realmDatabase.getObjectsFromRealm {
+    //            query<DefaultRoutineDTO>("$ROUTINE_DOING_IT == $0", true).find()
+    //        }
+    //        if (dfRoutines.isNotEmpty()) return dfRoutines.first().toRoutine()
+    //        return null
+    //    }
+    //
+    //    override fun getMyActualRoutineDays(routineId: String): List<Day> {
+    //        val routine = getMyActualRoutine()
+    //        routine?.let {
+    //            if (routine.createdByUser) {
+    //                val days = realmDatabase.getObjectsFromRealm {
+    //                    query<DayDTO>("$ROUTINE_ID == $0", routineId).find()
+    //                }
+    //                return days.toDayListFromDayDTO()
+    //            } else {
+    //                val days = realmDatabase.getObjectsFromRealm {
+    //                    query<DefaultDayDTO>("$ROUTINE_ID == $0", routineId).find()
+    //                }
+    //                return days.toDayListFromDefaultDayDTO()
+    //            }
+    //        }
+    //        return emptyList()
+    //    }
+    //
+    //    override suspend fun unpinRoutineFromMenu(routineId: String) {
+    //        realmDatabase.write {
+    //             DefaultRoutineDTO
+    //            query<DefaultRoutineDTO>("$ID == $0", routineId).first().find()?.let {
+    //                it.doingIt = false
+    //            }
+    //
+    //             MyRoutineDTO
+    //            query<MyRoutineDTO>("$ID == $0", routineId).first().find()?.let {
+    //                it.doingIt = false
+    //            }
+    //        }
+    //    }
+    //
+    //    override suspend fun unpinNoteFromMenu(noteId: String) {
+    //        realmDatabase.write {
+    //            val note = query<NoteDTO>("$ID == $0", noteId).first().find()
+    //            note?.let {
+    //                it.pinned = false
+    //            }
+    //        }
+    //    }
+    //
+    //    override fun checkBodyImage(): Boolean {
+    //        val sharedPrefs = context.getSharedPreferences(MY_SHARED_PREFS, MODE_PRIVATE)
+    //        return sharedPrefs.getBoolean(BODY_IMAGE_WOMAN_SELECTED, false)
+    //    }
+    //
+    //    override fun editBodyImage(womanImageSelected: Boolean) {
+    //        val sharedPrefs = context.getSharedPreferences(MY_SHARED_PREFS, MODE_PRIVATE)
+    //        sharedPrefs.edit().apply {
+    //            putBoolean(BODY_IMAGE_WOMAN_SELECTED, womanImageSelected)
+    //            apply()
+    //        }
+    //    }
 
     /*****************************************************************************************************************************************/
     private suspend fun insertDataInFirestore() {
-//        val db = Firebase.firestore
-//        val batch = db.batch()
-//
-//        val routineId = "routine_7"
-//        val dayId = "r7d3"
-//
-//        val listToInsert = getExercisesToInsert(dayId)
-//        //        val listToInsert = getDaysToInsert(routineId)
-//
-//        val latch = CountDownLatch(1)
-//
-//        val usersCollection = db.collection(DEFAULT_ROUTINES).document(routineId)
-//            .collection(DAYS)
-//            .document(dayId)
-//            .collection(EXERCISES)
-//
-//        for (user in listToInsert) {
-//            val newDocRef = user["id"]?.let { usersCollection.document(it) }
-//            if (newDocRef != null) {
-//                batch.set(newDocRef, user)
-//            }
-//        }
-//
-//        batch.commit()
-//            .addOnSuccessListener {
-//                latch.countDown()
-//            }
-//            .addOnFailureListener {
-//                latch.countDown()
-//            }
-//        withContext(Dispatchers.IO) { latch.await() }
+        //        val db = Firebase.firestore
+        //        val batch = db.batch()
+        //
+        //        val routineId = "routine_7"
+        //        val dayId = "r7d3"
+        //
+        //        val listToInsert = getExercisesToInsert(dayId)
+        //        //        val listToInsert = getDaysToInsert(routineId)
+        //
+        //        val latch = CountDownLatch(1)
+        //
+        //        val usersCollection = db.collection(DEFAULT_ROUTINES).document(routineId)
+        //            .collection(DAYS)
+        //            .document(dayId)
+        //            .collection(EXERCISES)
+        //
+        //        for (user in listToInsert) {
+        //            val newDocRef = user["id"]?.let { usersCollection.document(it) }
+        //            if (newDocRef != null) {
+        //                batch.set(newDocRef, user)
+        //            }
+        //        }
+        //
+        //        batch.commit()
+        //            .addOnSuccessListener {
+        //                latch.countDown()
+        //            }
+        //            .addOnFailureListener {
+        //                latch.countDown()
+        //            }
+        //        withContext(Dispatchers.IO) { latch.await() }
     }
 
     private fun getDaysToInsert(routineId: String): List<HashMap<String, String>> {

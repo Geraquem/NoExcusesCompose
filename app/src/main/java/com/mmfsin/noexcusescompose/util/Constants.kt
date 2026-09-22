@@ -16,6 +16,7 @@ const val NAV_EXERCISES = "nav_instr_ranking_offline"
 /** ROOM */
 const val DDBB_NAME = "noexcuses_room_ddbb"
 const val TABLE_MUSCULAR_GROUPS = "table_muscular_groups"
+const val TABLE_EXERCISES = "table_exercises"
 
 /** DATA STORE */
 const val DATA_STORE_NAME = "noexcuses_data_store"
@@ -26,6 +27,7 @@ const val DS_PINNED_NOTE = "ds_pinned_note"
 const val SHARED_PREFS_NAME = "betweenminds_shared_prefs"
 const val SP_VERSION_SAVED = "sp_version_saved"
 const val SP_MUSCULAR_GROUPS_SERVER = "sp_muscular_groups_server"
+const val SP_EXERCISES_SERVER = "sp_exercises_server"
 
 /** FIREBASE */
 const val VERSION = "version"

@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.mmfsin.noexcusescompose.presentation.exercises.exercises.ExercisesScreen
 import com.mmfsin.noexcusescompose.presentation.exercises.mgroups.MGroupsScreen
 import kotlinx.serialization.Serializable
 
@@ -23,10 +24,16 @@ fun NavigationExercises(mgroup: String?) {
     ) {
         composable<MuscularGroups> {
             MGroupsScreen(
-                goToExercises = {}
+                goToExercises = { mGroupId ->
+                    navController.navigate(Exercises(mGroupId))
+                }
             )
         }
-        composable<Exercises> {  }
+        composable<Exercises> {
+            ExercisesScreen(
+                goBack = { navController.popBackStack() }
+            )
+        }
     }
 }
 
@@ -35,4 +42,4 @@ fun NavigationExercises(mgroup: String?) {
 object MuscularGroups
 
 @Serializable
-object Exercises
+data class Exercises(val mGroupId: String)

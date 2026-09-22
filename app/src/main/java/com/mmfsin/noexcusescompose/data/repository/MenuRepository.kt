@@ -18,8 +18,6 @@ class MenuRepository @Inject constructor(
     val muscularGroupsDAO: MuscularGroupsDAO,
 ) : IMenuRepository {
 
-    private val reference = Firebase.database.reference
-
     override suspend fun checkVersion() {
         //        getDataFromFirebase(getSavedVersion())
     }

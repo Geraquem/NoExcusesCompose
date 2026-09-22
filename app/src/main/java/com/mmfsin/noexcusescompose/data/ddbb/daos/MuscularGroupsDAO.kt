@@ -10,7 +10,7 @@ import com.mmfsin.noexcusescompose.data.models.MuscularGroupDTO
 interface MuscularGroupsDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMuscularGroups(rankings: List<MuscularGroupDTO>)
+    suspend fun insertMuscularGroups(muscularGroups: List<MuscularGroupDTO>)
 
     @Query("SELECT * FROM table_muscular_groups")
     suspend fun getMuscularGroups(): List<MuscularGroupDTO>

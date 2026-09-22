@@ -2,8 +2,9 @@ package com.mmfsin.noexcusescompose.di
 
 import android.content.Context
 import androidx.room.Room
-import com.mmfsin.noexcusescompose.data.ddbb.daos.MuscularGroupsDAO
 import com.mmfsin.noexcusescompose.data.ddbb.RoomConfiguration
+import com.mmfsin.noexcusescompose.data.ddbb.daos.ExercisesDAO
+import com.mmfsin.noexcusescompose.data.ddbb.daos.MuscularGroupsDAO
 import com.mmfsin.noexcusescompose.util.DDBB_NAME
 import dagger.Module
 import dagger.Provides
@@ -30,5 +31,8 @@ object RoomModule {
             .build()
 
     @Provides
-    fun provideExercisesDAO(db: RoomConfiguration): MuscularGroupsDAO = db.muscularGroupsDAO()
+    fun provideMuscularGroupsDAO(db: RoomConfiguration): MuscularGroupsDAO = db.muscularGroupsDAO()
+
+    @Provides
+    fun provideExercisesDAO(db: RoomConfiguration): ExercisesDAO = db.exercisesDAO()
 }

@@ -27,6 +27,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -50,7 +51,7 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 fun FavoritesScreenPV() {
     FavoritesContent(
         uiStates = FavoritesStates(
-            isLoading = true,
+            isLoading = false,
             favorites = emptyList()
             //            favorites = getExercisesExamples()
         ),
@@ -173,13 +174,20 @@ fun FavoriteBox(
 
 @Composable
 fun FavsEmpty(goToMuscularGroups: () -> Unit) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        modifier = Modifier.padding(horizontal = 42.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Spacer(Modifier.weight(1f))
-        MediumText(text = R.string.favs_empty)
+        MediumText(
+            text = R.string.favs_empty,
+            gravity = TextAlign.Center,
+        )
         SpacerMedium()
         OutlinedButtonCustom(
             onClick = { goToMuscularGroups() },
-            text = R.string.favs_see_exercises
+            text = R.string.favs_see_exercises,
+            color = Black
         )
         Spacer(Modifier.weight(1f))
     }

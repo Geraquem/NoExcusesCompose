@@ -1,5 +1,6 @@
 package com.mmfsin.noexcusescompose.presentation.core.navigation
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
@@ -9,10 +10,11 @@ import androidx.navigation.compose.rememberNavController
 import com.mmfsin.noexcusescompose.presentation.exercises.detail.ExerciseDetailScreen
 import com.mmfsin.noexcusescompose.presentation.exercises.exercises.ExercisesScreen
 import com.mmfsin.noexcusescompose.presentation.exercises.mgroups.MGroupsScreen
-import kotlinx.serialization.Serializable
 
 @Composable
 fun NavigationExercises(mgroupId: String?) {
+
+    val activity = LocalActivity.current
     val navController = rememberNavController()
 
     NavHost(
@@ -25,6 +27,7 @@ fun NavigationExercises(mgroupId: String?) {
     ) {
         composable<MuscularGroups> {
             MGroupsScreen(
+                goBack = { activity?.finish() },
                 goToExercises = { mGroupId ->
                     navController.navigate(Exercises(mGroupId))
                 }
@@ -32,7 +35,10 @@ fun NavigationExercises(mgroupId: String?) {
         }
         composable<Exercises> {
             ExercisesScreen(
-                goBack = { navController.popBackStack() },
+                goBack = {
+                    if (navController.previousBackStackEntry == null) activity?.finish()
+                    else navController.popBackStack()
+                },
                 goToExerciseDetail = { exerciseId ->
                     navController.navigate(ExerciseDetail(exerciseId))
                 }
@@ -45,13 +51,3 @@ fun NavigationExercises(mgroupId: String?) {
         }
     }
 }
-
-/** SCREENS */
-@Serializable
-object MuscularGroups
-
-@Serializable
-data class Exercises(val mGroupId: String)
-
-@Serializable
-data class ExerciseDetail(val exerciseId: String)

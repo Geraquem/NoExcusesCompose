@@ -27,7 +27,6 @@ import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.presentation.core.theme.Black
 import com.mmfsin.noexcusescompose.presentation.core.theme.BlueMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
-import com.mmfsin.noexcusescompose.presentation.core.theme.OrangeMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_regular
 
@@ -137,18 +136,18 @@ fun OutlinedButtonCustom(
     modifier: Modifier = Modifier,
     textModifier: Modifier = Modifier,
     enabled: Boolean = true,
-    textColor: Color = BlueMedium
+    color: Color = BlueMedium
 ) {
     OutlinedButton(
         onClick = { onClick() },
         modifier = modifier,
         enabled = enabled,
-        border = BorderStroke(1.dp, textColor),
+        border = BorderStroke(1.dp, color),
         shape = RoundedCornerShape(25)
     ) {
         MediumText(
             text = text,
-            color = textColor,
+            color = color,
             modifier = textModifier.padding(vertical = 4.dp),
             fontFamily = montserrat_regular,
             allCaps = true

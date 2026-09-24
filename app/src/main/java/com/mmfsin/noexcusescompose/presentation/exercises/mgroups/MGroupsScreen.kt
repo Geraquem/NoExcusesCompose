@@ -55,14 +55,14 @@ fun MGroupsScreenPV() {
 @Composable
 fun MGroupsScreen(
     viewModel: MGroupsViewModel = hiltViewModel(),
+    goBack: () -> Unit,
     goToExercises: (String) -> Unit
 ) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
-    val activity = LocalActivity.current
 
     MGroupsContent(
         uiStates = uiStates,
-        goBack = { activity?.finish() },
+        goBack = { goBack() },
         goToExercises = { goToExercises(it) }
     )
 }

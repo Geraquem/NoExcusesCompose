@@ -6,8 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.mmfsin.noexcusescompose.presentation.exercises.detail.ExerciseDetailScreen
+import com.mmfsin.noexcusescompose.presentation.exercises.exercises.ExercisesScreen
 import com.mmfsin.noexcusescompose.presentation.exercises.favorites.FavoritesScreen
-import kotlinx.serialization.Serializable
+import com.mmfsin.noexcusescompose.presentation.exercises.mgroups.MGroupsScreen
 
 @Composable
 fun NavigationFavorites() {
@@ -29,9 +31,29 @@ fun NavigationFavorites() {
                 }
             )
         }
+
+        composable<MuscularGroups> {
+            MGroupsScreen(
+                goBack = { navController.popBackStack() },
+                goToExercises = { mGroupId ->
+                    navController.navigate(Exercises(mGroupId))
+                }
+            )
+        }
+
+        composable<Exercises> {
+            ExercisesScreen(
+                goBack = { navController.popBackStack() },
+                goToExerciseDetail = { exerciseId ->
+                    navController.navigate(ExerciseDetail(exerciseId))
+                }
+            )
+        }
+
+        composable<ExerciseDetail> {
+            ExerciseDetailScreen(
+                goBack = { navController.popBackStack() }
+            )
+        }
     }
 }
-
-/** SCREENS */
-@Serializable
-object Favorites

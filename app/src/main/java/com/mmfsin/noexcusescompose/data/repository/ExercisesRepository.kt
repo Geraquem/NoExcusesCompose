@@ -19,7 +19,7 @@ class ExercisesRepository @Inject constructor(
     val exercisesDAO: ExercisesDAO,
 ) : IExercisesRepository {
 
-    override suspend fun getExercises(): List<Exercise> {
+    override suspend fun getExercisesByMuscularGroup(mGroupId: String): Flow<List<Exercise>> {
         if (prefs.getExercisesFromServer()) {
             val snapshot = FirebaseDatabase
                 .getInstance()
@@ -27,19 +27,20 @@ class ExercisesRepository @Inject constructor(
                 .get()
                 .await()
 
-            val firebaseExercises = snapshot.children.flatMap { categorySnapshot ->
-                categorySnapshot.children.mapNotNull { exerciseSnapshot ->
-                    exerciseSnapshot.getValue(ExerciseDTO::class.java)
+            val firebaseExercises = snapshot.children
+                .flatMap { categorySnapshot ->
+                    categorySnapshot.children.mapNotNull { exerciseSnapshot ->
+                        exerciseSnapshot.getValue(ExerciseDTO::class.java)
+                    }
                 }
-            }
 
             if (firebaseExercises.isNotEmpty()) {
                 prefs.updateExercisesFromServer(false)
                 exercisesDAO.insertExercises(firebaseExercises)
             }
-            return firebaseExercises.toExerciseList()
+        }
 
-        } else return exercisesDAO.getAllExercises().toExerciseList()
+        return exercisesDAO.getExerciseByMuscularGroup(mGroupId).map { it.toExerciseList() }
     }
 
     override fun getExerciseById(id: String): Flow<Exercise?> {

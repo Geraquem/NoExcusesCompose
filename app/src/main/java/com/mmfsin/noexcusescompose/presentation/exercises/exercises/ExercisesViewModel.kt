@@ -1,10 +1,12 @@
 package com.mmfsin.noexcusescompose.presentation.exercises.exercises
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.mmfsin.noexcusescompose.domain.usecases.GetExercisesByMGroupUseCase
 import com.mmfsin.noexcusescompose.presentation.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,17 +22,15 @@ class ExercisesViewModel @Inject constructor(
     }
 
     fun getExercises(mGroupId: String) {
-        executeUseCase(
-            { getExercisesByMGroupUseCase(mGroupId) },
-            { exercises ->
+        viewModelScope.launch {
+            getExercisesByMGroupUseCase(mGroupId).collect { exercises ->
                 _uiState.update {
                     it.copy(
                         mGroupId = mGroupId,
                         exercises = exercises
                     )
                 }
-            },
-            {},
-        )
+            }
+        }
     }
 }

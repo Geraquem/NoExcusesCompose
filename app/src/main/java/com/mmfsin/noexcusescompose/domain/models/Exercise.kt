@@ -14,7 +14,7 @@ data class Exercise(
 
 fun getExercisesExamples() = listOf(
     Exercise(
-        id = "",
+        id = "1",
         category = "pecho",
         imageURL = "",
         gifURL = "",
@@ -25,14 +25,14 @@ fun getExercisesExamples() = listOf(
         createdByUser = false
     ),
     Exercise(
-        id = "",
+        id = "2",
         category = "pecho",
         imageURL = "",
         gifURL = "",
         name= "Press militar",
         description = "Descripciónnnnn",
         involvedMuscles = "Involved musclesss",
-        isFav = false,
+        isFav = true,
         createdByUser = false
     ),
 )

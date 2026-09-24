@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface IExercisesRepository {
 
-    suspend fun getExercises(): List<Exercise>
+    suspend fun getExercisesByMuscularGroup(mGroupId: String): Flow<List<Exercise>>
     fun getExerciseById(id: String): Flow<Exercise?>
 
     fun updateFavExercise(id: String, isFav: Boolean)

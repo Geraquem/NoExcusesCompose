@@ -29,10 +29,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil3.compose.AsyncImage
 import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.domain.models.getExercisesExamples
 import com.mmfsin.noexcusescompose.presentation.core.components.CustomToolbar
+import com.mmfsin.noexcusescompose.presentation.core.components.ImageGif
 import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
 import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
@@ -98,9 +98,8 @@ fun ExerciseDetailContent(
                 SpacerMedium()
 
                 uiStates.exercise?.let { e ->
-                    AsyncImage(
-                        model = e.gifURL,
-                        contentDescription = e.name,
+                    ImageGif(
+                        url = e.gifURL,
                         modifier = Modifier.size(250.dp).align(Alignment.CenterHorizontally)
                     )
 

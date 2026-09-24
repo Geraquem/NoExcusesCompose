@@ -6,11 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationExercises
 import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationFavorites
+import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationStretch
 import com.mmfsin.noexcusescompose.util.BEDROCK_BOOL_ARGS
 import com.mmfsin.noexcusescompose.util.BEDROCK_NAV_GRAPH
 import com.mmfsin.noexcusescompose.util.BEDROCK_STR_ARGS
 import com.mmfsin.noexcusescompose.util.NAV_EXERCISES
 import com.mmfsin.noexcusescompose.util.NAV_FAVORITES
+import com.mmfsin.noexcusescompose.util.NAV_STRETCH
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,6 +28,7 @@ class BedRockActivity : ComponentActivity() {
         setContent {
             when (navGraph) {
                 NAV_EXERCISES -> NavigationExercises(mgroupId = strArgs)
+                NAV_STRETCH -> NavigationStretch()
                 NAV_FAVORITES -> NavigationFavorites()
                 else -> finish()
             }

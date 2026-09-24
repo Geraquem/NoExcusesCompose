@@ -13,3 +13,6 @@ data class ExerciseDetail(val exerciseId: String)
 
 @Serializable
 object Favorites
+
+@Serializable
+object Stretch

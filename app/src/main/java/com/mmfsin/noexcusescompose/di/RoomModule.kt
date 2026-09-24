@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.mmfsin.noexcusescompose.data.ddbb.RoomConfiguration
 import com.mmfsin.noexcusescompose.data.ddbb.daos.ExercisesDAO
 import com.mmfsin.noexcusescompose.data.ddbb.daos.MuscularGroupsDAO
+import com.mmfsin.noexcusescompose.data.ddbb.daos.StretchDAO
 import com.mmfsin.noexcusescompose.util.DDBB_NAME
 import dagger.Module
 import dagger.Provides
@@ -26,8 +27,7 @@ object RoomModule {
             context,
             RoomConfiguration::class.java,
             DDBB_NAME
-        )
-            .fallbackToDestructiveMigration(true)
+        ).fallbackToDestructiveMigration(true)
             .build()
 
     @Provides
@@ -35,4 +35,7 @@ object RoomModule {
 
     @Provides
     fun provideExercisesDAO(db: RoomConfiguration): ExercisesDAO = db.exercisesDAO()
+
+    @Provides
+    fun provideStretchDAO(db: RoomConfiguration): StretchDAO = db.stretchDAO()
 }

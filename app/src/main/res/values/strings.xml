@@ -67,4 +67,10 @@
     <string name="favs_empty">No has marcado ningún ejercicio como favorito</string>
     <string name="favs_see_exercises">Ver ejercicios</string>
 
+    <!-- STRETCHING -->
+    <string name="stretching_title">Estiramientos</string>
+    <string name="stretching_mgroup">Estiramientos de</string>
+    <string name="stretching_position">Estiramiento %s</string>
+    <string name="stretching_description">Incorporar estos estiramientos en tu rutina de ejercicio puede llevar a una mejor salud física y bienestar general.</string>
+
 </resources>

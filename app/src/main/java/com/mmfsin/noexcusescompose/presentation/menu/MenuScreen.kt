@@ -46,6 +46,7 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 import com.mmfsin.noexcusescompose.util.NAV_EXERCISES
 import com.mmfsin.noexcusescompose.util.NAV_FAVORITES
+import com.mmfsin.noexcusescompose.util.NAV_STRETCH
 import com.mmfsin.noexcusescompose.util.openBedRockActivity
 
 @Preview
@@ -55,7 +56,7 @@ fun MenuScreenPV() {
         uiStates = MenuStates(
 
         ),
-        {}, {}
+        {}, {}, {}
     )
 }
 
@@ -67,6 +68,7 @@ fun MenuScreen(viewModel: MenuViewModel = hiltViewModel()) {
     MenuContent(
         uiStates = uiStates,
         goToExercises = { context.openBedRockActivity(NAV_EXERCISES, it) },
+        goToStretch = { context.openBedRockActivity(NAV_STRETCH) },
         goToFavorites = { context.openBedRockActivity(NAV_FAVORITES) },
     )
 }
@@ -75,6 +77,7 @@ fun MenuScreen(viewModel: MenuViewModel = hiltViewModel()) {
 fun MenuContent(
     uiStates: MenuStates,
     goToExercises: (String?) -> Unit,
+    goToStretch: () -> Unit,
     goToFavorites: () -> Unit,
 ) {
     CompositionLocalProvider(
@@ -147,7 +150,7 @@ fun MenuContent(
                 title = R.string.menu_stretch_title,
                 titleColor = PurpleDark,
                 description = R.string.menu_stretch_description,
-                onClick = {}
+                onClick = { goToStretch() }
             )
 
             MenuBox(

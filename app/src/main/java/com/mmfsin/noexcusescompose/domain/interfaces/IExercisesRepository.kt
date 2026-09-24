@@ -1,6 +1,7 @@
 package com.mmfsin.noexcusescompose.domain.interfaces
 
 import com.mmfsin.noexcusescompose.domain.models.Exercise
+import com.mmfsin.noexcusescompose.domain.models.Stretch
 import kotlinx.coroutines.flow.Flow
 
 interface IExercisesRepository {
@@ -10,7 +11,6 @@ interface IExercisesRepository {
 
     fun updateFavExercise(id: String, isFav: Boolean)
     fun getFavExercises(): Flow<List<Exercise>>
-
 
     //    fun getMuscularGroups(): List<MuscularGroup>
     //    suspend fun getExercisesByMuscularGroup(mGroup: String): List<Exercise>

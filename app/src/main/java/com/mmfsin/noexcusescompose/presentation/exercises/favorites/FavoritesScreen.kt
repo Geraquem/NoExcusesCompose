@@ -1,19 +1,24 @@
-package com.mmfsin.noexcusescompose.presentation.exercises.exercises
+package com.mmfsin.noexcusescompose.presentation.exercises.favorites
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
@@ -26,54 +31,61 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil3.compose.AsyncImage
+import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.domain.models.Exercise
-import com.mmfsin.noexcusescompose.domain.models.MuscularGroupType.Companion.getMuscularGroupName
-import com.mmfsin.noexcusescompose.domain.models.getExercisesExamples
+import com.mmfsin.noexcusescompose.domain.models.MuscularGroupType.Companion.getMuscularGroupColor
 import com.mmfsin.noexcusescompose.presentation.core.components.CustomToolbar
 import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
+import com.mmfsin.noexcusescompose.presentation.core.components.OutlinedButtonCustom
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
 import com.mmfsin.noexcusescompose.presentation.core.theme.Black
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 
 @Preview
 @Composable
-fun ExercisesScreenPV() {
-    ExercisesContent(
-        uiStates = ExercisesStates(
+fun FavoritesScreenPV() {
+    FavoritesContent(
+        uiStates = FavoritesStates(
             isLoading = true,
-            exercises = getExercisesExamples()
+            favorites = emptyList()
+            //            favorites = getExercisesExamples()
         ),
-        {}, {}
+        {}, {}, {}
     )
 }
 
 @Composable
-fun ExercisesScreen(
-    viewModel: ExercisesViewModel = hiltViewModel(),
-    goBack: () -> Unit,
-    goToExerciseDetail: (String) -> Unit
+fun FavoritesScreen(
+    viewModel: FavoritesViewModel = hiltViewModel(),
+    goToMuscularGroups: () -> Unit,
+    goToDetail: (String) -> Unit
 ) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
+    val activity = LocalActivity.current
 
-    ExercisesContent(
+    FavoritesContent(
         uiStates = uiStates,
-        goBack = { goBack() },
-        goToExerciseDetail = { goToExerciseDetail(it) },
+        goBack = { activity?.finish() },
+        goToMuscularGroups = { goToMuscularGroups() },
+        goToDetail = { goToDetail(it) },
     )
 }
 
 @Composable
-fun ExercisesContent(
-    uiStates: ExercisesStates,
+fun FavoritesContent(
+    uiStates: FavoritesStates,
     goBack: () -> Unit,
-    goToExerciseDetail: (String) -> Unit,
+    goToMuscularGroups: () -> Unit,
+    goToDetail: (String) -> Unit,
 ) {
     Scaffold(
         topBar = {
             CustomToolbar(
                 goBack = { goBack() },
-                title = getMuscularGroupName(uiStates.mGroupId)
             )
         }
     ) { innerPadding ->
@@ -83,40 +95,38 @@ fun ExercisesContent(
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp)
         ) {
-            if (uiStates.exercises.isEmpty()) LoadingLottie()
-            else {
-                ExercisesList(
-                    exercises = uiStates.exercises,
-                    onExerciseClick = { id -> goToExerciseDetail(id) }
-                )
+
+            if (uiStates.favorites.isEmpty()) {
+                FavsEmpty(goToMuscularGroups = { goToMuscularGroups() })
             }
+
+            CompositionLocalProvider(
+                LocalOverscrollFactory provides null
+            ) {
+                LazyColumn(
+                    state = rememberLazyListState(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    contentPadding = PaddingValues(vertical = 16.dp)
+                ) {
+                    items(
+                        items = uiStates.favorites,
+                        key = { mg -> mg.id }
+                    ) { exercise ->
+                        FavoriteBox(
+                            exercise = exercise,
+                            onClick = { exerciseId -> goToDetail(exerciseId) }
+                        )
+                    }
+                }
+            }
+
+            if (uiStates.isLoading) LoadingLottie()
         }
     }
 }
 
 @Composable
-fun ExercisesList(
-    exercises: List<Exercise>,
-    onExerciseClick: (String) -> Unit
-) {
-    CompositionLocalProvider(
-        LocalOverscrollFactory provides null
-    ) {
-        LazyColumn(
-            state = rememberLazyListState(),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(vertical = 16.dp)
-        ) {
-            items(
-                items = exercises,
-                key = { e -> e.id }
-            ) { exercise -> ExerciseBox(exercise, onClick = { onExerciseClick(exercise.id) }) }
-        }
-    }
-}
-
-@Composable
-fun ExerciseBox(
+fun FavoriteBox(
     exercise: Exercise,
     onClick: (String) -> Unit
 ) {
@@ -130,12 +140,26 @@ fun ExerciseBox(
             Modifier.height(100.dp).clickable(onClick = { onClick(exercise.id) }),
             contentAlignment = Alignment.Center
         ) {
+            AsyncImage(
+                model = exercise.gifURL,
+                contentDescription = exercise.name,
+            )
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 24.dp, horizontal = 12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                Box(
+                    Modifier.size(14.dp).background(
+                        getMuscularGroupColor(exercise.id),
+                        shape = CircleShape
+                    )
+                )
+
+                SpacerSmall(horizontal = true)
+
                 MediumText(
                     text = exercise.name,
                     color = Black,
@@ -144,5 +168,19 @@ fun ExerciseBox(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun FavsEmpty(goToMuscularGroups: () -> Unit) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Spacer(Modifier.weight(1f))
+        MediumText(text = R.string.favs_empty)
+        SpacerMedium()
+        OutlinedButtonCustom(
+            onClick = { goToMuscularGroups() },
+            text = R.string.favs_see_exercises
+        )
+        Spacer(Modifier.weight(1f))
     }
 }

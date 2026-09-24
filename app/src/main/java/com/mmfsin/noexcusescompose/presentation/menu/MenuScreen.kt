@@ -45,6 +45,7 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.PurpleDark
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 import com.mmfsin.noexcusescompose.util.NAV_EXERCISES
+import com.mmfsin.noexcusescompose.util.NAV_FAVORITES
 import com.mmfsin.noexcusescompose.util.openBedRockActivity
 
 @Preview
@@ -54,7 +55,7 @@ fun MenuScreenPV() {
         uiStates = MenuStates(
 
         ),
-        { }
+        {}, {}
     )
 }
 
@@ -65,14 +66,16 @@ fun MenuScreen(viewModel: MenuViewModel = hiltViewModel()) {
 
     MenuContent(
         uiStates = uiStates,
-        goToExercises = { context.openBedRockActivity(NAV_EXERCISES, it) }
+        goToExercises = { context.openBedRockActivity(NAV_EXERCISES, it) },
+        goToFavorites = { context.openBedRockActivity(NAV_FAVORITES) },
     )
 }
 
 @Composable
 fun MenuContent(
     uiStates: MenuStates,
-    goToExercises: (String?) -> Unit
+    goToExercises: (String?) -> Unit,
+    goToFavorites: () -> Unit,
 ) {
     CompositionLocalProvider(
         LocalOverscrollFactory provides null
@@ -153,7 +156,7 @@ fun MenuContent(
                 title = R.string.menu_favs_title,
                 titleColor = OrangeHard,
                 description = R.string.menu_favs_description,
-                onClick = {}
+                onClick = { goToFavorites() }
             )
 
             SpacerCustom(64.dp)

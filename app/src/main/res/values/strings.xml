@@ -55,4 +55,15 @@
     <string name="mgroups_legs">Piernas</string>
     <string name="mgroups_triceps">Tríceps</string>
 
+    <!-- EXERCISE DETAIL -->
+    <string name="exercise_detail_description">Descripción</string>
+    <string name="exercise_detail_involved_muscles">Músculos involucrados</string>
+    <string name="exercise_detail_group">Grupo:</string>
+    <string name="exercise_detail_fav_on">Favorito</string>
+    <string name="exercise_detail_fav_off">No es favorito</string>
+
+    <!-- FAVORITES -->
+    <string name="favs_empty">No has marcado ningún ejercicio como favorito</string>
+    <string name="favs_see_exercises">Ver ejercicios</string>
+
 </resources>

@@ -5,19 +5,27 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.mmfsin.noexcusescompose.data.models.ExerciseDTO
+import com.mmfsin.noexcusescompose.domain.models.Exercise
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ExercisesDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertExercises(exercises: List<ExerciseDTO>)
+    fun insertExercises(exercises: List<ExerciseDTO>)
 
     @Query("SELECT * FROM table_exercises")
     suspend fun getAllExercises(): List<ExerciseDTO>
 
     @Query("SELECT * FROM table_exercises WHERE category == :mgroupId")
-    suspend fun getExerciseByMuscularGroup(mgroupId: String): List<ExerciseDTO>
+    fun getExerciseByMuscularGroup(mgroupId: String): List<ExerciseDTO>
 
     @Query("SELECT * FROM table_exercises WHERE id == :id")
-    suspend fun getExerciseById(id: String): ExerciseDTO?
+    fun getExerciseById(id: String): Flow<ExerciseDTO?>
+
+    @Query("UPDATE table_exercises SET isFav = :isFav WHERE id = :id")
+    fun updateFavExercise(id: String, isFav: Boolean)
+
+    @Query("SELECT * FROM table_exercises WHERE isFav = 1")
+    fun getFavExercises(): Flow<List<ExerciseDTO>>
 }

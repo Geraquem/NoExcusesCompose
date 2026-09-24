@@ -37,9 +37,9 @@ class MenuRepository @Inject constructor(
                 prefs.updateMuscularGroupsFromServer(false)
                 muscularGroupsDAO.insertMuscularGroups(firebaseMuscularGroups)
             }
-            return firebaseMuscularGroups.toMuscularGroupList()
+            return firebaseMuscularGroups.sortedBy { it.order }.toMuscularGroupList()
 
-        } else return muscularGroupsDAO.getMuscularGroups().toMuscularGroupList()
+        } else return muscularGroupsDAO.getMuscularGroups().sortedBy { it.order }.toMuscularGroupList()
     }
 
     //    override fun getMyActualRoutine(): Routine? {

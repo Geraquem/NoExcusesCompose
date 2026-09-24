@@ -28,7 +28,7 @@ fun CustomToolbarPV() {
         CustomMainToolbar({})
         SpacerSmall()
         CustomToolbar(
-            true, {}, R.string.app_name,
+            true, {}, R.string.app_name, "",
             true, R.drawable.ic_edit, {},
         )
     }
@@ -63,6 +63,7 @@ fun CustomToolbar(
     showGoBack: Boolean = true,
     goBack: () -> Unit,
     title: Int = R.string.empty,
+    titleString: String? = null,
     showIconRight: Boolean = false,
     iconRight: Int = R.drawable.ic_edit,
     iconRightClick: () -> Unit = {}
@@ -79,11 +80,19 @@ fun CustomToolbar(
                     }
                     SpacerSmall(horizontal = true)
                 }
-                MediumText(
-                    text = title,
-                    color = Black,
-                    fontWeight = FontWeight.SemiBold
-                )
+                if (titleString != null) {
+                    MediumText(
+                        text = titleString,
+                        color = Black,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                } else {
+                    MediumText(
+                        text = title,
+                        color = Black,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
 
                 if (showIconRight) {
                     Spacer(Modifier.weight(1f))

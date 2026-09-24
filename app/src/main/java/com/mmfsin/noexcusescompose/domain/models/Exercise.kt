@@ -11,3 +11,28 @@ data class Exercise(
     var isFav: Boolean,
     var createdByUser: Boolean
 )
+
+fun getExercisesExamples() = listOf(
+    Exercise(
+        id = "",
+        category = "pecho",
+        imageURL = "",
+        gifURL = "",
+        name= "Press banca",
+        description = "Descripciónnnnn",
+        involvedMuscles = "Involved musclesss",
+        isFav = false,
+        createdByUser = false
+    ),
+    Exercise(
+        id = "",
+        category = "pecho",
+        imageURL = "",
+        gifURL = "",
+        name= "Press militar",
+        description = "Descripciónnnnn",
+        involvedMuscles = "Involved musclesss",
+        isFav = false,
+        createdByUser = false
+    ),
+)

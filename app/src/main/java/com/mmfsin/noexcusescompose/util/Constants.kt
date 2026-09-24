@@ -12,6 +12,7 @@ const val BEDROCK_STR_ARGS = "bedrock_str_args"
 const val BEDROCK_BOOL_ARGS = "bedrock_bool_args"
 
 const val NAV_EXERCISES = "nav_instr_ranking_offline"
+const val NAV_FAVORITES = "nav_favorite_exercises"
 
 /** ROOM */
 const val DDBB_NAME = "noexcuses_room_ddbb"

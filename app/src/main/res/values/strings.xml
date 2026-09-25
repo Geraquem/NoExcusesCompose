@@ -73,4 +73,8 @@
     <string name="stretching_position">Estiramiento %s</string>
     <string name="stretching_description">Incorporar estos estiramientos en tu rutina de ejercicio puede llevar a una mejor salud física y bienestar general.</string>
 
+    <!-- NOTES -->
+    <string name="notes_empty">No tienes ninguna nota</string>
+    <string name="notes_create">Crear nota</string>
+
 </resources>

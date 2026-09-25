@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.mmfsin.noexcusescompose.data.ddbb.RoomConfiguration
 import com.mmfsin.noexcusescompose.data.ddbb.daos.ExercisesDAO
 import com.mmfsin.noexcusescompose.data.ddbb.daos.MuscularGroupsDAO
+import com.mmfsin.noexcusescompose.data.ddbb.daos.NotesDAO
 import com.mmfsin.noexcusescompose.data.ddbb.daos.StretchDAO
 import com.mmfsin.noexcusescompose.util.DDBB_NAME
 import dagger.Module
@@ -38,4 +39,7 @@ object RoomModule {
 
     @Provides
     fun provideStretchDAO(db: RoomConfiguration): StretchDAO = db.stretchDAO()
+
+    @Provides
+    fun provideNotesDAO(db: RoomConfiguration): NotesDAO = db.notesDAO()
 }

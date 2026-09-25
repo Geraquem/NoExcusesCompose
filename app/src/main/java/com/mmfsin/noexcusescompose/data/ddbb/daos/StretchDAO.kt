@@ -4,16 +4,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.mmfsin.noexcusescompose.data.models.ExerciseDTO
 import com.mmfsin.noexcusescompose.data.models.StretchDTO
-import com.mmfsin.noexcusescompose.domain.models.Exercise
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface StretchDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertStretchData(data: List<StretchDTO>)
+    suspend fun insertStretchData(data: List<StretchDTO>)
 
     @Query("SELECT * FROM table_stretch")
     suspend fun getStretchingData(): List<StretchDTO>

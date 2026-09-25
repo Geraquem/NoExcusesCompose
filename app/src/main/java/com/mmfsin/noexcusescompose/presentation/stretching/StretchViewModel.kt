@@ -22,7 +22,8 @@ class StretchViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         isLoading = false,
-                        stretchingExercises = data
+                        stretchingMuscularGroups = data.map { str -> str.mGroup },
+                        stretchingExercises = data,
                     )
                 }
                 println("------------------------------------------------------------------------")

@@ -2,10 +2,9 @@ package com.mmfsin.noexcusescompose.domain.usecases
 
 import com.mmfsin.noexcusescompose.domain.interfaces.INotesRepository
 import com.mmfsin.noexcusescompose.domain.models.Note
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetNotesUseCase @Inject constructor(val repository: INotesRepository) {
+class GetNoteByIdUseCase @Inject constructor(val repository: INotesRepository) {
 
-    operator fun invoke(): Flow<List<Note>> = repository.getNotes()
+    operator fun invoke(noteId: String): Note? = repository.getNoteById(noteId)
 }

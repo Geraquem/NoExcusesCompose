@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mmfsin.noexcusescompose.R
+import com.mmfsin.noexcusescompose.domain.models.Note
 import com.mmfsin.noexcusescompose.presentation.core.components.ButtonCustom
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerCustom
@@ -44,6 +45,8 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.OrangeHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.PurpleDark
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
+import com.mmfsin.noexcusescompose.presentation.menu.components.UnpinNoteDialog
+import com.mmfsin.noexcusescompose.presentation.notes.NoteBox
 import com.mmfsin.noexcusescompose.util.NAV_EXERCISES
 import com.mmfsin.noexcusescompose.util.NAV_FAVORITES
 import com.mmfsin.noexcusescompose.util.NAV_STRETCH
@@ -54,9 +57,16 @@ import com.mmfsin.noexcusescompose.util.openBedRockActivity
 fun MenuScreenPV() {
     MenuContent(
         uiStates = MenuStates(
-
+            actualNote = Note(
+                id = "",
+                title = "Notita 1",
+                description = "Description notita",
+                date = "12 de agosto de 1245",
+                pinned = true
+            )
         ),
-        {}, {}, {}
+        {}, {}, {}, {},
+        {},
     )
 }
 
@@ -70,6 +80,9 @@ fun MenuScreen(viewModel: MenuViewModel = hiltViewModel()) {
         goToExercises = { context.openBedRockActivity(NAV_EXERCISES, it) },
         goToStretch = { context.openBedRockActivity(NAV_STRETCH) },
         goToFavorites = { context.openBedRockActivity(NAV_FAVORITES) },
+
+        showUnpinNoteDialog = { viewModel.showUnpinNoteDialog(it) },
+        unpinNote = { viewModel.unpinNote(it) },
     )
 }
 
@@ -79,6 +92,9 @@ fun MenuContent(
     goToExercises: (String?) -> Unit,
     goToStretch: () -> Unit,
     goToFavorites: () -> Unit,
+
+    showUnpinNoteDialog: (Boolean) -> Unit,
+    unpinNote: (String) -> Unit,
 ) {
     CompositionLocalProvider(
         LocalOverscrollFactory provides null
@@ -90,6 +106,14 @@ fun MenuContent(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+
+            uiStates.actualNote?.let { note ->
+                NoteBox(
+                    note = note,
+                    onClick = { /** Go to note detail */ },
+                    updatePushpin = { showUnpinNoteDialog(true) }
+                )
+            }
 
             SpacerMini()
 
@@ -163,6 +187,16 @@ fun MenuContent(
             )
 
             SpacerCustom(64.dp)
+        }
+    }
+
+    if (uiStates.showUnpinNoteDialog) {
+        uiStates.actualNote?.let { note ->
+            UnpinNoteDialog(
+                noteTitle = note.title,
+                cancel = { showUnpinNoteDialog(false) },
+                accept = { unpinNote(note.id) }
+            )
         }
     }
 }

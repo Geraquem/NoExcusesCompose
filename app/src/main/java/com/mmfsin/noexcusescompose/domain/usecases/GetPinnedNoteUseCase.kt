@@ -5,7 +5,7 @@ import com.mmfsin.noexcusescompose.domain.models.Note
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetNotesUseCase @Inject constructor(val repository: INotesRepository) {
+class GetPinnedNoteUseCase @Inject constructor(val repository: INotesRepository) {
 
-    operator fun invoke(): Flow<List<Note>> = repository.getNotes()
+    operator fun invoke(): Flow<Note?> = repository.getPinnedNote()
 }

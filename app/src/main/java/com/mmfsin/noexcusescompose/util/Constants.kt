@@ -14,6 +14,7 @@ const val BEDROCK_BOOL_ARGS = "bedrock_bool_args"
 const val NAV_EXERCISES = "nav_instr_ranking_offline"
 const val NAV_STRETCH = "nav_stretch"
 const val NAV_FAVORITES = "nav_favorite_exercises"
+const val NAV_NOTE_DETAIL = "nav_note_detail"
 
 /** ROOM */
 const val DDBB_NAME = "noexcuses_room_ddbb"

@@ -76,5 +76,8 @@
     <!-- NOTES -->
     <string name="notes_empty">No tienes ninguna nota</string>
     <string name="notes_create">Crear nota</string>
+    <string name="notes_unpin_question">¿Quieres desfijar la nota %s?</string>
+    <string name="notes_unpin_cancel">Cancelar</string>
+    <string name="notes_unpin_accept">Aceptar</string>
 
 </resources>

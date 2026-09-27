@@ -18,4 +18,16 @@ interface NotesDAO {
 
     @Query("SELECT * FROM table_notes WHERE id = :noteId")
     fun getNoteById(noteId: String): NoteDTO?
+
+    @Query("""
+    UPDATE table_notes
+    SET pinned = CASE
+        WHEN id = :noteId THEN NOT pinned
+        ELSE 0
+    END
+    """)
+    fun updatePinnedNote(noteId: String)
+
+    @Query("SELECT * FROM table_notes WHERE pinned = 1")
+    fun getPinnedNote(): Flow<NoteDTO?>
 }

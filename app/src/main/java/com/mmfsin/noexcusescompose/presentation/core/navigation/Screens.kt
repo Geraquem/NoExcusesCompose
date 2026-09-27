@@ -16,3 +16,6 @@ object Favorites
 
 @Serializable
 object Stretch
+
+@Serializable
+data class NoteDetail(val noteId: String?)

@@ -2,6 +2,7 @@ package com.mmfsin.noexcusescompose.presentation.notes
 
 import androidx.lifecycle.viewModelScope
 import com.mmfsin.noexcusescompose.domain.usecases.GetNotesUseCase
+import com.mmfsin.noexcusescompose.domain.usecases.UpdatePinnedNoteUseCase
 import com.mmfsin.noexcusescompose.presentation.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -11,6 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NotesViewModel @Inject constructor(
     private val getNotesUseCase: GetNotesUseCase,
+    private val updatePinnedNoteUseCase: UpdatePinnedNoteUseCase,
 ) : BaseViewModel<NotesStates>(NotesStates()) {
 
     init {
@@ -23,5 +25,13 @@ class NotesViewModel @Inject constructor(
                 _uiState.update { it.copy(notes = notes) }
             }
         }
+    }
+
+    fun updatePushpin(noteId: String) {
+        executeUseCase(
+            { updatePinnedNoteUseCase(noteId) },
+            { println("Pinned Note updated") },
+            {},
+        )
     }
 }

@@ -50,7 +50,8 @@ fun CustomTextField(
     imeAction: ImeAction = ImeAction.Next,
     hint: String = "",
     containerColor: Color = White,
-    textColor: Color = Black
+    textColor: Color = Black,
+    modifier: Modifier = Modifier,
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         label?.let {
@@ -58,10 +59,10 @@ fun CustomTextField(
             SpacerMini()
         }
         BasicTextField(
-            modifier = Modifier.fillMaxWidth()
+            modifier = modifier.fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp))
                 .background(containerColor)
-                .padding(horizontal = 8.dp, vertical = 12.dp),
+                .padding(12.dp),
             value = value, onValueChange = { onValueChange(it.take(maxLength)) },
             singleLine = singleLine,
             textStyle = MaterialTheme.typography.bodyLarge.copy(color = textColor),
@@ -117,7 +118,8 @@ fun CustomOutlinedTextField(
     imeAction: ImeAction = ImeAction.Next,
     hint: String = "",
     borderColor: Color = GrayMedium,
-    textColor: Color = Black
+    textColor: Color = Black,
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = Modifier

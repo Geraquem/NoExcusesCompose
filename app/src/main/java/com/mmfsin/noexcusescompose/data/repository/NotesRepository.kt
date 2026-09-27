@@ -14,16 +14,24 @@ class NotesRepository @Inject constructor(
     val notesDAO: NotesDAO,
 ) : INotesRepository {
 
-    override suspend fun createNewNote(title: String, description: String) {
-        val noteDTO = createNoteDTO(title, description)
+    override suspend fun saveNote(noteId: String?, title: String, text: String) {
+        val noteDTO = createNoteDTO(noteId, title, text)
         notesDAO.insertNote(noteDTO)
     }
 
-    override suspend fun getNotes(): Flow<List<Note>> {
-        return notesDAO.getNotes().map { it.toNoteList() }
+    override fun getNotes(): Flow<List<Note>> {
+        return notesDAO.getNotes().map { it.toNoteList().sortedBy { n -> n.date }.reversed() }
     }
 
-    override suspend fun getNoteById(noteId: String): Note? {
+    override fun getNoteById(noteId: String): Note? {
         return notesDAO.getNoteById(noteId)?.toNote()
+    }
+
+    override fun updatePinnedNote(noteId: String) {
+        notesDAO.updatePinnedNote(noteId)
+    }
+
+    override fun getPinnedNote(): Flow<Note?> {
+        return notesDAO.getPinnedNote().map { it?.toNote() }
     }
 }

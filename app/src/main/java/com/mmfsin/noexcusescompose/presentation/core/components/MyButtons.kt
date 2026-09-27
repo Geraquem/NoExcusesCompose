@@ -18,8 +18,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,10 +27,6 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.BlueMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_regular
-
-val alphazetFont = FontFamily(
-    Font(R.font.alphazet, weight = FontWeight.Normal),
-)
 
 @Preview
 @Composable
@@ -52,6 +46,12 @@ fun ButtonCustomPV() {
         OutlinedButtonCustom(
             onClick = {},
             text = R.string.app_name
+        )
+        SpacerSmall()
+        OutlinedButtonCustomIcon(
+            onClick = {},
+            text = R.string.app_name,
+            icon = R.drawable.ic_fav_on
         )
     }
 }
@@ -152,5 +152,39 @@ fun OutlinedButtonCustom(
             fontFamily = montserrat_regular,
             allCaps = true
         )
+    }
+}
+
+@Composable
+fun OutlinedButtonCustomIcon(
+    onClick: () -> Unit,
+    text: Int,
+    icon: Int,
+    modifier: Modifier = Modifier,
+    textModifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    color: Color = BlueMedium
+) {
+    OutlinedButton(
+        onClick = { onClick() },
+        modifier = modifier,
+        enabled = enabled,
+        border = BorderStroke(1.dp, color),
+        shape = RoundedCornerShape(25)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painterResource(icon), null,
+                tint = color
+            )
+            SpacerSmall(horizontal = true)
+            MediumText(
+                text = text,
+                color = color,
+                modifier = textModifier.padding(vertical = 4.dp),
+                fontFamily = montserrat_regular,
+                allCaps = true
+            )
+        }
     }
 }

@@ -2,16 +2,22 @@ package com.mmfsin.noexcusescompose.data.mappers
 
 import com.mmfsin.noexcusescompose.data.models.ExerciseDTO
 import com.mmfsin.noexcusescompose.data.models.MuscularGroupDTO
+import com.mmfsin.noexcusescompose.data.models.MyRoutineDTO
 import com.mmfsin.noexcusescompose.data.models.NoteDTO
 import com.mmfsin.noexcusescompose.data.models.StretchDTO
 import com.mmfsin.noexcusescompose.domain.models.Exercise
 import com.mmfsin.noexcusescompose.domain.models.MuscularGroup
 import com.mmfsin.noexcusescompose.domain.models.Note
+import com.mmfsin.noexcusescompose.domain.models.Routine
 import com.mmfsin.noexcusescompose.domain.models.Stretch
 import com.mmfsin.noexcusescompose.domain.models.Stretching
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
+/*********************************************************************************************************/
+/******************************************  MUSCULAR GROUPS  ********************************************/
+/*********************************************************************************************************/
 
 fun MuscularGroupDTO.toMuscularGroup() = MuscularGroup(
     id = id,
@@ -21,6 +27,10 @@ fun MuscularGroupDTO.toMuscularGroup() = MuscularGroup(
 )
 
 fun List<MuscularGroupDTO>.toMuscularGroupList() = this.map { it.toMuscularGroup() }
+
+/*********************************************************************************************************/
+/*********************************************  EXERCISES  ***********************************************/
+/*********************************************************************************************************/
 
 fun ExerciseDTO.toExercise() = Exercise(
     id = id,
@@ -36,9 +46,27 @@ fun ExerciseDTO.toExercise() = Exercise(
 
 fun List<ExerciseDTO>.toExerciseList() = this.map { it.toExercise() }
 
-/***************/
-/** STRETCHING */
-/***************/
+
+/*********************************************************************************************************/
+/**********************************************  ROUTINES  ***********************************************/
+/*********************************************************************************************************/
+
+fun MyRoutineDTO.toRoutine() = Routine(
+    id = id,
+    name = title,
+    description = description,
+    days,
+    doingIt = doingIt,
+    createdByUser = true,
+    pinnedDate = pinnedDate
+)
+
+fun List<MyRoutineDTO>.toMyRoutineList() = this.map { it.toRoutine() }
+
+/*********************************************************************************************************/
+/*********************************************  STRETCHING  **********************************************/
+/*********************************************************************************************************/
+
 fun List<StretchDTO>.toStretchList(): List<Stretch> {
     val result = mutableListOf<Stretch>()
     val list = this.groupBy { it.category }
@@ -62,9 +90,9 @@ fun StretchDTO.toStretching() = Stretching(
 fun List<StretchDTO>.toStretching() = this.map { it.toStretching() }
 
 
-/***************/
-/**** NOTES ****/
-/***************/
+/*********************************************************************************************************/
+/***********************************************  NOTES  *************************************************/
+/*********************************************************************************************************/
 
 fun NoteDTO.toNote() = Note(
     id = id,

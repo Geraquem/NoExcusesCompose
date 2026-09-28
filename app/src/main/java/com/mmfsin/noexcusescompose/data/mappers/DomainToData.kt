@@ -1,5 +1,6 @@
 package com.mmfsin.noexcusescompose.data.mappers
 
+import com.mmfsin.noexcusescompose.data.models.MyRoutineDTO
 import com.mmfsin.noexcusescompose.data.models.NoteDTO
 import java.util.UUID
 
@@ -14,4 +15,11 @@ fun createNoteDTO(
     description = description,
     date = System.currentTimeMillis(),
     pinned = pinned,
+)
+
+fun createRoutineDTO(name: String, description: String) = MyRoutineDTO(
+    id = UUID.randomUUID().toString(),
+    title = name,
+    description = description,
+    days = 0
 )

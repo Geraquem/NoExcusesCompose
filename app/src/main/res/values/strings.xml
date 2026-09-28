@@ -62,6 +62,14 @@
     <string name="exercise_detail_fav_on">Favorito</string>
     <string name="exercise_detail_fav_off">No es favorito</string>
 
+    <!-- MY ROUTINES -->
+    <string name="my_routines_empty">No tienes ninguna rutina creada.</string>
+    <string name="my_routines_create">Crear nueva rutina</string>
+    <string name="my_routines_create_name">Nombre</string>
+    <string name="my_routines_create_description">Descripción</string>
+    <string name="my_routines_create_cancel">Cancelar</string>
+    <string name="my_routines_create_create">Crear</string>
+
     <!-- FAVORITES -->
     <string name="favs_title">Favoritos</string>
     <string name="favs_empty">No has marcado ningún ejercicio como favorito</string>

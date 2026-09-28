@@ -5,9 +5,11 @@ import androidx.room.RoomDatabase
 import com.mmfsin.noexcusescompose.data.ddbb.daos.ExercisesDAO
 import com.mmfsin.noexcusescompose.data.ddbb.daos.MuscularGroupsDAO
 import com.mmfsin.noexcusescompose.data.ddbb.daos.NotesDAO
+import com.mmfsin.noexcusescompose.data.ddbb.daos.RoutinesDAO
 import com.mmfsin.noexcusescompose.data.ddbb.daos.StretchDAO
 import com.mmfsin.noexcusescompose.data.models.ExerciseDTO
 import com.mmfsin.noexcusescompose.data.models.MuscularGroupDTO
+import com.mmfsin.noexcusescompose.data.models.MyRoutineDTO
 import com.mmfsin.noexcusescompose.data.models.NoteDTO
 import com.mmfsin.noexcusescompose.data.models.StretchDTO
 
@@ -15,6 +17,7 @@ import com.mmfsin.noexcusescompose.data.models.StretchDTO
     entities = [
         MuscularGroupDTO::class,
         ExerciseDTO::class,
+        MyRoutineDTO::class,
         StretchDTO::class,
         NoteDTO::class,
     ],
@@ -23,6 +26,7 @@ import com.mmfsin.noexcusescompose.data.models.StretchDTO
 abstract class RoomConfiguration : RoomDatabase() {
     abstract fun muscularGroupsDAO(): MuscularGroupsDAO
     abstract fun exercisesDAO(): ExercisesDAO
+    abstract fun routinesDAO(): RoutinesDAO
     abstract fun stretchDAO(): StretchDAO
     abstract fun notesDAO(): NotesDAO
 }

@@ -6,6 +6,7 @@ import com.mmfsin.noexcusescompose.data.ddbb.RoomConfiguration
 import com.mmfsin.noexcusescompose.data.ddbb.daos.ExercisesDAO
 import com.mmfsin.noexcusescompose.data.ddbb.daos.MuscularGroupsDAO
 import com.mmfsin.noexcusescompose.data.ddbb.daos.NotesDAO
+import com.mmfsin.noexcusescompose.data.ddbb.daos.RoutinesDAO
 import com.mmfsin.noexcusescompose.data.ddbb.daos.StretchDAO
 import com.mmfsin.noexcusescompose.util.DDBB_NAME
 import dagger.Module
@@ -36,6 +37,9 @@ object RoomModule {
 
     @Provides
     fun provideExercisesDAO(db: RoomConfiguration): ExercisesDAO = db.exercisesDAO()
+
+    @Provides
+    fun provideRoutinesDAO(db: RoomConfiguration): RoutinesDAO = db.routinesDAO()
 
     @Provides
     fun provideStretchDAO(db: RoomConfiguration): StretchDAO = db.stretchDAO()

@@ -12,6 +12,9 @@ data class Exercises(val mGroupId: String)
 data class ExerciseDetail(val exerciseId: String)
 
 @Serializable
+object MyRoutines
+
+@Serializable
 object Favorites
 
 @Serializable

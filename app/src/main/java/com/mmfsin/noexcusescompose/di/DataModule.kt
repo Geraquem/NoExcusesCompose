@@ -3,10 +3,12 @@ package com.mmfsin.noexcusescompose.di
 import com.mmfsin.noexcusescompose.data.repository.ExercisesRepository
 import com.mmfsin.noexcusescompose.data.repository.MenuRepository
 import com.mmfsin.noexcusescompose.data.repository.NotesRepository
+import com.mmfsin.noexcusescompose.data.repository.RoutinesRepository
 import com.mmfsin.noexcusescompose.data.repository.StretchRepository
 import com.mmfsin.noexcusescompose.domain.interfaces.IExercisesRepository
 import com.mmfsin.noexcusescompose.domain.interfaces.IMenuRepository
 import com.mmfsin.noexcusescompose.domain.interfaces.INotesRepository
+import com.mmfsin.noexcusescompose.domain.interfaces.IRoutinesRepository
 import com.mmfsin.noexcusescompose.domain.interfaces.IStretchRepository
 import dagger.Binds
 import dagger.Module
@@ -22,6 +24,9 @@ interface DataModule {
 
     @Binds
     fun bindExercisesRepository(repository: ExercisesRepository): IExercisesRepository
+
+    @Binds
+    fun bindRoutinesRepository(repository: RoutinesRepository): IRoutinesRepository
 
     @Binds
     fun bindStretchRepository(repository: StretchRepository): IStretchRepository

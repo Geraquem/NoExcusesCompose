@@ -14,8 +14,13 @@ class NotesRepository @Inject constructor(
     val notesDAO: NotesDAO,
 ) : INotesRepository {
 
-    override suspend fun saveNote(noteId: String?, title: String, text: String) {
-        val noteDTO = createNoteDTO(noteId, title, text)
+    override suspend fun saveNote(
+        noteId: String?,
+        title: String,
+        text: String,
+        pinned: Boolean
+    ) {
+        val noteDTO = createNoteDTO(noteId, title, text, pinned)
         notesDAO.insertNote(noteDTO)
     }
 

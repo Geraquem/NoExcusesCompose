@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -146,11 +147,16 @@ fun NoteBox(
             val pushpin = if (note.pinned) R.drawable.ic_pushpin else R.drawable.ic_pushpin_off
             Image(
                 painterResource(pushpin), null,
-                modifier = Modifier.clickable(onClick = { updatePushpin() })
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .clickable(onClick = { updatePushpin() })
             )
         }
         SpacerSmall()
-        MediumText(text = "${note.description.take(150)}...")
+        MediumText(
+            text = note.description.take(100) +
+                    if (note.description.length > 100) "..." else ""
+        )
         SpacerSmall()
         SmallText(text = note.date)
     }

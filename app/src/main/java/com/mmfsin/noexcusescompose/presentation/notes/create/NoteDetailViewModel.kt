@@ -32,6 +32,7 @@ class NoteDetailViewModel @Inject constructor(
                             noteId = note.id,
                             noteTitle = note.title,
                             noteText = note.description,
+                            notePinned = note.pinned
                         )
                     }
                 }
@@ -51,7 +52,8 @@ class NoteDetailViewModel @Inject constructor(
                     saveNoteUseCase(
                         noteId = states.noteId,
                         title = title,
-                        text = text
+                        text = text,
+                        pinned = states.notePinned
                     )
                 },
                 { goBack() },

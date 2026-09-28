@@ -49,6 +49,7 @@ import com.mmfsin.noexcusescompose.presentation.menu.components.UnpinNoteDialog
 import com.mmfsin.noexcusescompose.presentation.notes.NoteBox
 import com.mmfsin.noexcusescompose.util.NAV_EXERCISES
 import com.mmfsin.noexcusescompose.util.NAV_FAVORITES
+import com.mmfsin.noexcusescompose.util.NAV_NOTE_DETAIL
 import com.mmfsin.noexcusescompose.util.NAV_STRETCH
 import com.mmfsin.noexcusescompose.util.openBedRockActivity
 
@@ -66,7 +67,7 @@ fun MenuScreenPV() {
             )
         ),
         {}, {}, {}, {},
-        {},
+        {},{},
     )
 }
 
@@ -81,6 +82,7 @@ fun MenuScreen(viewModel: MenuViewModel = hiltViewModel()) {
         goToStretch = { context.openBedRockActivity(NAV_STRETCH) },
         goToFavorites = { context.openBedRockActivity(NAV_FAVORITES) },
 
+        openNoteDetail = { context.openBedRockActivity(NAV_NOTE_DETAIL, it) },
         showUnpinNoteDialog = { viewModel.showUnpinNoteDialog(it) },
         unpinNote = { viewModel.unpinNote(it) },
     )
@@ -93,6 +95,7 @@ fun MenuContent(
     goToStretch: () -> Unit,
     goToFavorites: () -> Unit,
 
+    openNoteDetail: (String) -> Unit,
     showUnpinNoteDialog: (Boolean) -> Unit,
     unpinNote: (String) -> Unit,
 ) {
@@ -110,7 +113,7 @@ fun MenuContent(
             uiStates.actualNote?.let { note ->
                 NoteBox(
                     note = note,
-                    onClick = { /** Go to note detail */ },
+                    onClick = { openNoteDetail(note.id) },
                     updatePushpin = { showUnpinNoteDialog(true) }
                 )
             }

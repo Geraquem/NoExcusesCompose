@@ -4,7 +4,12 @@ import com.mmfsin.noexcusescompose.domain.models.Note
 import kotlinx.coroutines.flow.Flow
 
 interface INotesRepository {
-    suspend fun saveNote(noteId: String?, title: String, text: String)
+    suspend fun saveNote(
+        noteId: String?,
+        title: String,
+        text: String,
+        pinned: Boolean
+    )
 
     fun getNotes(): Flow<List<Note>>
     fun getNoteById(noteId: String): Note?

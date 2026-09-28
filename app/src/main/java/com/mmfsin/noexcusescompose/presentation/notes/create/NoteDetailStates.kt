@@ -4,6 +4,7 @@ data class NoteDetailStates(
     val noteId: String? = null,
     val noteTitle: String = "",
     val noteText: String = "",
+    val notePinned: Boolean = false,
 
     val shouldGoBack: Boolean = false,
 

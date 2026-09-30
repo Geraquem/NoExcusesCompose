@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.mmfsin.noexcusescompose.presentation.myroutines.days.detail
+package com.mmfsin.noexcusescompose.presentation.myroutines.days
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.LocalOverscrollFactory
@@ -43,9 +43,9 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 
 @Preview
 @Composable
-fun DayDetailScreenPV() {
-    DayDetailContent(
-        uiStates = DayDetailStates(
+fun DayScreenPV() {
+    DayContent(
+        uiStates = DayStates(
             isLoading = false,
             dayName = "Pecho y tríceps"
         ),
@@ -55,27 +55,27 @@ fun DayDetailScreenPV() {
 }
 
 @Composable
-fun DayDetailScreen(
-    viewModel: DayDetailViewModel = hiltViewModel(),
+fun DayScreen(
+    viewModel: DayViewModel = hiltViewModel(),
     goBack: () -> Unit,
-    goToMuscularGroups: () -> Unit
+    goToMuscularGroups: (String, String) -> Unit
 ) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
 
-    DayDetailContent(
+    DayContent(
         uiStates = uiStates,
         goBack = { goBack() },
         updateDayName = { viewModel.updateDayName(it) },
         createDay = { viewModel.createOrEditDay() },
         handleBack = { viewModel.handleBack() },
-        goToMuscularGroups = { goToMuscularGroups() },
+        goToMuscularGroups = { goToMuscularGroups(uiStates.dayId, uiStates.dayName) },
         sww = { viewModel.sww(it) },
     )
 }
 
 @Composable
-fun DayDetailContent(
-    uiStates: DayDetailStates,
+fun DayContent(
+    uiStates: DayStates,
     goBack: () -> Unit,
     updateDayName: (String) -> Unit,
     createDay: () -> Unit,
@@ -89,7 +89,7 @@ fun DayDetailContent(
     Scaffold(
         topBar = {
             CustomToolbar(
-                goBack = { goBack() },
+                goBack = { handleBack() },
                 titleString = uiStates.routineName,
                 iconRight = R.drawable.ic_add_circle,
                 showIconRight = true,

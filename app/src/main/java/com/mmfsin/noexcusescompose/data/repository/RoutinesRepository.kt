@@ -52,20 +52,18 @@ class RoutinesRepository @Inject constructor(
         routinesDAO.updatePinnedRoutine(routineId)
     }
 
-    override suspend fun createOrEditDay(routineId: String, dayId: String?, name: String): String {
-        if (dayId != null) {
-            val dayDTO = routinesDAO.getDayById(dayId)
-            if (dayDTO != null) {
-                val updatedDay = dayDTO.copy(name = name)
-                routinesDAO.insertDay(updatedDay)
-                return updatedDay.id
-            }
+    override suspend fun createOrEditDay(routineId: String, dayId: String, name: String): String {
+        val dayDTO = routinesDAO.getDayById(dayId)
+        if (dayDTO != null) {
+            val updatedDay = dayDTO.copy(name = name)
+            routinesDAO.insertDay(updatedDay)
+            return dayId
         }
 
         val order = routinesDAO.getNextDayOrder()
-        val newDayDTO = createDayDTO(routineId, name, order)
+        val newDayDTO = createDayDTO(routineId, dayId, name, order)
         routinesDAO.insertDay(newDayDTO)
-        return newDayDTO.id
+        return dayId
     }
 
     override fun getDays(routineId: String): Flow<List<Day>> {

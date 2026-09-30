@@ -31,10 +31,11 @@ fun createRoutineDTO(
 
 fun createDayDTO(
     routineId: String,
+    dayId: String,
     name: String,
     order: Int
 ) = DayDTO(
-    id = UUID.randomUUID().toString(),
+    id = dayId,
     routineId = routineId,
     name = name,
     order = order,

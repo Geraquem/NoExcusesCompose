@@ -7,7 +7,7 @@ class CreateOrEditDayUseCase @Inject constructor(val repository: IRoutinesReposi
 
     suspend operator fun invoke(
         routineId: String,
-        dayId: String?,
+        dayId: String,
         name: String
     ): String = repository.createOrEditDay(routineId, dayId, name)
 }

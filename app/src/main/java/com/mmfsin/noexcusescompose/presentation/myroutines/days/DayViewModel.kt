@@ -1,4 +1,4 @@
-package com.mmfsin.noexcusescompose.presentation.myroutines.days.detail
+package com.mmfsin.noexcusescompose.presentation.myroutines.days
 
 import androidx.lifecycle.SavedStateHandle
 import com.mmfsin.noexcusescompose.domain.usecases.CreateOrEditDayUseCase
@@ -7,15 +7,16 @@ import com.mmfsin.noexcusescompose.domain.usecases.GetRoutineByIdUseCase
 import com.mmfsin.noexcusescompose.presentation.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
-class DayDetailViewModel @Inject constructor(
+class DayViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getDayByIdUseCase: GetDayByIdUseCase,
     private val getRoutineByIdUseCase: GetRoutineByIdUseCase,
     private val createOrEditDayUseCase: CreateOrEditDayUseCase
-) : BaseViewModel<DayDetailStates>(DayDetailStates()) {
+) : BaseViewModel<DayStates>(DayStates()) {
 
     val routineId: String? = savedStateHandle["routineId"]
     val dayId: String? = savedStateHandle["dayId"]
@@ -33,7 +34,12 @@ class DayDetailViewModel @Inject constructor(
     fun getDay(dayId: String?) {
         if (dayId == null) {
             routineId?.let { id -> getMyRoutine(id, null) }
-            _uiState.update { it.copy(isLoading = false) }
+            _uiState.update {
+                it.copy(
+                    dayId = UUID.randomUUID().toString(),
+                    isLoading = false
+                )
+            }
         } else {
             executeUseCase(
                 { getDayByIdUseCase(dayId) },
@@ -51,9 +57,9 @@ class DayDetailViewModel @Inject constructor(
                         }
                         getMyRoutine(routineId = day.routineId, dayId = day.id)
                         getDayExercises(dayId = day.id)
-                    }
+                    } ?: run { sww() }
                 },
-                {},
+                { sww() },
             )
         }
     }

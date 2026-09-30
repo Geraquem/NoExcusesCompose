@@ -1,6 +1,5 @@
 package com.mmfsin.noexcusescompose.presentation.exercises.mgroups
 
-import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,6 +33,7 @@ import com.mmfsin.noexcusescompose.domain.models.MuscularGroup
 import com.mmfsin.noexcusescompose.domain.models.MuscularGroupType.Companion.getMuscularGroupColor
 import com.mmfsin.noexcusescompose.domain.models.getMuscularGroupsExamples
 import com.mmfsin.noexcusescompose.presentation.core.components.CustomToolbar
+import com.mmfsin.noexcusescompose.presentation.core.components.ErrorDialog
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
 import com.mmfsin.noexcusescompose.presentation.core.theme.Black
@@ -48,7 +48,7 @@ fun MGroupsScreenPV() {
             isLoading = true,
             muscularGroups = getMuscularGroupsExamples()
         ),
-        {}, {}
+        {}, {},
     )
 }
 
@@ -56,14 +56,14 @@ fun MGroupsScreenPV() {
 fun MGroupsScreen(
     viewModel: MGroupsViewModel = hiltViewModel(),
     goBack: () -> Unit,
-    goToExercises: (String) -> Unit
+    goToExercises: (String) -> Unit,
 ) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
 
     MGroupsContent(
         uiStates = uiStates,
         goBack = { goBack() },
-        goToExercises = { goToExercises(it) }
+        goToExercises = { goToExercises(it) },
     )
 }
 
@@ -71,7 +71,7 @@ fun MGroupsScreen(
 fun MGroupsContent(
     uiStates: MGroupsStates,
     goBack: () -> Unit,
-    goToExercises: (String) -> Unit
+    goToExercises: (String) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -92,6 +92,8 @@ fun MGroupsContent(
             )
         }
     }
+
+    if (uiStates.sww) ErrorDialog { goBack() }
 }
 
 @Composable

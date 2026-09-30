@@ -10,7 +10,7 @@ interface IRoutinesRepository {
     suspend fun getRoutineById(routineId: String): Routine?
     fun updatePinnedRoutine(routineId: String)
 
-    suspend fun createOrEditDay(routineId: String, dayId: String?, name: String): String
+    suspend fun createOrEditDay(routineId: String, dayId: String, name: String): String
     fun getDays(routineId: String): Flow<List<Day>>
     fun getDayById(dayId: String): Day?
 }

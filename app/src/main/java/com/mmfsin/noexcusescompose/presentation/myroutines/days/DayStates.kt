@@ -1,15 +1,14 @@
-package com.mmfsin.noexcusescompose.presentation.myroutines.days.detail
+package com.mmfsin.noexcusescompose.presentation.myroutines.days
 
-import com.mmfsin.noexcusescompose.domain.models.Day
 import com.mmfsin.noexcusescompose.domain.models.Exercise
 
-data class DayDetailStates(
+data class DayStates(
     val isLoading: Boolean = true,
 
     val routineId: String? = null,
     val routineName: String = "",
 
-    val dayId: String? = null,
+    val dayId: String = "",
     val dayName: String = "",
     val dayOrder: Int = -1,
 

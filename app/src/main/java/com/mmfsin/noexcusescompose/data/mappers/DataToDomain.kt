@@ -3,8 +3,8 @@ package com.mmfsin.noexcusescompose.data.mappers
 import com.mmfsin.noexcusescompose.data.models.DayDTO
 import com.mmfsin.noexcusescompose.data.models.ExerciseDTO
 import com.mmfsin.noexcusescompose.data.models.MuscularGroupDTO
-import com.mmfsin.noexcusescompose.data.models.MyRoutineDTO
 import com.mmfsin.noexcusescompose.data.models.NoteDTO
+import com.mmfsin.noexcusescompose.data.models.RoutineWithDays
 import com.mmfsin.noexcusescompose.data.models.StretchDTO
 import com.mmfsin.noexcusescompose.domain.models.Day
 import com.mmfsin.noexcusescompose.domain.models.Exercise
@@ -16,6 +16,7 @@ import com.mmfsin.noexcusescompose.domain.models.Stretching
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.collections.map
 
 /*********************************************************************************************************/
 /******************************************  MUSCULAR GROUPS  ********************************************/
@@ -53,23 +54,20 @@ fun List<ExerciseDTO>.toExerciseList() = this.map { it.toExercise() }
 /**********************************************  ROUTINES  ***********************************************/
 /*********************************************************************************************************/
 
-fun MyRoutineDTO.toRoutine() = Routine(
-    id = id,
-    name = title,
-    description = description,
-    daysCount = days,
-    doingIt = doingIt,
-    createdByUser = true,
-    pinnedDate = pinnedDate
+fun RoutineWithDays.toRoutine(days: List<Day>) = Routine(
+    id = routine.id,
+    name = routine.title,
+    description = routine.description,
+    days = days,
+    doingIt = routine.doingIt,
+    createdByUser = routine.createdByUser,
+    pinnedDate = routine.pinnedDate
 )
-
-fun List<MyRoutineDTO>.toMyRoutineList() = this.map { it.toRoutine() }
 
 fun DayDTO.toDay() = Day(
     id = id,
     routineId = routineId,
-    title = title,
-    exercises = exercises
+    name = name,
 )
 
 fun List<DayDTO>.toDayList() = this.map { it.toDay() }

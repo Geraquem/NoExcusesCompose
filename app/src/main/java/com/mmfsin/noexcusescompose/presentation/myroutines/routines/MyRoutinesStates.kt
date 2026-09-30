@@ -7,8 +7,9 @@ data class MyRoutinesStates(
 
     val showCreateRoutineDialog: Boolean = false,
 
-    val routineIdClicked: String? = null,
-    val routineClicked: String = "",
+    val newRoutineName: String = "",
+    val newRoutineDescription: String = "",
+
     val myRoutines: List<Routine> = emptyList(),
 
     val sww: Boolean = false,

@@ -6,7 +6,7 @@ import com.mmfsin.noexcusescompose.data.mappers.createDayDTO
 import com.mmfsin.noexcusescompose.data.mappers.createRoutineDTO
 import com.mmfsin.noexcusescompose.data.mappers.toDay
 import com.mmfsin.noexcusescompose.data.mappers.toDayList
-import com.mmfsin.noexcusescompose.data.mappers.toMyRoutineList
+import com.mmfsin.noexcusescompose.data.mappers.toRoutine
 import com.mmfsin.noexcusescompose.domain.interfaces.IRoutinesRepository
 import com.mmfsin.noexcusescompose.domain.models.Day
 import com.mmfsin.noexcusescompose.domain.models.Routine
@@ -20,24 +20,36 @@ class RoutinesRepository @Inject constructor(
     val routinesDAO: RoutinesDAO,
 ) : IRoutinesRepository {
 
-    override fun getMyRoutines(): Flow<List<Routine>> {
-        return routinesDAO.getMyRoutines().map { it.toMyRoutineList() }
+    override suspend fun createRoutine(routineId: String?, name: String, description: String?) {
+        val id = routineId ?: UUID.randomUUID().toString()
+        val routineDTO = createRoutineDTO(routineId = id, name, description)
+        routinesDAO.insertMyRoutine(routineDTO)
     }
 
-    override suspend fun createRoutine(name: String, description: String?) {
-        val routineDTO = createRoutineDTO(name, description)
-        routinesDAO.insertMyRoutine(routineDTO)
+    override fun getMyRoutines(): Flow<List<Routine>> {
+        return routinesDAO.getMyRoutines().map { routines ->
+            routines.map { routine -> routine.toRoutine(days = routine.days.map { it.toDay() }) }
+        }
+    }
+
+    override suspend fun createOrEditDay(routineId: String, dayId: String?, name: String): String {
+        if (dayId != null) {
+            val dayDTO = routinesDAO.getDayById(dayId)
+
+            if (dayDTO != null) {
+                val updatedDay = dayDTO.copy(name = name)
+                routinesDAO.insertDay(updatedDay)
+                return updatedDay.id
+            }
+        }
+
+        val newDayDTO = createDayDTO(routineId, name)
+        routinesDAO.insertDay(newDayDTO)
+        return newDayDTO.id
     }
 
     override fun getDays(routineId: String): Flow<List<Day>> {
         return routinesDAO.getDaysFromRoutine(routineId).map { it.toDayList() }
-    }
-
-    override suspend fun createDay(routineId: String, dayId: String?, name: String): String {
-        val id = dayId ?: UUID.randomUUID().toString()
-        val dayDTO = createDayDTO(routineId, dayId = id, name)
-        routinesDAO.insertDay(dayDTO)
-        return id
     }
 
     override fun getDayById(dayId: String): Day? {

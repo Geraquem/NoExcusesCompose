@@ -11,6 +11,6 @@ data class DayDTO(
     @PrimaryKey
     var id: String = "",
     var routineId: String = "",
-    var title: String = "",
-    var exercises: Int = 0,
+    var name: String = "",
+    val order: Int = 0,
 )

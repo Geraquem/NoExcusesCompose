@@ -1,7 +1,7 @@
 package com.mmfsin.noexcusescompose.presentation.myroutines.days.detail
 
 import androidx.lifecycle.SavedStateHandle
-import com.mmfsin.noexcusescompose.domain.usecases.CreateDayUseCase
+import com.mmfsin.noexcusescompose.domain.usecases.CreateOrEditDayUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetDayByIdUseCase
 import com.mmfsin.noexcusescompose.presentation.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +12,7 @@ import javax.inject.Inject
 class DayDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getDayByIdUseCase: GetDayByIdUseCase,
-    private val createDayUseCase: CreateDayUseCase
+    private val createOrEditDayUseCase: CreateOrEditDayUseCase
 ) : BaseViewModel<DayDetailStates>(DayDetailStates()) {
 
     val routineId: String? = savedStateHandle["routineId"]
@@ -37,8 +37,9 @@ class DayDetailViewModel @Inject constructor(
                     day?.let {
                         _uiState.update {
                             it.copy(
+                                routineId = routineId,
                                 dayId = dayId,
-                                dayName = day.title,
+                                dayName = day.name,
 
                                 // after exercises
                                 isLoading = false
@@ -63,13 +64,13 @@ class DayDetailViewModel @Inject constructor(
 
     }
 
-    fun createDay() {
+    fun createOrEditDay() {
         val states = uiState.value
         if (states.routineId == null) sww()
         else {
             if (states.dayName.isNotBlank()) {
                 executeUseCase(
-                    { createDayUseCase(states.routineId, states.dayId, states.dayName) },
+                    { createOrEditDayUseCase(states.routineId, states.dayId, states.dayName) },
                     { dayId -> addDayExercises(states.routineId, dayId) },
                     { sww() }
                 )
@@ -79,7 +80,7 @@ class DayDetailViewModel @Inject constructor(
 
     fun handleBack() {
         val states = uiState.value
-        if (states.dayName.isNotBlank()) createDay()
+        if (states.dayName.isNotBlank()) createOrEditDay()
         else shouldGoBack()
     }
 

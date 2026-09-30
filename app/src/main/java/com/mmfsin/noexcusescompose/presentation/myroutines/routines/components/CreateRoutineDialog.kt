@@ -11,10 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,17 +32,25 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 @Preview
 @Composable
 fun CreateRoutineDialogPV() {
-    CreateRoutineDialog({}, { _, _ -> })
+    CreateRoutineDialog(
+        {},
+        "",
+        {},
+        "Descriciónnnn",
+        {},
+        {},
+    )
 }
 
 @Composable
 fun CreateRoutineDialog(
     onDismiss: () -> Unit,
-    create: (String, String?) -> Unit
+    name: String,
+    updateName: (String) -> Unit,
+    description: String,
+    updateDescription: (String) -> Unit,
+    createRoutine: () -> Unit,
 ) {
-
-    var name by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
 
     Dialog(
         onDismissRequest = { onDismiss() },
@@ -63,7 +67,7 @@ fun CreateRoutineDialog(
                 contentAlignment = Alignment.Center
             ) {
                 MediumText(
-                    text = R.string.my_routines_create,
+                    text = R.string.my_routines_routine_weekly,
                     allCaps = true,
                     color = White,
                     fontFamily = montserrat_bold
@@ -74,10 +78,11 @@ fun CreateRoutineDialog(
             ) {
                 CustomTextField(
                     value = name,
-                    onValueChange = { name = it },
+                    onValueChange = { updateName(it) },
                     label = R.string.my_routines_create_name,
                     modifier = Modifier.fillMaxWidth(),
                     maxLength = 50,
+                    hint = R.string.my_routines_create_name_hint,
                     lengthVisibility = true,
                     containerColor = GrayLight
                 )
@@ -86,11 +91,12 @@ fun CreateRoutineDialog(
 
                 CustomTextField(
                     value = description,
-                    onValueChange = { description = it },
+                    onValueChange = { updateDescription(it) },
                     label = R.string.my_routines_create_description,
                     modifier = Modifier.fillMaxWidth().height(100.dp),
                     maxLength = 450,
                     maxLines = 10,
+                    hint = R.string.my_routines_create_description_hint,
                     lengthVisibility = true,
                     containerColor = GrayLight
                 )
@@ -107,11 +113,11 @@ fun CreateRoutineDialog(
                     SpacerSmall(horizontal = true)
 
                     TextButton(
-                        onClick = { create(name, description.ifBlank { null }) },
+                        onClick = { createRoutine() },
                         enabled = name.isNotBlank(),
                     ) {
                         MediumText(
-                            text = R.string.my_routines_create_create,
+                            text = R.string.my_routines_create_save,
                             fontFamily = montserrat_bold,
                             color = if (name.isNotBlank()) BlueMedium else GrayMedium
                         )

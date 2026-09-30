@@ -18,16 +18,23 @@ fun createNoteDTO(
     pinned = pinned,
 )
 
-fun createRoutineDTO(name: String, description: String?) = MyRoutineDTO(
-    id = UUID.randomUUID().toString(),
+fun createRoutineDTO(
+    routineId: String,
+    name: String,
+    description: String?,
+) = MyRoutineDTO(
+    id = routineId,
     title = name,
     description = description,
     days = 0
 )
 
-fun createDayDTO(routineId: String, dayId: String, name: String) = DayDTO(
-    id = dayId,
+fun createDayDTO(
+    routineId: String,
+    name: String,
+) = DayDTO(
+    id = UUID.randomUUID().toString(),
     routineId = routineId,
-    title = name,
-    exercises = 12
+    name = name,
+    order = 0,
 )

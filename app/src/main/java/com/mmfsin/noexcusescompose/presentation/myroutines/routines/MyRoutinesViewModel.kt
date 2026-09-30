@@ -1,7 +1,6 @@
 package com.mmfsin.noexcusescompose.presentation.myroutines.routines
 
 import androidx.lifecycle.viewModelScope
-import com.mmfsin.noexcusescompose.domain.usecases.CreateDayUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.CreateRoutineUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetMyRoutinesUseCase
 import com.mmfsin.noexcusescompose.presentation.core.base.BaseViewModel
@@ -33,24 +32,28 @@ class MyRoutinesViewModel @Inject constructor(
         }
     }
 
-    fun createRoutine(name: String, description: String?) {
+    fun createOrEditRoutine(routineId: String?) {
+        val states = uiState.value
+        val desc = states.newRoutineDescription.ifBlank { null }
         executeUseCase(
-            { createRoutineUseCase(name, description) },
-            { _uiState.update { it.copy(showCreateRoutineDialog = false) } },
+            { createRoutineUseCase(routineId, states.newRoutineName, desc) },
+            {
+                _uiState.update {
+                    it.copy(
+                        newRoutineName = "",
+                        newRoutineDescription = "",
+                        showCreateRoutineDialog = false
+                    )
+                }
+            },
             { sww() },
         )
     }
 
-    fun showCreateRoutineDialog(value: Boolean) = _uiState.update { it.copy(showCreateRoutineDialog = value) }
+    fun updateNewRoutineName(value: String) = _uiState.update { it.copy(newRoutineName = value) }
+    fun updateNewRoutineDescription(value: String) = _uiState.update { it.copy(newRoutineDescription = value) }
 
-    fun routineClicked(routineId: String?, routineName: String) {
-        _uiState.update {
-            it.copy(
-                routineIdClicked = routineId,
-                routineClicked = routineName
-            )
-        }
-    }
+    fun showCreateRoutineDialog(value: Boolean) = _uiState.update { it.copy(showCreateRoutineDialog = value) }
 
     fun sww(value: Boolean = true) = _uiState.update { it.copy(sww = value) }
 }

@@ -27,6 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.presentation.core.components.CustomTextField
 import com.mmfsin.noexcusescompose.presentation.core.components.CustomToolbar
+import com.mmfsin.noexcusescompose.presentation.core.components.ErrorDialog
 import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
 import com.mmfsin.noexcusescompose.presentation.core.components.OutlinedButtonCustomIcon
@@ -47,7 +48,8 @@ fun DayDetailScreenPV() {
             isLoading = false,
             dayName = "Pecho y tríceps"
         ),
-        {}, {}, {}, {}
+        {}, {}, {}, {},
+        {},
     )
 }
 
@@ -62,8 +64,9 @@ fun DayDetailScreen(
         uiStates = uiStates,
         goBack = { goBack() },
         updateDayName = { viewModel.updateDayName(it) },
-        createDay = { viewModel.createDay() },
+        createDay = { viewModel.createOrEditDay() },
         handleBack = { viewModel.handleBack() },
+        sww = { viewModel.sww(it) },
     )
 }
 
@@ -73,7 +76,8 @@ fun DayDetailContent(
     goBack: () -> Unit,
     updateDayName: (String) -> Unit,
     createDay: () -> Unit,
-    handleBack: () -> Unit
+    handleBack: () -> Unit,
+    sww: (Boolean) -> Unit
 ) {
 
     val listState = rememberLazyListState()
@@ -82,6 +86,7 @@ fun DayDetailContent(
         topBar = {
             CustomToolbar(
                 goBack = { goBack() },
+                titleString = uiStates.routineName,
                 iconRight = R.drawable.ic_add_circle,
                 showIconRight = true,
                 iconRightClick = { createDay() }
@@ -155,6 +160,7 @@ fun DayDetailContent(
         }
 
         if (uiStates.shouldGoBack) goBack()
+        if (uiStates.sww) ErrorDialog { sww(false) }
         if (uiStates.isLoading) LoadingLottie()
     }
     BackHandler {

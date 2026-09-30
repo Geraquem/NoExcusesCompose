@@ -5,6 +5,6 @@ import javax.inject.Inject
 
 class CreateRoutineUseCase @Inject constructor(val repository: IRoutinesRepository) {
 
-    suspend operator fun invoke(name: String, description: String?) =
-        repository.createRoutine(name, description)
+    suspend operator fun invoke(routineId: String?, name: String, description: String?) =
+        repository.createRoutine(routineId, name, description)
 }

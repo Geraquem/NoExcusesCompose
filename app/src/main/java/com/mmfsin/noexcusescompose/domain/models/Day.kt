@@ -3,27 +3,23 @@ package com.mmfsin.noexcusescompose.domain.models
 data class Day(
     var id: String,
     var routineId: String,
-    var title: String,
-    var exercises: Int,
+    var name: String,
 )
 
 fun getExampleDays() = listOf(
     Day(
         id = "d1",
         routineId = "1",
-        title = "Pecho y tríceps",
-        exercises = 5
+        name = "Pecho y tríceps",
     ),
     Day(
         id = "d2",
         routineId = "2",
-        title = "Espalda bíceps",
-        exercises = 2
+        name = "Espalda bíceps",
     ),
     Day(
         id = "d3",
         routineId = "3",
-        title = "Pierna",
-        exercises = 15
+        name = "Pierna",
     ),
 )

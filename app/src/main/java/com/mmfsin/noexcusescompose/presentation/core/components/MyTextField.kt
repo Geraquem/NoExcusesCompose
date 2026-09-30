@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
@@ -48,7 +49,7 @@ fun CustomTextField(
     maxLength: Int = 50,
     lengthVisibility: Boolean = false,
     imeAction: ImeAction = ImeAction.Next,
-    hint: String = "",
+    hint: Int = R.string.empty,
     containerColor: Color = White,
     textColor: Color = Black,
     modifier: Modifier = Modifier,
@@ -75,7 +76,7 @@ fun CustomTextField(
             decorationBox = { innerTextField ->
                 Box {
                     if (value.isEmpty()) {
-                        MediumText(text = hint, color = textColor)
+                        MediumText(text = hint, color = textColor, modifier = Modifier.alpha(0.3f))
                     }
                     innerTextField()
                 }
@@ -116,7 +117,7 @@ fun CustomOutlinedTextField(
     maxLength: Int = 50,
     lengthVisibility: Boolean = false,
     imeAction: ImeAction = ImeAction.Next,
-    hint: String = "",
+    hint: Int = R.string.empty,
     borderColor: Color = GrayMedium,
     textColor: Color = Black,
     modifier: Modifier = Modifier,
@@ -145,7 +146,7 @@ fun CustomOutlinedTextField(
                 decorationBox = { innerTextField ->
                     Box {
                         if (value.isEmpty()) {
-                            MediumText(text = hint, color = textColor)
+                            MediumText(text = hint, color = textColor, modifier = Modifier.alpha(0.3f))
                         }
                         innerTextField()
                     }

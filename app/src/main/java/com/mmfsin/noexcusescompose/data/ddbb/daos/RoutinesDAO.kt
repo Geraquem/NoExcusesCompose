@@ -20,6 +20,9 @@ interface RoutinesDAO {
     @Query("SELECT * FROM table_routines WHERE createdByUser = 1")
     fun getMyRoutines(): Flow<List<RoutineWithDays>>
 
+    @Query("SELECT * FROM table_routines WHERE id = :routineId")
+    fun getMyRoutineById(routineId: String): MyRoutineDTO?
+
     /********************* DAYS *********************/
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -29,5 +32,5 @@ interface RoutinesDAO {
     fun getDaysFromRoutine(routineId: String): Flow<List<DayDTO>>
 
     @Query("SELECT * FROM table_days WHERE id = :dayId")
-    fun getDayById(dayId: String):DayDTO?
+    fun getDayById(dayId: String): DayDTO?
 }

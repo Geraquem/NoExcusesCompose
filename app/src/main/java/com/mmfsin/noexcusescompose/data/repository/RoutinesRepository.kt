@@ -12,7 +12,6 @@ import com.mmfsin.noexcusescompose.domain.models.Day
 import com.mmfsin.noexcusescompose.domain.models.Routine
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import java.util.UUID
 import javax.inject.Inject
 
 class RoutinesRepository @Inject constructor(
@@ -20,22 +19,31 @@ class RoutinesRepository @Inject constructor(
     val routinesDAO: RoutinesDAO,
 ) : IRoutinesRepository {
 
-    override suspend fun createRoutine(routineId: String?, name: String, description: String?) {
-        val id = routineId ?: UUID.randomUUID().toString()
-        val routineDTO = createRoutineDTO(routineId = id, name, description)
-        routinesDAO.insertMyRoutine(routineDTO)
+    override suspend fun createOrEditRoutine(routineId: String?, name: String, description: String?) {
+        if (routineId != null) {
+            val routineDTO = routinesDAO.getMyRoutineById(routineId)
+            if (routineDTO != null) {
+                val updatedRoutine = routineDTO.copy(name = name, description = description)
+                routinesDAO.insertMyRoutine(updatedRoutine)
+                return
+            }
+        }
+
+        val newRoutineDTO = createRoutineDTO(name, description)
+        routinesDAO.insertMyRoutine(newRoutineDTO)
     }
 
     override fun getMyRoutines(): Flow<List<Routine>> {
         return routinesDAO.getMyRoutines().map { routines ->
-            routines.map { routine -> routine.toRoutine(days = routine.days.map { it.toDay() }) }
+            routines.map { routine ->
+                routine.toRoutine(days = routine.days.map { it.toDay() })
+            }.sortedBy { it.order }
         }
     }
 
     override suspend fun createOrEditDay(routineId: String, dayId: String?, name: String): String {
         if (dayId != null) {
             val dayDTO = routinesDAO.getDayById(dayId)
-
             if (dayDTO != null) {
                 val updatedDay = dayDTO.copy(name = name)
                 routinesDAO.insertDay(updatedDay)

@@ -19,14 +19,12 @@ fun createNoteDTO(
 )
 
 fun createRoutineDTO(
-    routineId: String,
     name: String,
     description: String?,
 ) = MyRoutineDTO(
-    id = routineId,
-    title = name,
+    id = UUID.randomUUID().toString(),
+    name = name,
     description = description,
-    days = 0
 )
 
 fun createDayDTO(

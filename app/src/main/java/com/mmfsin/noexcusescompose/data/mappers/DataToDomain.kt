@@ -16,7 +16,6 @@ import com.mmfsin.noexcusescompose.domain.models.Stretching
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import kotlin.collections.map
 
 /*********************************************************************************************************/
 /******************************************  MUSCULAR GROUPS  ********************************************/
@@ -56,21 +55,23 @@ fun List<ExerciseDTO>.toExerciseList() = this.map { it.toExercise() }
 
 fun RoutineWithDays.toRoutine(days: List<Day>) = Routine(
     id = routine.id,
-    name = routine.title,
+    name = routine.name,
     description = routine.description,
     days = days,
     doingIt = routine.doingIt,
     createdByUser = routine.createdByUser,
-    pinnedDate = routine.pinnedDate
+    pinnedDate = routine.pinnedDate,
+    order = routine.order
 )
 
 fun DayDTO.toDay() = Day(
     id = id,
     routineId = routineId,
     name = name,
+    order = order
 )
 
-fun List<DayDTO>.toDayList() = this.map { it.toDay() }
+fun List<DayDTO>.toDayList() = this.map { it.toDay() }.sortedBy { it.order }
 
 /*********************************************************************************************************/
 /*********************************************  STRETCHING  **********************************************/

@@ -7,7 +7,8 @@ data class Routine(
     var days: List<Day>,
     var doingIt: Boolean,
     val createdByUser: Boolean,
-    val pinnedDate: Long?
+    val pinnedDate: Long?,
+    val order: Int,
 )
 
 fun getExampleRoutines() = listOf(
@@ -18,7 +19,8 @@ fun getExampleRoutines() = listOf(
         days = getExampleDays(),
         doingIt = false,
         createdByUser = true,
-        pinnedDate = 0
+        pinnedDate = 0,
+        order = 0,
     ),
     Routine(
         id = "2",
@@ -27,7 +29,8 @@ fun getExampleRoutines() = listOf(
         days = getExampleDays(),
         doingIt = true,
         createdByUser = true,
-        pinnedDate = 0
+        pinnedDate = 0,
+        order = 1,
     ),
     Routine(
         id = "3",
@@ -36,6 +39,7 @@ fun getExampleRoutines() = listOf(
         days = getExampleDays(),
         doingIt = false,
         createdByUser = false,
-        pinnedDate = 0
+        pinnedDate = 0,
+        order = 2,
     ),
 )

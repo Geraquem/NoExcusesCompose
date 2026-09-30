@@ -1,7 +1,7 @@
 package com.mmfsin.noexcusescompose.presentation.myroutines.routines
 
 import androidx.lifecycle.viewModelScope
-import com.mmfsin.noexcusescompose.domain.usecases.CreateRoutineUseCase
+import com.mmfsin.noexcusescompose.domain.usecases.CreateOrEditRoutineUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetMyRoutinesUseCase
 import com.mmfsin.noexcusescompose.presentation.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MyRoutinesViewModel @Inject constructor(
     private val getMyRoutinesUseCase: GetMyRoutinesUseCase,
-    private val createRoutineUseCase: CreateRoutineUseCase,
+    private val createOrEditRoutineUseCase: CreateOrEditRoutineUseCase,
 ) : BaseViewModel<MyRoutinesStates>(MyRoutinesStates()) {
 
     init {
@@ -36,7 +36,7 @@ class MyRoutinesViewModel @Inject constructor(
         val states = uiState.value
         val desc = states.newRoutineDescription.ifBlank { null }
         executeUseCase(
-            { createRoutineUseCase(routineId, states.newRoutineName, desc) },
+            { createOrEditRoutineUseCase(routineId, states.newRoutineName, desc) },
             {
                 _uiState.update {
                     it.copy(

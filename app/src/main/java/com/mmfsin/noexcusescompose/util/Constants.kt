@@ -22,6 +22,7 @@ const val DDBB_NAME = "noexcuses_room_ddbb"
 const val TABLE_MUSCULAR_GROUPS = "table_muscular_groups"
 const val TABLE_EXERCISES = "table_exercises"
 const val TABLE_ROUTINES = "table_routines"
+const val TABLE_DAYS = "table_days"
 const val TABLE_STRETCH = "table_stretch"
 const val TABLE_NOTES = "table_notes"
 

@@ -30,20 +30,19 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.BlueLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.BlueMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
-import com.mmfsin.noexcusescompose.presentation.core.theme.RedMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 
 @Preview
 @Composable
 fun CreateRoutineDialogPV() {
-    CreateRoutineDialog({}, { _, _ -> Unit })
+    CreateRoutineDialog({}, { _, _ -> })
 }
 
 @Composable
 fun CreateRoutineDialog(
     onDismiss: () -> Unit,
-    create: (String, String) -> Unit
+    create: (String, String?) -> Unit
 ) {
 
     var name by remember { mutableStateOf("") }
@@ -107,15 +106,14 @@ fun CreateRoutineDialog(
 
                     SpacerSmall(horizontal = true)
 
-                    val isEnabled = name.isNotBlank()
                     TextButton(
-                        onClick = { create("", "") },
-                        enabled = isEnabled,
+                        onClick = { create(name, description.ifBlank { null }) },
+                        enabled = name.isNotBlank(),
                     ) {
                         MediumText(
                             text = R.string.my_routines_create_create,
                             fontFamily = montserrat_bold,
-                            color = if(isEnabled) BlueMedium else GrayMedium
+                            color = if (name.isNotBlank()) BlueMedium else GrayMedium
                         )
                     }
                 }

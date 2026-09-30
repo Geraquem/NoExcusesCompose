@@ -15,6 +15,9 @@ data class ExerciseDetail(val exerciseId: String)
 object MyRoutines
 
 @Serializable
+data class DayDetail(val routineId: String, val dayId: String?)
+
+@Serializable
 object Favorites
 
 @Serializable

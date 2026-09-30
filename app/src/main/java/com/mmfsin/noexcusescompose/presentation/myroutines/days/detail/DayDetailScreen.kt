@@ -1,0 +1,163 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
+package com.mmfsin.noexcusescompose.presentation.myroutines.days.detail
+
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.LocalOverscrollFactory
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mmfsin.noexcusescompose.R
+import com.mmfsin.noexcusescompose.presentation.core.components.CustomTextField
+import com.mmfsin.noexcusescompose.presentation.core.components.CustomToolbar
+import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
+import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
+import com.mmfsin.noexcusescompose.presentation.core.components.OutlinedButtonCustomIcon
+import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
+import com.mmfsin.noexcusescompose.presentation.core.theme.Black
+import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
+import com.mmfsin.noexcusescompose.presentation.core.theme.RedHard
+import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
+
+@Preview
+@Composable
+fun DayDetailScreenPV() {
+    DayDetailContent(
+        uiStates = DayDetailStates(
+            isLoading = false,
+            dayName = "Pecho y tríceps"
+        ),
+        {}, {}, {}, {}
+    )
+}
+
+@Composable
+fun DayDetailScreen(
+    viewModel: DayDetailViewModel = hiltViewModel(),
+    goBack: () -> Unit
+) {
+    val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
+
+    DayDetailContent(
+        uiStates = uiStates,
+        goBack = { goBack() },
+        updateDayName = { viewModel.updateDayName(it) },
+        createDay = { viewModel.createDay() },
+        handleBack = { viewModel.handleBack() },
+    )
+}
+
+@Composable
+fun DayDetailContent(
+    uiStates: DayDetailStates,
+    goBack: () -> Unit,
+    updateDayName: (String) -> Unit,
+    createDay: () -> Unit,
+    handleBack: () -> Unit
+) {
+
+    val listState = rememberLazyListState()
+
+    Scaffold(
+        topBar = {
+            CustomToolbar(
+                goBack = { goBack() },
+                iconRight = R.drawable.ic_add_circle,
+                showIconRight = true,
+                iconRightClick = { createDay() }
+            )
+        }
+    ) { innerPadding ->
+        Box(
+            Modifier.fillMaxSize()
+                .background(GrayMedium)
+                .padding(innerPadding)
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 12.dp)
+        ) {
+
+            CompositionLocalProvider(
+                LocalOverscrollFactory provides null
+            ) {
+                LazyColumn(
+                    state = listState,
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    contentPadding = PaddingValues(vertical = 16.dp)
+                ) {
+                    item {
+                        if (uiStates.emptyNameError) {
+                            SmallText(
+                                text = "El nombre no puede estar vacío",
+                                fontFamily = montserrat_bold,
+                                color = RedHard,
+                            )
+                            SpacerSmall()
+                        }
+
+                        MediumText(
+                            text = "Día 1",
+                            fontFamily = montserrat_bold,
+                            modifier = Modifier.padding(start = 6.dp)
+                        )
+                        SpacerMini()
+                        CustomTextField(
+                            value = uiStates.dayName,
+                            onValueChange = { updateDayName(it) },
+                            lengthVisibility = true,
+                        )
+
+                        SpacerMedium()
+
+                        MediumText(
+                            text = R.string.my_routines_exercises,
+                            fontFamily = montserrat_bold,
+                            modifier = Modifier.padding(start = 6.dp)
+                        )
+                    }
+
+                    itemsIndexed(
+                        items = uiStates.exercises,
+                        key = { _, exercise -> exercise.id }
+                    ) { i, day -> }
+
+                    item {
+                        OutlinedButtonCustomIcon(
+                            onClick = { },
+                            text = R.string.my_routines_add_exercises,
+                            icon = R.drawable.ic_add,
+                            modifier = Modifier.fillMaxWidth(),
+                            color = Black
+                        )
+                        SpacerMedium()
+                    }
+                }
+            }
+        }
+
+        if (uiStates.shouldGoBack) goBack()
+        if (uiStates.isLoading) LoadingLottie()
+    }
+    BackHandler {
+        handleBack()
+    }
+}

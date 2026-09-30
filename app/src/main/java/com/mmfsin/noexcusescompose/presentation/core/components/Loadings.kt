@@ -34,6 +34,8 @@ import com.airbnb.lottie.compose.rememberLottieDynamicProperty
 import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.presentation.core.theme.BackgroundBlack
 import com.mmfsin.noexcusescompose.presentation.core.theme.BlueMedium
+import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 
 @Preview
@@ -106,7 +108,7 @@ fun LoadingDialog(text: Int? = null) {
 @Composable
 fun LoadingLottie(modifier: Modifier = Modifier) {
     Box(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().background(GrayMedium),
         contentAlignment = Alignment.Center
     ) {
         val composition by rememberLottieComposition(

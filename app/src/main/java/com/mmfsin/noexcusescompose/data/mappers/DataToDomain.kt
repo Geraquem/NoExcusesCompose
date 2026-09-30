@@ -1,10 +1,12 @@
 package com.mmfsin.noexcusescompose.data.mappers
 
+import com.mmfsin.noexcusescompose.data.models.DayDTO
 import com.mmfsin.noexcusescompose.data.models.ExerciseDTO
 import com.mmfsin.noexcusescompose.data.models.MuscularGroupDTO
 import com.mmfsin.noexcusescompose.data.models.MyRoutineDTO
 import com.mmfsin.noexcusescompose.data.models.NoteDTO
 import com.mmfsin.noexcusescompose.data.models.StretchDTO
+import com.mmfsin.noexcusescompose.domain.models.Day
 import com.mmfsin.noexcusescompose.domain.models.Exercise
 import com.mmfsin.noexcusescompose.domain.models.MuscularGroup
 import com.mmfsin.noexcusescompose.domain.models.Note
@@ -55,13 +57,22 @@ fun MyRoutineDTO.toRoutine() = Routine(
     id = id,
     name = title,
     description = description,
-    days,
+    daysCount = days,
     doingIt = doingIt,
     createdByUser = true,
     pinnedDate = pinnedDate
 )
 
 fun List<MyRoutineDTO>.toMyRoutineList() = this.map { it.toRoutine() }
+
+fun DayDTO.toDay() = Day(
+    id = id,
+    routineId = routineId,
+    title = title,
+    exercises = exercises
+)
+
+fun List<DayDTO>.toDayList() = this.map { it.toDay() }
 
 /*********************************************************************************************************/
 /*********************************************  STRETCHING  **********************************************/

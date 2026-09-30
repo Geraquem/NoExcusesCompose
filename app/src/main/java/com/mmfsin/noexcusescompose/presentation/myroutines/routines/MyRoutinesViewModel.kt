@@ -1,6 +1,7 @@
 package com.mmfsin.noexcusescompose.presentation.myroutines.routines
 
 import androidx.lifecycle.viewModelScope
+import com.mmfsin.noexcusescompose.domain.usecases.CreateDayUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.CreateRoutineUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetMyRoutinesUseCase
 import com.mmfsin.noexcusescompose.presentation.core.base.BaseViewModel
@@ -12,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MyRoutinesViewModel @Inject constructor(
     private val getMyRoutinesUseCase: GetMyRoutinesUseCase,
-    private val createRoutineUseCase: CreateRoutineUseCase
+    private val createRoutineUseCase: CreateRoutineUseCase,
 ) : BaseViewModel<MyRoutinesStates>(MyRoutinesStates()) {
 
     init {
@@ -22,12 +23,17 @@ class MyRoutinesViewModel @Inject constructor(
     private fun getMyRoutines() {
         viewModelScope.launch {
             getMyRoutinesUseCase().collect { routines ->
-                _uiState.update { it.copy(myRoutines = routines) }
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        myRoutines = routines
+                    )
+                }
             }
         }
     }
 
-    fun createRoutine(name: String, description: String) {
+    fun createRoutine(name: String, description: String?) {
         executeUseCase(
             { createRoutineUseCase(name, description) },
             { _uiState.update { it.copy(showCreateRoutineDialog = false) } },
@@ -37,5 +43,14 @@ class MyRoutinesViewModel @Inject constructor(
 
     fun showCreateRoutineDialog(value: Boolean) = _uiState.update { it.copy(showCreateRoutineDialog = value) }
 
-    fun sww() = _uiState.update { it.copy(sww = true) }
+    fun routineClicked(routineId: String?, routineName: String) {
+        _uiState.update {
+            it.copy(
+                routineIdClicked = routineId,
+                routineClicked = routineName
+            )
+        }
+    }
+
+    fun sww(value: Boolean = true) = _uiState.update { it.copy(sww = value) }
 }

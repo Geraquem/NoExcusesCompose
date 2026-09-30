@@ -64,11 +64,18 @@
 
     <!-- MY ROUTINES -->
     <string name="my_routines_empty">No tienes ninguna rutina creada.</string>
+    <string name="my_routines_toolbar">Mis rutinas</string>
     <string name="my_routines_create">Crear nueva rutina</string>
     <string name="my_routines_create_name">Nombre</string>
     <string name="my_routines_create_description">Descripción</string>
     <string name="my_routines_create_cancel">Cancelar</string>
     <string name="my_routines_create_create">Crear</string>
+
+    <string name="my_routines_create_day">Añadir día</string>
+    <string name="my_routines_days_empty">No hay días</string>
+
+    <string name="my_routines_add_exercises">Añadir ejercicio</string>
+    <string name="my_routines_exercises">Ejercicios</string>
 
     <!-- FAVORITES -->
     <string name="favs_title">Favoritos</string>

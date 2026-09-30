@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -115,18 +116,30 @@ fun DayDetailContent(
                     item {
                         if (uiStates.emptyNameError) {
                             SmallText(
-                                text = "El nombre no puede estar vacío",
+                                text = R.string.my_routines_error_empty_day_name,
                                 fontFamily = montserrat_bold,
                                 color = RedHard,
                             )
                             SpacerSmall()
                         }
 
-                        MediumText(
-                            text = R.string.my_routines_day,
-                            fontFamily = montserrat_bold,
-                            modifier = Modifier.padding(start = 6.dp)
-                        )
+                        Row {
+                            MediumText(
+                                text = R.string.my_routines_day,
+                                fontFamily = montserrat_bold,
+                                modifier = Modifier.padding(start = 6.dp)
+                            )
+
+                            SpacerMini(horizontal = true)
+
+                            if (uiStates.dayOrder != -1) {
+                                MediumText(
+                                    text = "${uiStates.dayOrder}",
+                                    fontFamily = montserrat_bold,
+                                )
+                            }
+                        }
+
                         SpacerMini()
                         CustomTextField(
                             value = uiStates.dayName,

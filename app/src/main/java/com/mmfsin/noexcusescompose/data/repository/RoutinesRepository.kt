@@ -11,6 +11,7 @@ import com.mmfsin.noexcusescompose.domain.interfaces.IRoutinesRepository
 import com.mmfsin.noexcusescompose.domain.models.Day
 import com.mmfsin.noexcusescompose.domain.models.Routine
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -40,6 +41,11 @@ class RoutinesRepository @Inject constructor(
                 routine.toRoutine(days = routine.days.map { it.toDay() })
             }.sortedBy { it.order }
         }
+    }
+
+    override suspend fun getRoutineById(routineId: String): Routine? {
+        val days = routinesDAO.getDaysFromRoutine(routineId).map { it.toDayList() }.first()
+        return routinesDAO.getMyRoutineById(routineId)?.toRoutine(days)
     }
 
     override fun updatePinnedRoutine(routineId: String) {

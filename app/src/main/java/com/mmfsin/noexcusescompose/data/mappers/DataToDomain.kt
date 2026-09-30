@@ -3,6 +3,7 @@ package com.mmfsin.noexcusescompose.data.mappers
 import com.mmfsin.noexcusescompose.data.models.DayDTO
 import com.mmfsin.noexcusescompose.data.models.ExerciseDTO
 import com.mmfsin.noexcusescompose.data.models.MuscularGroupDTO
+import com.mmfsin.noexcusescompose.data.models.MyRoutineDTO
 import com.mmfsin.noexcusescompose.data.models.NoteDTO
 import com.mmfsin.noexcusescompose.data.models.RoutineWithDays
 import com.mmfsin.noexcusescompose.data.models.StretchDTO
@@ -62,6 +63,17 @@ fun RoutineWithDays.toRoutine(days: List<Day>) = Routine(
     createdByUser = routine.createdByUser,
     pinnedDate = routine.pinnedDate,
     order = routine.order
+)
+
+fun MyRoutineDTO.toRoutine(days: List<Day>) = Routine(
+    id = id,
+    name = name,
+    description = description,
+    days = days,
+    pinned = pinned,
+    createdByUser = createdByUser,
+    pinnedDate = pinnedDate,
+    order = order
 )
 
 fun DayDTO.toDay() = Day(

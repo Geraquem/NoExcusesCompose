@@ -79,6 +79,7 @@
     <string name="my_routines_create_day">Añadir día</string>
     <string name="my_routines_days_empty">No hay días</string>
 
+    <string name="my_routines_error_empty_day_name">El nombre no puede estar vacío</string>
     <string name="my_routines_add_exercises">Añadir ejercicio</string>
     <string name="my_routines_exercises">Ejercicios</string>
 

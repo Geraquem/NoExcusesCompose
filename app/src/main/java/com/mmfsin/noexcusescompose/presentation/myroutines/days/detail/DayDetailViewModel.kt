@@ -3,6 +3,7 @@ package com.mmfsin.noexcusescompose.presentation.myroutines.days.detail
 import androidx.lifecycle.SavedStateHandle
 import com.mmfsin.noexcusescompose.domain.usecases.CreateOrEditDayUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetDayByIdUseCase
+import com.mmfsin.noexcusescompose.domain.usecases.GetRoutineByIdUseCase
 import com.mmfsin.noexcusescompose.presentation.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -12,6 +13,7 @@ import javax.inject.Inject
 class DayDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getDayByIdUseCase: GetDayByIdUseCase,
+    private val getRoutineByIdUseCase: GetRoutineByIdUseCase,
     private val createOrEditDayUseCase: CreateOrEditDayUseCase
 ) : BaseViewModel<DayDetailStates>(DayDetailStates()) {
 
@@ -29,8 +31,10 @@ class DayDetailViewModel @Inject constructor(
     }
 
     fun getDay(dayId: String?) {
-        if (dayId == null) _uiState.update { it.copy(isLoading = false) }
-        else {
+        if (dayId == null) {
+            routineId?.let { id -> getMyRoutine(id, null) }
+            _uiState.update { it.copy(isLoading = false) }
+        } else {
             executeUseCase(
                 { getDayByIdUseCase(dayId) },
                 { day ->
@@ -45,7 +49,8 @@ class DayDetailViewModel @Inject constructor(
                                 isLoading = false
                             )
                         }
-                        getDayExercises(dayId)
+                        getMyRoutine(routineId = day.routineId, dayId = day.id)
+                        getDayExercises(dayId = day.id)
                     }
                 },
                 {},
@@ -53,15 +58,35 @@ class DayDetailViewModel @Inject constructor(
         }
     }
 
-    fun updateDayName(value: String) = _uiState.update {
-        it.copy(
-            dayName = value,
-            emptyNameError = false
+    fun getMyRoutine(routineId: String, dayId: String?) {
+        executeUseCase(
+            { getRoutineByIdUseCase(routineId) },
+            { routine ->
+                routine?.let {
+                    val position = if (dayId == null) routine.days.size
+                    else routine.days.indexOfFirst { it.id == dayId }
+
+                    _uiState.update {
+                        it.copy(
+                            routineName = routine.name,
+                            dayOrder = position + 1
+                        )
+                    }
+                }
+            },
+            {},
         )
     }
 
     fun getDayExercises(dayId: String) {
 
+    }
+
+    fun updateDayName(value: String) = _uiState.update {
+        it.copy(
+            dayName = value,
+            emptyNameError = false
+        )
     }
 
     fun createOrEditDay() {

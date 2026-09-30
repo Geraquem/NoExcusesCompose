@@ -11,7 +11,7 @@ data class DayDetailStates(
 
     val dayId: String? = null,
     val dayName: String = "",
-    val day: Day? = null,
+    val dayOrder: Int = -1,
 
     val exercises: List<Exercise> = emptyList(),
 

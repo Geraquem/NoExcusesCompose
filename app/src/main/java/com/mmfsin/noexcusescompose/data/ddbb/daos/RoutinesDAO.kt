@@ -26,6 +26,15 @@ interface RoutinesDAO {
     @Query("SELECT COALESCE(MAX(`order`), -1) + 1 FROM table_routines")
     suspend fun getNextRoutineOrder(): Int
 
+    @Query("""
+    UPDATE table_routines
+    SET pinned = CASE
+        WHEN id = :routineId THEN NOT pinned
+        ELSE 0
+    END
+    """)
+    fun updatePinnedRoutine(routineId: String)
+
     /********************* DAYS *********************/
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -42,6 +42,10 @@ class RoutinesRepository @Inject constructor(
         }
     }
 
+    override fun updatePinnedRoutine(routineId: String) {
+        routinesDAO.updatePinnedRoutine(routineId)
+    }
+
     override suspend fun createOrEditDay(routineId: String, dayId: String?, name: String): String {
         if (dayId != null) {
             val dayDTO = routinesDAO.getDayById(dayId)

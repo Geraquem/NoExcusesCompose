@@ -53,10 +53,12 @@ import com.mmfsin.noexcusescompose.presentation.core.components.OutlinedButtonCu
 import com.mmfsin.noexcusescompose.presentation.core.components.OutlinedButtonCustomIcon
 import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerLarge
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
 import com.mmfsin.noexcusescompose.presentation.core.theme.Black
 import com.mmfsin.noexcusescompose.presentation.core.theme.BlueLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.OrangeLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
@@ -95,7 +97,7 @@ fun MyRoutinesScreen(
 
         goToDayDetail = { routineId, dayId -> goToDayDetail(routineId, dayId) },
 
-        updatePinnedRoutine = { },
+        updatePinnedRoutine = { viewModel.updatePushpin(it) },
         sww = { viewModel.sww(it) },
     )
 }
@@ -194,7 +196,7 @@ fun RoutineBox(
     updatePushpin: () -> Unit
 ) {
 
-    var expanded by rememberSaveable { mutableStateOf(true) }
+    var expanded by rememberSaveable { mutableStateOf(false) }
 
     Card(
         modifier = Modifier.fillMaxWidth().pointerInput(Unit) {
@@ -214,27 +216,6 @@ fun RoutineBox(
                     .padding(horizontal = 12.dp)
                     .padding(top = 12.dp)
             ) {
-                //                Column(
-                //                    modifier = Modifier
-                //                        .width(48.dp)
-                //                        .background(BlueLight, RoundedCornerShape(8.dp))
-                //                        .padding(4.dp),
-                //                    horizontalAlignment = Alignment.CenterHorizontally
-                //                ) {
-                //                    BigText(
-                //                        text = "${routine.days.size}",
-                //                        fontFamily = montserrat_bold,
-                //                        color = White
-                //                    )
-                //                    SmallText(
-                //                        text = if (routine.days.size == 1) R.string.my_routines_day
-                //                        else R.string.my_routines_days,
-                //                        fontFamily = montserrat_bold,
-                //                        allCaps = true,
-                //                        color = White
-                //                    )
-                //                }
-
                 Column(
                     Modifier.weight(1f)
                         .background(White, RoundedCornerShape(12.dp))
@@ -263,11 +244,12 @@ fun RoutineBox(
                     )
 
                     routine.description?.let { d ->
+                        SpacerMini()
                         MediumText(text = d)
                     }
                 }
 
-                val pushpin = if (routine.doingIt) R.drawable.ic_pushpin else R.drawable.ic_pushpin_off
+                val pushpin = if (routine.pinned) R.drawable.ic_pushpin else R.drawable.ic_pushpin_off
                 Image(
                     painterResource(pushpin), null,
                     modifier = Modifier
@@ -277,29 +259,24 @@ fun RoutineBox(
             }
 
             AnimatedVisibility(expanded) {
-                Column {
+                Column(Modifier.fillMaxWidth()) {
                     SpacerSmall()
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Spacer(Modifier.weight(1f))
-                        TextButton(onClick = { goToDayDetail(null) }) {
-                            SmallText(
-                                text = R.string.my_routines_create_day,
-                                allCaps = true
-                            )
-                            SpacerMini(horizontal = true)
-                            Icon(
-                                painterResource(R.drawable.ic_add), null,
-                                modifier = Modifier.size(16.dp)
-                            )
-                        }
-                    }
+
                     routine.days.sortedBy { it.order }.forEach { day ->
                         DayBox(
                             day = day,
                             onDayClick = { goToDayDetail(day.id) })
+                    }
+
+                    TextButton(
+                        onClick = { goToDayDetail(null) },
+                        modifier = Modifier.align(Alignment.End)
+                            .padding(end = 6.dp)
+                    ) {
+                        SmallText(
+                            text = R.string.my_routines_create_day,
+                            allCaps = true,
+                        )
                     }
                 }
             }
@@ -315,8 +292,7 @@ fun DayBox(
     Row(
         Modifier.fillMaxWidth()
             .clickable(onClick = { onDayClick() })
-            .padding(horizontal = 12.dp)
-            .padding(top = 12.dp),
+            .padding(horizontal = 12.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(

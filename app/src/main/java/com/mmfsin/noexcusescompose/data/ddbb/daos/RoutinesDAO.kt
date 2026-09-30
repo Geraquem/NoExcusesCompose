@@ -23,6 +23,9 @@ interface RoutinesDAO {
     @Query("SELECT * FROM table_routines WHERE id = :routineId")
     fun getMyRoutineById(routineId: String): MyRoutineDTO?
 
+    @Query("SELECT COALESCE(MAX(`order`), -1) + 1 FROM table_routines")
+    suspend fun getNextRoutineOrder(): Int
+
     /********************* DAYS *********************/
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -33,4 +36,7 @@ interface RoutinesDAO {
 
     @Query("SELECT * FROM table_days WHERE id = :dayId")
     fun getDayById(dayId: String): DayDTO?
+
+    @Query("SELECT COALESCE(MAX(`order`), -1) + 1 FROM table_days")
+    suspend fun getNextDayOrder(): Int
 }

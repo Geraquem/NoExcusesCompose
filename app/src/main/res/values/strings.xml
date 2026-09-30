@@ -72,7 +72,7 @@
     <string name="my_routines_create_name">Nombre</string>
     <string name="my_routines_create_name_hint">Ej: Verano</string>
     <string name="my_routines_create_description">Descripción</string>
-    <string name="my_routines_create_description_hint">Ej: Enfocada en brazos y piernas</string>
+    <string name="my_routines_create_description_hint">Enfocada en brazos y piernas</string>
     <string name="my_routines_create_cancel">Cancelar</string>
     <string name="my_routines_create_save">Guardar</string>
 

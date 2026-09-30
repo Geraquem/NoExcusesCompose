@@ -24,7 +24,7 @@ fun getExampleRoutines() = listOf(
     ),
     Routine(
         id = "2",
-        name = "Rutina 2",
+        name = "Rutina 2 ww  ews´.fklñdk fs´fd´s",
         description = null,
         days = getExampleDays(),
         doingIt = true,

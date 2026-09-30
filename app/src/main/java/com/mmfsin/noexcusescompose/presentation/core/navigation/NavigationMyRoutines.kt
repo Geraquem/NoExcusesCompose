@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.mmfsin.noexcusescompose.presentation.exercises.mgroups.MGroupsScreen
 import com.mmfsin.noexcusescompose.presentation.myroutines.days.detail.DayDetailScreen
 import com.mmfsin.noexcusescompose.presentation.myroutines.routines.MyRoutinesScreen
 
@@ -34,7 +35,17 @@ fun NavigationMyRoutines() {
 
         composable<DayDetail> {
             DayDetailScreen(
-                goBack = { navController.popBackStack() }
+                goBack = { navController.popBackStack() },
+                goToMuscularGroups = { navController.navigate(MuscularGroups) }
+            )
+        }
+
+        composable<MuscularGroups> {
+            MGroupsScreen(
+                goBack = { navController.popBackStack() },
+                goToExercises = {
+
+                }
             )
         }
     }

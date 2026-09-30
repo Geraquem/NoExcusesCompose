@@ -21,18 +21,21 @@ fun createNoteDTO(
 fun createRoutineDTO(
     name: String,
     description: String?,
+    order: Int
 ) = MyRoutineDTO(
     id = UUID.randomUUID().toString(),
     name = name,
     description = description,
+    order = order
 )
 
 fun createDayDTO(
     routineId: String,
     name: String,
+    order: Int
 ) = DayDTO(
     id = UUID.randomUUID().toString(),
     routineId = routineId,
     name = name,
-    order = 0,
+    order = order,
 )

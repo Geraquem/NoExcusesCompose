@@ -49,14 +49,15 @@ fun DayDetailScreenPV() {
             dayName = "Pecho y tríceps"
         ),
         {}, {}, {}, {},
-        {},
+        {}, {}
     )
 }
 
 @Composable
 fun DayDetailScreen(
     viewModel: DayDetailViewModel = hiltViewModel(),
-    goBack: () -> Unit
+    goBack: () -> Unit,
+    goToMuscularGroups: () -> Unit
 ) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -66,6 +67,7 @@ fun DayDetailScreen(
         updateDayName = { viewModel.updateDayName(it) },
         createDay = { viewModel.createOrEditDay() },
         handleBack = { viewModel.handleBack() },
+        goToMuscularGroups = { goToMuscularGroups() },
         sww = { viewModel.sww(it) },
     )
 }
@@ -77,6 +79,7 @@ fun DayDetailContent(
     updateDayName: (String) -> Unit,
     createDay: () -> Unit,
     handleBack: () -> Unit,
+    goToMuscularGroups: () -> Unit,
     sww: (Boolean) -> Unit
 ) {
 
@@ -120,7 +123,7 @@ fun DayDetailContent(
                         }
 
                         MediumText(
-                            text = "Día 1",
+                            text = R.string.my_routines_day,
                             fontFamily = montserrat_bold,
                             modifier = Modifier.padding(start = 6.dp)
                         )
@@ -147,7 +150,7 @@ fun DayDetailContent(
 
                     item {
                         OutlinedButtonCustomIcon(
-                            onClick = { },
+                            onClick = { goToMuscularGroups() },
                             text = R.string.my_routines_add_exercises,
                             icon = R.drawable.ic_add,
                             modifier = Modifier.fillMaxWidth(),

@@ -1,5 +1,6 @@
 package com.mmfsin.noexcusescompose.presentation.myroutines.days.detail
 
+import com.mmfsin.noexcusescompose.domain.models.Day
 import com.mmfsin.noexcusescompose.domain.models.Exercise
 
 data class DayDetailStates(
@@ -10,6 +11,7 @@ data class DayDetailStates(
 
     val dayId: String? = null,
     val dayName: String = "",
+    val day: Day? = null,
 
     val exercises: List<Exercise> = emptyList(),
 

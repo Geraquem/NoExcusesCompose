@@ -29,7 +29,8 @@ class RoutinesRepository @Inject constructor(
             }
         }
 
-        val newRoutineDTO = createRoutineDTO(name, description)
+        val order = routinesDAO.getNextRoutineOrder()
+        val newRoutineDTO = createRoutineDTO(name, description, order)
         routinesDAO.insertMyRoutine(newRoutineDTO)
     }
 
@@ -51,7 +52,8 @@ class RoutinesRepository @Inject constructor(
             }
         }
 
-        val newDayDTO = createDayDTO(routineId, name)
+        val order = routinesDAO.getNextDayOrder()
+        val newDayDTO = createDayDTO(routineId, name, order)
         routinesDAO.insertDay(newDayDTO)
         return newDayDTO.id
     }

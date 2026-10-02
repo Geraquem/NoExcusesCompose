@@ -7,4 +7,6 @@ data class ExercisesStates(
 
     val mGroupId: String = "",
     val exercises: List<Exercise> = emptyList(),
+
+    val sww: Boolean = false
 )

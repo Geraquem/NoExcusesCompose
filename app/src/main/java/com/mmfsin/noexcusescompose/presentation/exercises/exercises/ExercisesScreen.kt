@@ -33,6 +33,7 @@ import com.mmfsin.noexcusescompose.domain.models.Exercise
 import com.mmfsin.noexcusescompose.domain.models.MuscularGroupType.Companion.getMuscularGroupName
 import com.mmfsin.noexcusescompose.domain.models.getExercisesExamples
 import com.mmfsin.noexcusescompose.presentation.core.components.CustomToolbar
+import com.mmfsin.noexcusescompose.presentation.core.components.ErrorDialog
 import com.mmfsin.noexcusescompose.presentation.core.components.ImageGif
 import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
@@ -100,6 +101,7 @@ fun ExercisesContent(
             }
         }
     }
+    if (uiStates.sww) ErrorDialog { goBack() }
 }
 
 @Composable
@@ -148,7 +150,6 @@ fun ExerciseBox(
                     .padding(start = 8.dp, end = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 ImageGif(
                     url = exercise.gifURL,
                     modifier = Modifier.size(75.dp)

@@ -37,14 +37,16 @@ fun MGroupsRtnScreenPV() {
 fun MGroupsRtnScreen(
     viewModel: MGroupsRtnViewModel = hiltViewModel(),
     goBack: () -> Unit,
-    goToExercises: (String) -> Unit
+    goToExercises: (String, String, String) -> Unit
 ) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
 
     MGroupsRtnContent(
         uiStates = uiStates,
         goBack = { goBack() },
-        goToExercises = { goToExercises(it) },
+        goToExercises = { mGroupId ->
+            goToExercises(uiStates.dayId, uiStates.dayName, mGroupId)
+        },
     )
 }
 

@@ -18,7 +18,7 @@ class ExercisesViewModel @Inject constructor(
     private val mGroupId: String? = savedStateHandle["mGroupId"]
 
     init {
-        mGroupId?.let { getExercises(it) }
+        mGroupId?.let { getExercises(it) } ?: run { sww() }
     }
 
     fun getExercises(mGroupId: String) {
@@ -33,4 +33,6 @@ class ExercisesViewModel @Inject constructor(
             }
         }
     }
+
+    fun sww(value: Boolean = true) = _uiState.update { it.copy(sww = value) }
 }

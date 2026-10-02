@@ -22,6 +22,9 @@ data class DayDetail(val routineId: String, val dayId: String?)
 @Serializable
 data class MuscularGroupsRtn(val dayId: String, val dayName: String)
 
+@Serializable
+data class ExercisesRtn(val dayId: String, val dayName: String, val mGroupId: String)
+
 /******************************************/
 
 @Serializable

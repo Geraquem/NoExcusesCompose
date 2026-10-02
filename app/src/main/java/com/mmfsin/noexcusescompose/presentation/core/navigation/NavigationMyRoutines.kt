@@ -7,8 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.mmfsin.noexcusescompose.presentation.exercises.mgroups.MGroupsScreen
+import com.mmfsin.noexcusescompose.presentation.exercises.detail.ExerciseDetailScreen
 import com.mmfsin.noexcusescompose.presentation.myroutines.days.DayScreen
+import com.mmfsin.noexcusescompose.presentation.myroutines.exercises.ExercisesRtnScreen
 import com.mmfsin.noexcusescompose.presentation.myroutines.mgroups.MGroupsRtnScreen
 import com.mmfsin.noexcusescompose.presentation.myroutines.routines.MyRoutinesScreen
 
@@ -51,9 +52,24 @@ fun NavigationMyRoutines() {
         composable<MuscularGroupsRtn> {
             MGroupsRtnScreen(
                 goBack = { navController.popBackStack() },
-                goToExercises = {
-
+                goToExercises = { dayId, dayName, mGroupId ->
+                    navController.navigate(ExercisesRtn(dayId, dayName, mGroupId))
                 }
+            )
+        }
+
+        composable<ExercisesRtn> {
+            ExercisesRtnScreen(
+                goBack = { navController.popBackStack() },
+                goToExerciseDetail = { exerciseId ->
+                    navController.navigate(ExerciseDetail(exerciseId))
+                }
+            )
+        }
+
+        composable<ExerciseDetail> {
+            ExerciseDetailScreen(
+                goBack = { navController.popBackStack() }
             )
         }
     }

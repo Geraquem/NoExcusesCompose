@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mmfsin.noexcusescompose.R
@@ -148,6 +149,7 @@ fun OutlinedButtonCustom(
         MediumText(
             text = text,
             color = color,
+            gravity = TextAlign.Center,
             modifier = textModifier.padding(vertical = 4.dp),
             fontFamily = montserrat_regular,
             allCaps = true
@@ -181,6 +183,7 @@ fun OutlinedButtonCustomIcon(
             MediumText(
                 text = text,
                 color = color,
+                gravity = TextAlign.Center,
                 modifier = textModifier.padding(vertical = 4.dp),
                 fontFamily = montserrat_regular,
                 allCaps = true

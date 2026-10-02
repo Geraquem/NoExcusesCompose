@@ -116,7 +116,7 @@ fun DayContent(
                     item {
                         if (uiStates.emptyNameError) {
                             SmallText(
-                                text = R.string.my_routines_error_empty_day_name,
+                                text = R.string.my_routines_day_error_empty_name,
                                 fontFamily = montserrat_bold,
                                 color = RedHard,
                             )
@@ -150,7 +150,7 @@ fun DayContent(
                         SpacerMedium()
 
                         MediumText(
-                            text = R.string.my_routines_exercises,
+                            text = R.string.my_routines_day_exercises,
                             fontFamily = montserrat_bold,
                             modifier = Modifier.padding(start = 6.dp)
                         )
@@ -164,7 +164,7 @@ fun DayContent(
                     item {
                         OutlinedButtonCustomIcon(
                             onClick = { goToMuscularGroups() },
-                            text = R.string.my_routines_add_exercises,
+                            text = R.string.my_routines_day_add_exercises,
                             icon = R.drawable.ic_add,
                             modifier = Modifier.fillMaxWidth(),
                             color = Black

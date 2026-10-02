@@ -7,20 +7,22 @@ data class ExerciseRtn(
     val dayId: String,
     val exerciseId: String,
     val series: List<Serie>,
-    val rest: Double,
-    val notes: String,
+    val rest: String?,
+    val notes: String?,
     val superSerie: Boolean,
     val order: Int,
 )
 
 data class Serie(
     val id: String,
-    val reps: Int,
-    val kgs: Double,
+    val reps: Int?,
+    val kgs: String?,
+    val order: Int,
 )
 
-fun createSerie() = Serie(
+fun createSerie(order: Int) = Serie(
     id = UUID.randomUUID().toString(),
-    reps = 0,
-    kgs = 00.00
+    reps = null,
+    kgs = null,
+    order = order
 )

@@ -1,5 +1,7 @@
 package com.mmfsin.noexcusescompose.presentation.core.components
 
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -106,11 +108,12 @@ fun LoadingDialog(text: Int? = null) {
 
 @Preview
 @Composable
-fun LoadingLottie(modifier: Modifier = Modifier) {
+fun LoadingLottie(bgColor: Color = GrayMedium) {
     Box(
-        modifier = modifier.fillMaxSize().background(GrayMedium),
+        modifier = Modifier.fillMaxSize().background(bgColor),
         contentAlignment = Alignment.Center
     ) {
+
         val composition by rememberLottieComposition(
             LottieCompositionSpec.RawRes(R.raw.lottie_waiting)
         )
@@ -120,10 +123,15 @@ fun LoadingLottie(modifier: Modifier = Modifier) {
             iterations = LottieConstants.IterateForever
         )
 
+        val colorFilter = PorterDuffColorFilter(
+            Color.Black.toArgb(),
+            PorterDuff.Mode.SRC_ATOP
+        )
+
         val dynamicProperties = rememberLottieDynamicProperties(
             rememberLottieDynamicProperty(
-                property = LottieProperty.COLOR,
-                value = Color.Blue.toArgb(),
+                property = LottieProperty.COLOR_FILTER,
+                value = colorFilter,
                 keyPath = arrayOf("**")
             )
         )

@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.presentation.core.theme.Black
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 
 @Preview
@@ -54,7 +55,7 @@ fun CustomMainToolbar(onRightIconClick: () -> Unit) {
                 SpacerSmall(horizontal = true)
             }
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = GrayLight),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = White),
     )
 }
 
@@ -106,6 +107,6 @@ fun CustomToolbar(
                 }
             }
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = GrayLight),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = White),
     )
 }

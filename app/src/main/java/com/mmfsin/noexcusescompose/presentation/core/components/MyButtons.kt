@@ -93,9 +93,82 @@ fun ButtonCustom(
 }
 
 @Composable
+fun ButtonCustom(
+    onClick: () -> Unit,
+    text: String,
+    modifier: Modifier = Modifier,
+    textModifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    color: Color = White,
+    textColor: Color = Black
+) {
+    Button(
+        onClick = { onClick() },
+        modifier = modifier,
+        enabled = enabled,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = color
+        ),
+        shape = RoundedCornerShape(25),
+        elevation = ButtonDefaults.buttonElevation(
+            defaultElevation = 4.dp,
+            pressedElevation = 2.dp,
+            disabledElevation = 0.dp
+        )
+    ) {
+        MediumText(
+            text = text,
+            color = textColor,
+            modifier = textModifier.padding(vertical = 4.dp),
+            fontFamily = montserrat_regular,
+            allCaps = true,
+            fontWeight = FontWeight.SemiBold
+        )
+    }
+}
+
+@Composable
 fun ButtonCustomIcon(
     onClick: () -> Unit,
     text: Int,
+    modifier: Modifier = Modifier,
+    textModifier: Modifier = Modifier,
+    icon: Int,
+    enabled: Boolean = true,
+    color: Color = BlueMedium,
+    textColor: Color = White
+) {
+    Row(
+        modifier = modifier
+            .shadow(
+                elevation = 4.dp,
+                shape = RoundedCornerShape(25)
+            )
+            .clip(RoundedCornerShape(25))
+            .background(if (enabled) color else GrayMedium)
+            .clickable(onClick = { if (enabled) onClick() })
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            painter = painterResource(icon), null,
+            tint = White
+        )
+        SpacerSmall(horizontal = true)
+        MediumText(
+            text = text,
+            color = textColor,
+            modifier = textModifier.padding(vertical = 4.dp),
+            fontFamily = montserrat_regular,
+            allCaps = true
+        )
+    }
+}
+
+@Composable
+fun ButtonCustomIcon(
+    onClick: () -> Unit,
+    text: String,
     modifier: Modifier = Modifier,
     textModifier: Modifier = Modifier,
     icon: Int,
@@ -158,9 +231,71 @@ fun OutlinedButtonCustom(
 }
 
 @Composable
+fun OutlinedButtonCustom(
+    onClick: () -> Unit,
+    text: String,
+    modifier: Modifier = Modifier,
+    textModifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    color: Color = BlueMedium
+) {
+    OutlinedButton(
+        onClick = { onClick() },
+        modifier = modifier,
+        enabled = enabled,
+        border = BorderStroke(1.dp, color),
+        shape = RoundedCornerShape(25)
+    ) {
+        MediumText(
+            text = text,
+            color = color,
+            gravity = TextAlign.Center,
+            modifier = textModifier.padding(vertical = 4.dp),
+            fontFamily = montserrat_regular,
+            allCaps = true
+        )
+    }
+}
+
+@Composable
 fun OutlinedButtonCustomIcon(
     onClick: () -> Unit,
     text: Int,
+    icon: Int,
+    modifier: Modifier = Modifier,
+    textModifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    color: Color = BlueMedium
+) {
+    OutlinedButton(
+        onClick = { onClick() },
+        modifier = modifier,
+        enabled = enabled,
+        border = BorderStroke(1.dp, color),
+        shape = RoundedCornerShape(25)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painterResource(icon), null,
+                tint = color
+            )
+            SpacerSmall(horizontal = true)
+            MediumText(
+                text = text,
+                color = color,
+                gravity = TextAlign.Center,
+                modifier = textModifier.padding(vertical = 4.dp),
+                fontFamily = montserrat_regular,
+                allCaps = true
+            )
+        }
+    }
+}
+
+@Composable
+fun OutlinedButtonCustomIcon(
+    onClick: () -> Unit,
+    text: String,
     icon: Int,
     modifier: Modifier = Modifier,
     textModifier: Modifier = Modifier,

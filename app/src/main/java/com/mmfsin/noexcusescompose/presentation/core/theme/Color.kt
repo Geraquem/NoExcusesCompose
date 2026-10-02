@@ -14,7 +14,7 @@ val Black = Color.Black
 val White = Color.White
 val Transparent =  Color(0x00FFFFFF)
 
-val GrayLight = Color(0xFFF5F5F5)
+val GrayLight = Color(0xFFEEEEEE)
 val GrayMedium = Color(0xFFDCDCDC)
 val GrayHard = Color(0xFF909090)
 
@@ -31,7 +31,7 @@ val OrangeLight = Color(0xFFFCC466)
 val OrangeMedium = Color(0xFFD9A147)
 val OrangeHard = Color(0xFFF69A00)
 
-val YellowLight = Color(0xFFFFFBCE)
+val YellowLight = Color(0xFFFAF6D1)
 val YellowMedium = Color(0xFFF5ED9D)
 val YellowHard = Color(0xFFEFD62A)
 

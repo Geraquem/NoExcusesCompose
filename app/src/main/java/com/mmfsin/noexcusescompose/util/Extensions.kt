@@ -69,3 +69,19 @@ fun ShowAlpha(
 
     Box(modifier = Modifier.alpha(alpha)) { content() }
 }
+
+
+fun Double?.formatTime(): String? {
+    return this?.let { d ->
+        String.format("%.2f", d).replace(",", ":").replace(":00", "")
+    } ?: run { null }
+}
+
+fun Double?.deletePointZero(): String? {
+    val formatted = this.toString()
+    return this?.let {
+        if (formatted.endsWith(".0")) {
+            formatted.replace(".0", "")
+        } else formatted
+    } ?: run { null }
+}

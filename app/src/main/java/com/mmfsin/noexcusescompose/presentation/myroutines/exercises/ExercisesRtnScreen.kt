@@ -87,6 +87,7 @@ fun ExercisesRtnContent(
         uiStates.exerciseClicked?.let { exercise ->
             AddExerciseDialog(
                 exercise = exercise,
+                dayName = uiStates.dayName,
                 onDismiss = { onExerciseClick(null) },
                 seeExercise = { goToExerciseDetail(uiStates.exerciseIdClick) },
                 addExercise = {}

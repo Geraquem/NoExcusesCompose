@@ -2,28 +2,33 @@ package com.mmfsin.noexcusescompose.presentation.exercises.exercises
 
 import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -37,13 +42,15 @@ import com.mmfsin.noexcusescompose.presentation.core.components.ErrorDialog
 import com.mmfsin.noexcusescompose.presentation.core.components.ImageGif
 import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
-import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
-import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
+import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
 import com.mmfsin.noexcusescompose.presentation.core.theme.Black
+import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.YellowHard
+import com.mmfsin.noexcusescompose.presentation.core.theme.YellowLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_regular
 
 @Preview
 @Composable
@@ -90,7 +97,6 @@ fun ExercisesContent(
             Modifier.fillMaxSize()
                 .background(GrayMedium)
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp)
         ) {
             if (uiStates.exercises.isEmpty()) LoadingLottie()
             else {
@@ -112,10 +118,15 @@ fun ExercisesList(
     CompositionLocalProvider(
         LocalOverscrollFactory provides null
     ) {
-        LazyColumn(
-            state = rememberLazyListState(),
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(vertical = 16.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(
+                vertical = 8.dp,
+                horizontal = 8.dp
+            )
         ) {
             items(
                 items = exercises,
@@ -131,6 +142,7 @@ fun ExerciseBox(
     onClick: (String) -> Unit
 ) {
     Card(
+        onClick = { onClick(exercise.id) },
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = White
@@ -139,38 +151,38 @@ fun ExerciseBox(
             defaultElevation = 4.dp
         )
     ) {
-        Box(
-            Modifier.clickable(onClick = { onClick(exercise.id) }),
-            contentAlignment = Alignment.Center
-        ) {
-            Row(
+        Box {
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp)
-                    .padding(start = 8.dp, end = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
+
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 ImageGif(
                     url = exercise.gifURL,
-                    modifier = Modifier.size(75.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f)
                 )
-                SpacerSmall(horizontal = true)
 
-                if (exercise.isFav) {
-                    Icon(
-                        painterResource(R.drawable.ic_fav_on), null,
-                        tint = YellowHard
+                SpacerSmall()
+
+                Box(
+                    modifier = Modifier.fillMaxWidth()
+                        .height(80.dp)
+                        .background(if(exercise.isFav) YellowLight else GrayLight)
+                        .padding(8.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = exercise.name,
+                        style = MaterialTheme.typography.bodyLarge,
+                        textAlign = TextAlign.Center,
+                        fontFamily = montserrat_regular,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
                     )
-                    SpacerMini(horizontal = true)
                 }
-
-                MediumText(
-                    text = exercise.name,
-                    color = Black,
-                    modifier = Modifier.weight(1f)
-                )
-                SpacerSmall(horizontal = true)
-                Icon(painterResource(R.drawable.ic_arrow_right), null)
             }
         }
     }

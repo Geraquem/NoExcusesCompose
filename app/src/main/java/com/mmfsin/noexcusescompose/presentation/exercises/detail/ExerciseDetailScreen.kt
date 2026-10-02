@@ -187,11 +187,10 @@ fun ExerciseDetailContent(
 
                     SpacerLarge()
 
-                } ?: run {
-                    LoadingLottie()
                 }
             }
         }
+        if (uiStates.exercise == null) LoadingLottie(bgColor = White)
     }
 }
 

@@ -6,9 +6,14 @@ import com.mmfsin.noexcusescompose.data.mappers.createDayDTO
 import com.mmfsin.noexcusescompose.data.mappers.createRoutineDTO
 import com.mmfsin.noexcusescompose.data.mappers.toDay
 import com.mmfsin.noexcusescompose.data.mappers.toDayList
+import com.mmfsin.noexcusescompose.data.mappers.toExerciseRtn
+import com.mmfsin.noexcusescompose.data.mappers.toExerciseRtnDTO
+import com.mmfsin.noexcusescompose.data.mappers.toExerciseRtnList
 import com.mmfsin.noexcusescompose.data.mappers.toRoutine
+import com.mmfsin.noexcusescompose.data.mappers.toSerieDTO
 import com.mmfsin.noexcusescompose.domain.interfaces.IRoutinesRepository
 import com.mmfsin.noexcusescompose.domain.models.Day
+import com.mmfsin.noexcusescompose.domain.models.ExerciseRtn
 import com.mmfsin.noexcusescompose.domain.models.Routine
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -73,4 +78,23 @@ class RoutinesRepository @Inject constructor(
     override fun getDayById(dayId: String): Day? {
         return routinesDAO.getDayById(dayId)?.toDay()
     }
+
+    override suspend fun addExerciseToDay(exerciseRtn: ExerciseRtn) {
+        val order = routinesDAO.getNextExerciseRtnOrder(exerciseRtn.dayId)
+        val exerciseRtnDTO = exerciseRtn.toExerciseRtnDTO(order)
+        val seriesDTO = exerciseRtn.series.map { it.toSerieDTO(exerciseRtn.id) }
+
+        routinesDAO.insertExerciseWithSeries(
+            exercise = exerciseRtnDTO,
+            series = seriesDTO
+        )
+    }
+
+    override suspend fun getExercisesRtnFromDay(dayId: String): Flow<List<ExerciseRtn>> {
+        return routinesDAO.getExercisesRtnWithSeriesByDayId(dayId).map { it.toExerciseRtnList() }
+    }
+
+//    fun getExerciseRtn(exerciseRtn: String): Flow<ExerciseRtn?> {
+//        return routinesDAO.getExerciseRtnWithSeries(exerciseRtn).map { it?.toExerciseRtn() }
+//    }
 }

@@ -1,6 +1,6 @@
 package com.mmfsin.noexcusescompose.presentation.myroutines.days
 
-import com.mmfsin.noexcusescompose.domain.models.Exercise
+import com.mmfsin.noexcusescompose.domain.models.ExerciseRtn
 
 data class DayStates(
     val isLoading: Boolean = true,
@@ -12,7 +12,7 @@ data class DayStates(
     val dayName: String = "",
     val dayOrder: Int = -1,
 
-    val exercises: List<Exercise> = emptyList(),
+    val exercises: List<ExerciseRtn> = emptyList(),
 
     val emptyNameError: Boolean = false,
     val shouldGoBack: Boolean = false,

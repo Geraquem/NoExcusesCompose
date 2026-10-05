@@ -9,9 +9,11 @@ import com.mmfsin.noexcusescompose.data.ddbb.daos.RoutinesDAO
 import com.mmfsin.noexcusescompose.data.ddbb.daos.StretchDAO
 import com.mmfsin.noexcusescompose.data.models.DayDTO
 import com.mmfsin.noexcusescompose.data.models.ExerciseDTO
+import com.mmfsin.noexcusescompose.data.models.ExerciseRtnDTO
 import com.mmfsin.noexcusescompose.data.models.MuscularGroupDTO
 import com.mmfsin.noexcusescompose.data.models.MyRoutineDTO
 import com.mmfsin.noexcusescompose.data.models.NoteDTO
+import com.mmfsin.noexcusescompose.data.models.SerieDTO
 import com.mmfsin.noexcusescompose.data.models.StretchDTO
 
 @Database(
@@ -20,6 +22,8 @@ import com.mmfsin.noexcusescompose.data.models.StretchDTO
         ExerciseDTO::class,
         MyRoutineDTO::class,
         DayDTO::class,
+        ExerciseRtnDTO::class,
+        SerieDTO::class,
         StretchDTO::class,
         NoteDTO::class,
     ],

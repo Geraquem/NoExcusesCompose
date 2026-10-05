@@ -71,7 +71,6 @@ fun ExercisesRtnContent(
             Modifier.fillMaxSize()
                 .background(GrayMedium)
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp)
         ) {
             if (uiStates.exercises.isEmpty()) LoadingLottie()
             else {
@@ -87,10 +86,10 @@ fun ExercisesRtnContent(
         uiStates.exerciseClicked?.let { exercise ->
             AddExerciseDialog(
                 exercise = exercise,
+                dayId = uiStates.dayId,
                 dayName = uiStates.dayName,
                 onDismiss = { onExerciseClick(null) },
                 seeExercise = { goToExerciseDetail(uiStates.exerciseIdClick) },
-                addExercise = {}
             )
         }
     }

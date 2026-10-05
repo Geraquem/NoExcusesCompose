@@ -24,6 +24,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,6 +60,7 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.BlueMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
+import com.mmfsin.noexcusescompose.presentation.core.theme.RedHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 
@@ -67,7 +69,8 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 fun AddExerciseDialogPV() {
     AddExerciseContent(
         uiStates = AddExerciseStates(
-            series = listOf(createSerie(0), createSerie(1))
+            series = listOf(createSerie(0), createSerie(1)),
+            sww = false
         ),
         exercise = getExercisesExamples().first(),
         dayName = "Día 1",
@@ -81,18 +84,26 @@ fun AddExerciseDialogPV() {
 fun AddExerciseDialog(
     viewModel: AddExerciseViewModel = hiltViewModel(),
     exercise: Exercise,
+    dayId: String,
     dayName: String,
     onDismiss: () -> Unit,
     seeExercise: () -> Unit,
-    addExercise: () -> Unit,
 ) {
+
+    fun close() {
+        viewModel.resetData()
+        onDismiss()
+    }
+
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(dayId) { viewModel.updateDayId(dayId, exercise.id) }
 
     AddExerciseContent(
         uiStates = uiStates,
         exercise = exercise,
         dayName = dayName,
-        onDismiss = { onDismiss() },
+        onDismiss = { close() },
         seeExercise = { seeExercise() },
         addSerie = { viewModel.addSerie() },
         deleteSerie = { viewModel.deleteSerie(it) },
@@ -101,8 +112,10 @@ fun AddExerciseDialog(
         updateRest = { viewModel.updateRest(it) },
         updateNotes = { viewModel.updateNotes(it) },
         updateSuperSerie = { viewModel.updateSuperSerie(it) },
-        addExercise = { addExercise() },
+        addExercise = { viewModel.addExerciseToDay() },
     )
+
+    if (uiStates.goBack) close()
 }
 
 @Composable
@@ -270,9 +283,18 @@ fun AddExerciseContent(
 
                     item {
                         SpacerMedium()
+
+                        if (uiStates.sww) {
+                            MediumText(
+                                text = "Ha ocurrido un problema",
+                                color = RedHard
+                            )
+                            SpacerSmall()
+                        }
+
                         val text = stringResource(R.string.my_routines_exercises_add_button, dayName)
                         ButtonCustom(
-                            onClick = {},
+                            onClick = { addExercise() },
                             text = text,
                             color = BlueLight,
                             modifier = Modifier.fillMaxWidth()

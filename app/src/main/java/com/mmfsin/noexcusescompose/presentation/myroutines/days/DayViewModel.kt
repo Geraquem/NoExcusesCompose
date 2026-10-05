@@ -1,12 +1,15 @@
 package com.mmfsin.noexcusescompose.presentation.myroutines.days
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.mmfsin.noexcusescompose.domain.usecases.CreateOrEditDayUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetDayByIdUseCase
+import com.mmfsin.noexcusescompose.domain.usecases.GetExercisesRtnByDayIdUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetRoutineByIdUseCase
 import com.mmfsin.noexcusescompose.presentation.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
 
@@ -15,7 +18,8 @@ class DayViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getDayByIdUseCase: GetDayByIdUseCase,
     private val getRoutineByIdUseCase: GetRoutineByIdUseCase,
-    private val createOrEditDayUseCase: CreateOrEditDayUseCase
+    private val createOrEditDayUseCase: CreateOrEditDayUseCase,
+    private val getExercisesRtnByDayIdUseCase: GetExercisesRtnByDayIdUseCase,
 ) : BaseViewModel<DayStates>(DayStates()) {
 
     val routineId: String? = savedStateHandle["routineId"]
@@ -85,7 +89,11 @@ class DayViewModel @Inject constructor(
     }
 
     fun getDayExercises(dayId: String) {
-
+        viewModelScope.launch {
+            getExercisesRtnByDayIdUseCase(dayId).collect { exercises ->
+                _uiState.update { it.copy(exercises = exercises) }
+            }
+        }
     }
 
     fun updateDayName(value: String) = _uiState.update {

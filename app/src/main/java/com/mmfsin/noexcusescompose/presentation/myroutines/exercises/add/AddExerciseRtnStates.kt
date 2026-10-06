@@ -1,8 +1,8 @@
-package com.mmfsin.noexcusescompose.presentation.myroutines.exercises.components
+package com.mmfsin.noexcusescompose.presentation.myroutines.exercises.add
 
 import com.mmfsin.noexcusescompose.domain.models.Serie
 
-data class AddExerciseStates(
+data class AddExerciseRtnStates(
     val dayId: String? = null,
     val exerciseId: String? = null,
 

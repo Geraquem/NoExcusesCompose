@@ -54,9 +54,6 @@ class DayViewModel @Inject constructor(
                                 routineId = routineId,
                                 dayId = dayId,
                                 dayName = day.name,
-
-                                // after exercises
-                                isLoading = false
                             )
                         }
                         getMyRoutine(routineId = day.routineId, dayId = day.id)
@@ -91,7 +88,12 @@ class DayViewModel @Inject constructor(
     fun getDayExercises(dayId: String) {
         viewModelScope.launch {
             getExercisesRtnByDayIdUseCase(dayId).collect { exercises ->
-                _uiState.update { it.copy(exercises = exercises) }
+                _uiState.update {
+                    it.copy(
+                        exercises = exercises,
+                        isLoading = false
+                    )
+                }
             }
         }
     }
@@ -124,8 +126,11 @@ class DayViewModel @Inject constructor(
     }
 
     fun addDayExercises(routineId: String, dayId: String) {
+        /** TODO */
         shouldGoBack()
     }
+
+    fun showEditExerciseRtn(value: String?) = _uiState.update { it.copy(exerciseRtnIdToEdit = value) }
 
     fun shouldGoBack() = _uiState.update { it.copy(shouldGoBack = true) }
 

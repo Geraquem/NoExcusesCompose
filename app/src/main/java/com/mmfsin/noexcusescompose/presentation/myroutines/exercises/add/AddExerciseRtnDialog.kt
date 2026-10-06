@@ -1,4 +1,4 @@
-package com.mmfsin.noexcusescompose.presentation.myroutines.exercises.components
+package com.mmfsin.noexcusescompose.presentation.myroutines.exercises.add
 
 import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.background
@@ -66,9 +66,9 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 
 @Preview
 @Composable
-fun AddExerciseDialogPV() {
-    AddExerciseContent(
-        uiStates = AddExerciseStates(
+fun AddExerciseRtnDialogPV() {
+    AddExerciseRtnContent(
+        uiStates = AddExerciseRtnStates(
             series = listOf(createSerie(0), createSerie(1)),
             sww = false
         ),
@@ -81,8 +81,8 @@ fun AddExerciseDialogPV() {
 }
 
 @Composable
-fun AddExerciseDialog(
-    viewModel: AddExerciseViewModel = hiltViewModel(),
+fun AddExerciseRtnDialog(
+    viewModel: AddExerciseRtnViewModel = hiltViewModel(),
     exercise: Exercise,
     dayId: String,
     dayName: String,
@@ -99,7 +99,7 @@ fun AddExerciseDialog(
 
     LaunchedEffect(dayId) { viewModel.updateDayId(dayId, exercise.id) }
 
-    AddExerciseContent(
+    AddExerciseRtnContent(
         uiStates = uiStates,
         exercise = exercise,
         dayName = dayName,
@@ -119,8 +119,8 @@ fun AddExerciseDialog(
 }
 
 @Composable
-fun AddExerciseContent(
-    uiStates: AddExerciseStates,
+fun AddExerciseRtnContent(
+    uiStates: AddExerciseRtnStates,
     exercise: Exercise,
     dayName: String,
     onDismiss: () -> Unit,
@@ -228,8 +228,10 @@ fun AddExerciseContent(
                     item {
                         SpacerMedium()
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            MediumText(text = "Descanso")
+                            MediumText(text = R.string.my_routines_exercises_rest)
+
                             SpacerSmall(horizontal = true)
+
                             ItemTextField(
                                 value = uiStates.rest?.replace(".", ":"),
                                 onValueChange = { updateRest(it) },
@@ -237,10 +239,10 @@ fun AddExerciseContent(
                                 length = 5,
                                 modifier = Modifier.width(100.dp)
                             )
+
                             SpacerMini(horizontal = true)
-                            MediumText(
-                                text = "min/serie",
-                            )
+
+                            MediumText(text = R.string.my_routines_exercises_rest_min_serie)
                         }
                     }
 
@@ -250,7 +252,7 @@ fun AddExerciseContent(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             MediumText(
-                                "Super serie con el siguiente",
+                                text = R.string.my_routines_exercises_super_serie,
                                 modifier = Modifier.weight(1f)
                             )
                             SpacerSmall(horizontal = true)
@@ -270,7 +272,7 @@ fun AddExerciseContent(
 
                     item {
                         SpacerSmall()
-                        MediumText(text = "Añadir notas")
+                        MediumText(text = R.string.my_routines_exercises_add_notes)
                         CustomTextField(
                             value = uiStates.notes ?: "",
                             onValueChange = { updateNotes(it) },
@@ -286,7 +288,7 @@ fun AddExerciseContent(
 
                         if (uiStates.sww) {
                             MediumText(
-                                text = "Ha ocurrido un problema",
+                                text = R.string.my_routines_exercises_add_error,
                                 color = RedHard
                             )
                             SpacerSmall()
@@ -310,19 +312,19 @@ fun AddExerciseContent(
 fun SeriesHeader() {
     Row(modifier = Modifier.fillMaxWidth()) {
         MediumText(
-            text = "Series",
+            text = R.string.my_routines_exercises_series,
             fontFamily = montserrat_bold,
             modifier = Modifier.width(64.dp)
         )
         Row(modifier = Modifier.weight(1f)) {
             MediumText(
-                text = "Reps",
+                text = R.string.my_routines_exercises_reps,
                 fontFamily = montserrat_bold,
                 gravity = TextAlign.Center,
                 modifier = Modifier.weight(1f)
             )
             MediumText(
-                text = "Kg",
+                text = R.string.my_routines_exercises_kgs,
                 fontFamily = montserrat_bold,
                 gravity = TextAlign.Center,
                 modifier = Modifier.weight(1f)
@@ -349,10 +351,12 @@ fun SeriesItem(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         MediumText(
-            text = "Serie $i",
+            text = stringResource(R.string.my_routines_exercises_serie, "$i"),
             modifier = Modifier.width(64.dp)
         )
+
         SpacerSmall(horizontal = true)
+
         ItemTextField(
             value = serie.reps?.toString(),
             onValueChange = { updateReps(it.toIntOrNull()) },
@@ -360,7 +364,9 @@ fun SeriesItem(
             length = 4,
             modifier = Modifier.weight(1f)
         )
+
         SpacerSmall(horizontal = true)
+
         ItemTextField(
             value = serie.kgs,
             onValueChange = { updateKgs(it) },
@@ -368,7 +374,9 @@ fun SeriesItem(
             length = 6,
             modifier = Modifier.weight(1f)
         )
+
         SpacerSmall(horizontal = true)
+
         Icon(
             painterResource(R.drawable.ic_cross), null,
             modifier = Modifier.clip(RoundedCornerShape(8.dp))

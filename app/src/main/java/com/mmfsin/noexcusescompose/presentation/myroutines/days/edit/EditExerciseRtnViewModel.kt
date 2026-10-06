@@ -1,9 +1,10 @@
-package com.mmfsin.noexcusescompose.presentation.myroutines.exercises.components
+package com.mmfsin.noexcusescompose.presentation.myroutines.days.edit
 
 import com.mmfsin.noexcusescompose.domain.models.ExerciseRtn
 import com.mmfsin.noexcusescompose.domain.models.createSerie
 import com.mmfsin.noexcusescompose.domain.usecases.AddExerciseToDayUseCase
 import com.mmfsin.noexcusescompose.presentation.core.base.BaseViewModel
+import com.mmfsin.noexcusescompose.presentation.myroutines.exercises.add.AddExerciseRtnStates
 import com.mmfsin.noexcusescompose.util.checkNotNulls
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -11,9 +12,9 @@ import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
-class AddExerciseViewModel @Inject constructor(
+class EditExerciseRtnViewModel @Inject constructor(
     private val addExerciseToDayUseCase: AddExerciseToDayUseCase,
-) : BaseViewModel<AddExerciseStates>(AddExerciseStates()) {
+) : BaseViewModel<EditExerciseRtnStates>(EditExerciseRtnStates()) {
 
     fun updateDayId(dayId: String, exerciseId: String) {
         _uiState.update {
@@ -69,6 +70,7 @@ class AddExerciseViewModel @Inject constructor(
                 id = UUID.randomUUID().toString(),
                 dayId = dayId,
                 exerciseId = exerciseId,
+                exercise = null,
                 series = states.series,
                 rest = states.rest,
                 superSerie = states.superSerie,

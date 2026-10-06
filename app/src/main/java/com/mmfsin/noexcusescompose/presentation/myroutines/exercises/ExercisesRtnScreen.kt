@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mmfsin.noexcusescompose.domain.models.MuscularGroupType.Companion.getMuscularGroupName
@@ -22,7 +21,7 @@ import com.mmfsin.noexcusescompose.presentation.core.components.ErrorDialog
 import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.exercises.exercises.ExercisesList
-import com.mmfsin.noexcusescompose.presentation.myroutines.exercises.components.AddExerciseDialog
+import com.mmfsin.noexcusescompose.presentation.myroutines.exercises.add.AddExerciseRtnDialog
 
 @Preview
 @Composable
@@ -84,7 +83,7 @@ fun ExercisesRtnContent(
 
     if (uiStates.exerciseIdClick != null) {
         uiStates.exerciseClicked?.let { exercise ->
-            AddExerciseDialog(
+            AddExerciseRtnDialog(
                 exercise = exercise,
                 dayId = uiStates.dayId,
                 dayName = uiStates.dayName,

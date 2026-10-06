@@ -11,5 +11,11 @@ data class ExerciseRtnWithSeries(
         parentColumn = "id",
         entityColumn = "exerciseRtnId"
     )
-    val series: List<SerieDTO>
+    val series: List<SerieDTO>,
+
+    @Relation(
+        parentColumn = "exerciseId",
+        entityColumn = "id"
+    )
+    val exercise: ExerciseDTO?
 )

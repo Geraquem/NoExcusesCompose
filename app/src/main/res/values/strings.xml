@@ -82,13 +82,24 @@
     <string name="my_routines_day_error_empty_name">El nombre no puede estar vacío</string>
     <string name="my_routines_day_add_exercises">Añadir ejercicio</string>
     <string name="my_routines_day_exercises">Ejercicios</string>
+    <string name="my_routines_day_exercises_serie">%s serie</string>
+    <string name="my_routines_day_exercises_series">%s series</string>
+    <string name="my_routines_day_exercises_rest">Desc. %s min/serie</string>
+    <string name="my_routines_day_exercises_super_serie">Super serie</string>
 
     <string name="my_routines_exercises_add">Añadir ejercicio</string>
     <string name="my_routines_exercises_add_serie_button">Añadir serie</string>
     <string name="my_routines_exercises_rest">Descanso</string>
     <string name="my_routines_exercises_see_exercise">Ver ejercicio</string>
+    <string name="my_routines_exercises_series">Serie</string>
+    <string name="my_routines_exercises_reps">Reps</string>
+    <string name="my_routines_exercises_kgs">Kgs</string>
+    <string name="my_routines_exercises_serie">Serie %s</string>
+    <string name="my_routines_exercises_super_serie">Super serie con el siguiente</string>
+    <string name="my_routines_exercises_rest_min_serie">min/serie</string>
+    <string name="my_routines_exercises_add_notes">Añadir notas</string>
     <string name="my_routines_exercises_add_button">Añadir a %s</string>
-
+    <string name="my_routines_exercises_add_error">Ha ocurrido un problema</string>
 
     <!-- FAVORITES -->
     <string name="favs_title">Favoritos</string>

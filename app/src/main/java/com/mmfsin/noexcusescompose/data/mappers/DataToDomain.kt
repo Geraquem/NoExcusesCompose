@@ -93,6 +93,7 @@ fun ExerciseRtnWithSeries.toExerciseRtn() = ExerciseRtn(
     id = exerciseRtn.id,
     dayId = exerciseRtn.dayId,
     exerciseId = exerciseRtn.exerciseId,
+    exercise = exercise?.toExercise(),
     series = series.map { it.toSerie() },
     rest = exerciseRtn.rest,
     notes = exerciseRtn.notes,

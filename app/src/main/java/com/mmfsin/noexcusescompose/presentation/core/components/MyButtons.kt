@@ -51,7 +51,7 @@ fun ButtonCustomPV() {
         SpacerSmall()
         OutlinedButtonCustomIcon(
             onClick = {},
-            text = R.string.app_name,
+            text = R.string.empty,
             icon = R.drawable.ic_fav_on
         )
     }
@@ -129,9 +129,9 @@ fun ButtonCustom(
 
 @Composable
 fun ButtonCustomIcon(
-    onClick: () -> Unit,
-    text: Int,
     modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    text: Int? = null,
     textModifier: Modifier = Modifier,
     icon: Int,
     enabled: Boolean = true,
@@ -154,136 +154,11 @@ fun ButtonCustomIcon(
             painter = painterResource(icon), null,
             tint = White
         )
-        SpacerSmall(horizontal = true)
-        MediumText(
-            text = text,
-            color = textColor,
-            modifier = textModifier.padding(vertical = 4.dp),
-            fontFamily = montserrat_regular,
-            allCaps = true
-        )
-    }
-}
-
-@Composable
-fun ButtonCustomIcon(
-    onClick: () -> Unit,
-    text: String,
-    modifier: Modifier = Modifier,
-    textModifier: Modifier = Modifier,
-    icon: Int,
-    enabled: Boolean = true,
-    color: Color = BlueMedium,
-    textColor: Color = White
-) {
-    Row(
-        modifier = modifier
-            .shadow(
-                elevation = 4.dp,
-                shape = RoundedCornerShape(25)
-            )
-            .clip(RoundedCornerShape(25))
-            .background(if (enabled) color else GrayMedium)
-            .clickable(onClick = { if (enabled) onClick() })
-            .padding(horizontal = 12.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            painter = painterResource(icon), null,
-            tint = White
-        )
-        SpacerSmall(horizontal = true)
-        MediumText(
-            text = text,
-            color = textColor,
-            modifier = textModifier.padding(vertical = 4.dp),
-            fontFamily = montserrat_regular,
-            allCaps = true
-        )
-    }
-}
-
-@Composable
-fun OutlinedButtonCustom(
-    onClick: () -> Unit,
-    text: Int,
-    modifier: Modifier = Modifier,
-    textModifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    color: Color = BlueMedium
-) {
-    OutlinedButton(
-        onClick = { onClick() },
-        modifier = modifier,
-        enabled = enabled,
-        border = BorderStroke(1.dp, color),
-        shape = RoundedCornerShape(25)
-    ) {
-        MediumText(
-            text = text,
-            color = color,
-            gravity = TextAlign.Center,
-            modifier = textModifier.padding(vertical = 4.dp),
-            fontFamily = montserrat_regular,
-            allCaps = true
-        )
-    }
-}
-
-@Composable
-fun OutlinedButtonCustom(
-    onClick: () -> Unit,
-    text: String,
-    modifier: Modifier = Modifier,
-    textModifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    color: Color = BlueMedium
-) {
-    OutlinedButton(
-        onClick = { onClick() },
-        modifier = modifier,
-        enabled = enabled,
-        border = BorderStroke(1.dp, color),
-        shape = RoundedCornerShape(25)
-    ) {
-        MediumText(
-            text = text,
-            color = color,
-            gravity = TextAlign.Center,
-            modifier = textModifier.padding(vertical = 4.dp),
-            fontFamily = montserrat_regular,
-            allCaps = true
-        )
-    }
-}
-
-@Composable
-fun OutlinedButtonCustomIcon(
-    onClick: () -> Unit,
-    text: Int,
-    icon: Int,
-    modifier: Modifier = Modifier,
-    textModifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    color: Color = BlueMedium
-) {
-    OutlinedButton(
-        onClick = { onClick() },
-        modifier = modifier,
-        enabled = enabled,
-        border = BorderStroke(1.dp, color),
-        shape = RoundedCornerShape(25)
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painterResource(icon), null,
-                tint = color
-            )
+        text?.let {
             SpacerSmall(horizontal = true)
             MediumText(
                 text = text,
-                color = color,
-                gravity = TextAlign.Center,
+                color = textColor,
                 modifier = textModifier.padding(vertical = 4.dp),
                 fontFamily = montserrat_regular,
                 allCaps = true
@@ -293,11 +168,105 @@ fun OutlinedButtonCustomIcon(
 }
 
 @Composable
-fun OutlinedButtonCustomIcon(
+fun ButtonCustomIcon(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    text: String = "",
+    textModifier: Modifier = Modifier,
+    icon: Int,
+    enabled: Boolean = true,
+    color: Color = BlueMedium,
+    textColor: Color = White
+) {
+    Row(
+        modifier = modifier
+            .shadow(
+                elevation = 4.dp,
+                shape = RoundedCornerShape(25)
+            )
+            .clip(RoundedCornerShape(25))
+            .background(if (enabled) color else GrayMedium)
+            .clickable(onClick = { if (enabled) onClick() })
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            painter = painterResource(icon), null,
+            tint = White
+        )
+        if (text.isNotBlank()) {
+            SpacerSmall(horizontal = true)
+            MediumText(
+                text = text,
+                color = textColor,
+                modifier = textModifier.padding(vertical = 4.dp),
+                fontFamily = montserrat_regular,
+                allCaps = true
+            )
+        }
+    }
+}
+
+@Composable
+fun OutlinedButtonCustom(
+    onClick: () -> Unit,
+    text: Int,
+    modifier: Modifier = Modifier,
+    textModifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    color: Color = BlueMedium
+) {
+    OutlinedButton(
+        onClick = { onClick() },
+        modifier = modifier,
+        enabled = enabled,
+        border = BorderStroke(1.dp, color),
+        shape = RoundedCornerShape(25)
+    ) {
+        MediumText(
+            text = text,
+            color = color,
+            gravity = TextAlign.Center,
+            modifier = textModifier.padding(vertical = 4.dp),
+            fontFamily = montserrat_regular,
+            allCaps = true
+        )
+    }
+}
+
+@Composable
+fun OutlinedButtonCustom(
     onClick: () -> Unit,
     text: String,
-    icon: Int,
     modifier: Modifier = Modifier,
+    textModifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    color: Color = BlueMedium
+) {
+    OutlinedButton(
+        onClick = { onClick() },
+        modifier = modifier,
+        enabled = enabled,
+        border = BorderStroke(1.dp, color),
+        shape = RoundedCornerShape(25)
+    ) {
+        MediumText(
+            text = text,
+            color = color,
+            gravity = TextAlign.Center,
+            modifier = textModifier.padding(vertical = 4.dp),
+            fontFamily = montserrat_regular,
+            allCaps = true
+        )
+    }
+}
+
+@Composable
+fun OutlinedButtonCustomIcon(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    text: Int? = null,
+    icon: Int,
     textModifier: Modifier = Modifier,
     enabled: Boolean = true,
     color: Color = BlueMedium
@@ -314,15 +283,54 @@ fun OutlinedButtonCustomIcon(
                 painterResource(icon), null,
                 tint = color
             )
-            SpacerSmall(horizontal = true)
-            MediumText(
-                text = text,
-                color = color,
-                gravity = TextAlign.Center,
-                modifier = textModifier.padding(vertical = 4.dp),
-                fontFamily = montserrat_regular,
-                allCaps = true
+            text?.let {
+                SpacerSmall(horizontal = true)
+                MediumText(
+                    text = text,
+                    color = color,
+                    gravity = TextAlign.Center,
+                    modifier = textModifier.padding(vertical = 4.dp),
+                    fontFamily = montserrat_regular,
+                    allCaps = true
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun OutlinedButtonCustomIcon(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    text: String = "",
+    icon: Int,
+    textModifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    color: Color = BlueMedium
+) {
+    OutlinedButton(
+        onClick = { onClick() },
+        modifier = modifier,
+        enabled = enabled,
+        border = BorderStroke(1.dp, color),
+        shape = RoundedCornerShape(25)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painterResource(icon), null,
+                tint = color
             )
+            if (text.isNotBlank()) {
+                SpacerSmall(horizontal = true)
+                MediumText(
+                    text = text,
+                    color = color,
+                    gravity = TextAlign.Center,
+                    modifier = textModifier.padding(vertical = 4.dp),
+                    fontFamily = montserrat_regular,
+                    allCaps = true
+                )
+            }
         }
     }
 }

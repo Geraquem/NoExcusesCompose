@@ -94,6 +94,10 @@ class RoutinesRepository @Inject constructor(
         return routinesDAO.getExercisesRtnWithSeriesByDayId(dayId).map { it.toExerciseRtnList() }
     }
 
+    override suspend fun deleteExerciseRtn(exerciseRtn: String) {
+        routinesDAO.deleteExerciseRtnWithSeries(exerciseRtn)
+    }
+
 //    fun getExerciseRtn(exerciseRtn: String): Flow<ExerciseRtn?> {
 //        return routinesDAO.getExerciseRtnWithSeries(exerciseRtn).map { it?.toExerciseRtn() }
 //    }

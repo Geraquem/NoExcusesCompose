@@ -45,6 +45,9 @@ fun NavigationMyRoutines() {
                             dayName = name
                         )
                     )
+                },
+                goToExerciseDetail = { exerciseId ->
+                    navController.navigate(ExerciseDetail(exerciseId))
                 }
             )
         }

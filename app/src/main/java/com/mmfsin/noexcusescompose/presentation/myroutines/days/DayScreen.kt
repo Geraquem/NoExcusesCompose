@@ -68,6 +68,8 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.RedHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.alphazet
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
+import com.mmfsin.noexcusescompose.presentation.myroutines.days.delete.DeleteExerciseDialog
+import com.mmfsin.noexcusescompose.presentation.myroutines.days.edit.EditExerciseRtnDialog
 
 @Preview
 @Composable
@@ -79,7 +81,8 @@ fun DayScreenPV() {
             exercises = getExerciseRtnExamples()
         ),
         {}, {}, {}, {},
-        {}, {}, {}
+        {}, {}, {}, {},
+        {}, {}
     )
 }
 
@@ -87,7 +90,8 @@ fun DayScreenPV() {
 fun DayScreen(
     viewModel: DayViewModel = hiltViewModel(),
     goBack: () -> Unit,
-    goToMuscularGroups: (String, String) -> Unit
+    goToMuscularGroups: (String, String) -> Unit,
+    goToExerciseDetail: (String) -> Unit
 ) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -98,7 +102,10 @@ fun DayScreen(
         createDay = { viewModel.createOrEditDay() },
         handleBack = { viewModel.handleBack() },
         goToMuscularGroups = { goToMuscularGroups(uiStates.dayId, uiStates.dayName) },
+        goToExerciseDetail = { goToExerciseDetail(it) },
         showEditExerciseRtn = { viewModel.showEditExerciseRtn(it) },
+        showDeleteExerciseRtnDialog = { viewModel.showDeleteExerciseRtnDialog(it) },
+        deleteExerciseRtn = { viewModel.deleteExerciseRtn() },
         sww = { viewModel.sww(it) },
     )
 }
@@ -111,7 +118,10 @@ fun DayContent(
     createDay: () -> Unit,
     handleBack: () -> Unit,
     goToMuscularGroups: () -> Unit,
-    showEditExerciseRtn: (String) -> Unit,
+    goToExerciseDetail: (String) -> Unit,
+    showEditExerciseRtn: (ExerciseRtn?) -> Unit,
+    showDeleteExerciseRtnDialog: (Boolean) -> Unit,
+    deleteExerciseRtn: () -> Unit,
     sww: (Boolean) -> Unit
 ) {
 
@@ -206,7 +216,7 @@ fun DayContent(
                         ExerciseRtnBox(
                             position = i,
                             exerciseRtn = exerciseRtn,
-                            onEditClick = { showEditExerciseRtn(exerciseRtn.id) }
+                            onEditClick = { showEditExerciseRtn(exerciseRtn) }
                         )
 
                         if (!exerciseRtn.superSerie) SpacerCustom(12.dp)
@@ -228,8 +238,25 @@ fun DayContent(
             }
         }
 
-        if (uiStates.exerciseRtnIdToEdit != null) {
+        if (uiStates.exerciseRtnToEdit != null) {
+            EditExerciseRtnDialog(
+                exerciseRtn = uiStates.exerciseRtnToEdit,
+                onDismiss = { showEditExerciseRtn(null) },
+                seeExerciseDetail = {
+                    uiStates.exerciseRtnToEdit.exercise?.id?.let { exerciseId ->
+                        goToExerciseDetail(exerciseId)
+                    }
+                },
+                deleteExercise = { showDeleteExerciseRtnDialog(true) }
+            )
+        }
 
+        if (uiStates.showDeleteExerciseRtnDialog) {
+            DeleteExerciseDialog(
+                exerciseName = uiStates.exerciseRtnToEdit?.exercise?.name ?: "",
+                cancel = { showDeleteExerciseRtnDialog(false) },
+                delete = { deleteExerciseRtn() }
+            )
         }
 
         if (uiStates.shouldGoBack) goBack()

@@ -85,7 +85,7 @@ fun LoadingDialog(text: Int? = null) {
     Dialog(onDismissRequest = {}) {
         Box(
             modifier = Modifier.size(200.dp)
-                .clip(RoundedCornerShape(16.dp))
+                .clip(RoundedCornerShape(8.dp))
                 .background(White),
             contentAlignment = Alignment.Center
         ) {

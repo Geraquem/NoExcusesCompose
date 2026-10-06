@@ -62,6 +62,7 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.RedHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
+import com.mmfsin.noexcusescompose.presentation.core.theme.YellowHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 
 @Preview
@@ -258,13 +259,19 @@ fun AddExerciseRtnContent(
                             SpacerSmall(horizontal = true)
                             Switch(
                                 uiStates.superSerie, { updateSuperSerie(it) },
+                                thumbContent = {
+                                    val icon = if (uiStates.superSerie) R.drawable.ic_check else R.drawable.ic_add
+                                    Icon(
+                                        painterResource(icon), null,
+                                        tint = if (uiStates.superSerie) YellowHard else GrayHard
+                                    )
+                                },
                                 colors = SwitchDefaults.colors(
-                                    checkedThumbColor = BlueMedium,
+                                    checkedThumbColor = White,
+                                    checkedTrackColor = BlueMedium,
                                     uncheckedThumbColor = GrayHard,
-                                    checkedTrackColor = GrayMedium,
                                     uncheckedTrackColor = GrayMedium,
-                                    checkedBorderColor = GrayMedium,
-                                    uncheckedBorderColor = GrayMedium
+                                    uncheckedBorderColor = GrayHard
                                 ),
                             )
                         }

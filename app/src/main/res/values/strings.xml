@@ -100,6 +100,11 @@
     <string name="my_routines_exercises_add_notes">Añadir notas</string>
     <string name="my_routines_exercises_add_button">Añadir a %s</string>
     <string name="my_routines_exercises_add_error">Ha ocurrido un problema</string>
+    <string name="my_routines_exercises_edit_exercise">Editar ejercicio</string>
+    <string name="my_routines_exercises_edit">Editar</string>
+    <string name="my_routines_exercises_edit_delete">Eliminar</string>
+    <string name="my_routines_exercises_delete_text">¿Quieres eliminar %s de tu rutina de entrenamiento?</string>
+    <string name="my_routines_exercises_delete_cancel">Cancelar</string>
 
     <!-- FAVORITES -->
     <string name="favs_title">Favoritos</string>

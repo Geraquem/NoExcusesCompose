@@ -150,7 +150,7 @@ fun ExerciseDetailContent(
                                 val icon = if (uiStates.exerciseFav) R.drawable.ic_fav_on else R.drawable.ic_fav_off
                                 Icon(
                                     painterResource(icon), null,
-                                    tint = if (uiStates.exerciseFav) YellowHard else White
+                                    tint = if (uiStates.exerciseFav) YellowHard else GrayHard
                                 )
                             },
                             colors = SwitchDefaults.colors(

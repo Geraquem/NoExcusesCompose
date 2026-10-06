@@ -92,13 +92,15 @@ interface RoutinesDAO {
     )
     fun getExercisesRtnWithSeriesByDayId(dayId: String): Flow<List<ExerciseRtnWithSeries>>
 
+    @Query("DELETE FROM table_series WHERE exerciseRtnId = :exerciseRtnId")
+    suspend fun deleteSeriesByExerciseRtnId(exerciseRtnId: String)
+
+    @Query("DELETE FROM table_exercises_rtn WHERE id = :exerciseRtnId")
+    suspend fun deleteExerciseRtn(exerciseRtnId: String)
+
     @Transaction
-    @Query(
-        """
-    SELECT *
-    FROM table_exercises_rtn
-    WHERE id = :exerciseRtnId
-    """
-    )
-    fun getExerciseRtnWithSeries(exerciseRtnId: String): Flow<ExerciseRtnWithSeries?>
+    suspend fun deleteExerciseRtnWithSeries(exerciseRtnId: String) {
+        deleteSeriesByExerciseRtnId(exerciseRtnId)
+        deleteExerciseRtn(exerciseRtnId)
+    }
 }

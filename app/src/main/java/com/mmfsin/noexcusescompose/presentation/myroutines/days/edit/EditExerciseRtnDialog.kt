@@ -16,10 +16,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
@@ -28,13 +26,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -42,10 +37,9 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mmfsin.noexcusescompose.R
-import com.mmfsin.noexcusescompose.domain.models.Exercise
-import com.mmfsin.noexcusescompose.domain.models.Serie
+import com.mmfsin.noexcusescompose.domain.models.ExerciseRtn
 import com.mmfsin.noexcusescompose.domain.models.createSerie
-import com.mmfsin.noexcusescompose.domain.models.getExercisesExamples
+import com.mmfsin.noexcusescompose.domain.models.getExerciseRtnExamples
 import com.mmfsin.noexcusescompose.presentation.core.components.ButtonCustom
 import com.mmfsin.noexcusescompose.presentation.core.components.CustomTextField
 import com.mmfsin.noexcusescompose.presentation.core.components.ImageGif
@@ -54,7 +48,6 @@ import com.mmfsin.noexcusescompose.presentation.core.components.OutlinedButtonCu
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
-import com.mmfsin.noexcusescompose.presentation.core.theme.Black
 import com.mmfsin.noexcusescompose.presentation.core.theme.BlueLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.BlueMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayHard
@@ -62,9 +55,11 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.RedHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
+import com.mmfsin.noexcusescompose.presentation.core.theme.YellowHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
-import com.mmfsin.noexcusescompose.presentation.myroutines.exercises.add.AddExerciseRtnStates
-import com.mmfsin.noexcusescompose.presentation.myroutines.exercises.add.AddExerciseRtnViewModel
+import com.mmfsin.noexcusescompose.presentation.myroutines.exercises.add.ItemTextField
+import com.mmfsin.noexcusescompose.presentation.myroutines.exercises.add.SeriesHeader
+import com.mmfsin.noexcusescompose.presentation.myroutines.exercises.add.SeriesItem
 
 @Preview
 @Composable
@@ -74,22 +69,20 @@ fun EditExerciseRtnDialogPV() {
             series = listOf(createSerie(0), createSerie(1)),
             sww = false
         ),
-        exercise = getExercisesExamples().first(),
-        dayName = "Día 1",
+        exerciseRtn = getExerciseRtnExamples().first(),
         {}, {}, {}, {},
         { _, _ -> }, { _, _ -> }, {},
-        {}, {}, {},
+        {}, {}, {}, {},
     )
 }
 
 @Composable
 fun EditExerciseRtnDialog(
     viewModel: EditExerciseRtnViewModel = hiltViewModel(),
-    exercise: Exercise,
-    dayId: String,
-    dayName: String,
+    exerciseRtn: ExerciseRtn,
     onDismiss: () -> Unit,
-    seeExercise: () -> Unit,
+    seeExerciseDetail: () -> Unit,
+    deleteExercise: () -> Unit,
 ) {
 
     fun close() {
@@ -99,14 +92,13 @@ fun EditExerciseRtnDialog(
 
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(dayId) { viewModel.updateDayId(dayId, exercise.id) }
+    LaunchedEffect(exerciseRtn.id) { viewModel.updateExerciseRtn(exerciseRtn) }
 
     EditExerciseRtnContent(
         uiStates = uiStates,
-        exercise = exercise,
-        dayName = dayName,
+        exerciseRtn = exerciseRtn,
         onDismiss = { close() },
-        seeExercise = { seeExercise() },
+        seeExercise = { seeExerciseDetail() },
         addSerie = { viewModel.addSerie() },
         deleteSerie = { viewModel.deleteSerie(it) },
         updateSerieReps = { id, reps -> viewModel.updateSerieReps(id, reps) },
@@ -114,7 +106,8 @@ fun EditExerciseRtnDialog(
         updateRest = { viewModel.updateRest(it) },
         updateNotes = { viewModel.updateNotes(it) },
         updateSuperSerie = { viewModel.updateSuperSerie(it) },
-        addExercise = { viewModel.addExerciseToDay() },
+        deleteExercise = { deleteExercise() },
+        editExercise = { viewModel.editExercise() },
     )
 
     if (uiStates.goBack) close()
@@ -123,8 +116,7 @@ fun EditExerciseRtnDialog(
 @Composable
 fun EditExerciseRtnContent(
     uiStates: EditExerciseRtnStates,
-    exercise: Exercise,
-    dayName: String,
+    exerciseRtn: ExerciseRtn,
     onDismiss: () -> Unit,
     seeExercise: () -> Unit,
     addSerie: () -> Unit,
@@ -134,7 +126,8 @@ fun EditExerciseRtnContent(
     updateRest: (String?) -> Unit,
     updateNotes: (String?) -> Unit,
     updateSuperSerie: (Boolean) -> Unit,
-    addExercise: () -> Unit,
+    deleteExercise: () -> Unit,
+    editExercise: () -> Unit,
 ) {
     Dialog(
         onDismissRequest = { onDismiss() },
@@ -151,7 +144,7 @@ fun EditExerciseRtnContent(
                 contentAlignment = Alignment.Center
             ) {
                 MediumText(
-                    text = R.string.my_routines_exercises_add,
+                    text = R.string.my_routines_exercises_edit_exercise,
                     allCaps = true,
                     color = White,
                     fontFamily = montserrat_bold
@@ -172,7 +165,7 @@ fun EditExerciseRtnContent(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             ImageGif(
-                                url = exercise.gifURL,
+                                url = exerciseRtn.exercise?.gifURL,
                                 modifier = Modifier.size(72.dp)
                             )
                             SpacerSmall(horizontal = true)
@@ -181,7 +174,7 @@ fun EditExerciseRtnContent(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 MediumText(
-                                    text = exercise.name,
+                                    text = exerciseRtn.exercise?.name ?: "",
                                     fontFamily = montserrat_bold
                                 )
                                 SpacerMini()
@@ -258,15 +251,22 @@ fun EditExerciseRtnContent(
                                 modifier = Modifier.weight(1f)
                             )
                             SpacerSmall(horizontal = true)
+
                             Switch(
                                 uiStates.superSerie, { updateSuperSerie(it) },
+                                thumbContent = {
+                                    val icon = if (uiStates.superSerie) R.drawable.ic_check else R.drawable.ic_add
+                                    Icon(
+                                        painterResource(icon), null,
+                                        tint = if (uiStates.superSerie) YellowHard else GrayHard
+                                    )
+                                },
                                 colors = SwitchDefaults.colors(
-                                    checkedThumbColor = BlueMedium,
+                                    checkedThumbColor = White,
+                                    checkedTrackColor = BlueMedium,
                                     uncheckedThumbColor = GrayHard,
-                                    checkedTrackColor = GrayMedium,
                                     uncheckedTrackColor = GrayMedium,
-                                    checkedBorderColor = GrayMedium,
-                                    uncheckedBorderColor = GrayMedium
+                                    uncheckedBorderColor = GrayHard
                                 ),
                             )
                         }
@@ -296,134 +296,27 @@ fun EditExerciseRtnContent(
                             SpacerSmall()
                         }
 
-                        val text = stringResource(R.string.my_routines_exercises_add_button, dayName)
-                        ButtonCustom(
-                            onClick = { addExercise() },
-                            text = text,
-                            color = BlueLight,
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                        Row(Modifier.fillMaxWidth()) {
+                            IconButton(onClick = { deleteExercise() }) {
+                                Icon(
+                                    painterResource(R.drawable.ic_trash), null,
+                                    tint = RedHard
+                                )
+                            }
+
+                            SpacerMedium(horizontal = true)
+
+                            ButtonCustom(
+                                onClick = { editExercise() },
+                                modifier = Modifier.weight(1f),
+                                text = R.string.my_routines_exercises_edit,
+                                color = BlueLight,
+                                textColor = White
+                            )
+                        }
                     }
                 }
             }
         }
     }
-}
-
-@Composable
-fun SeriesHeader() {
-    Row(modifier = Modifier.fillMaxWidth()) {
-        MediumText(
-            text = R.string.my_routines_exercises_series,
-            fontFamily = montserrat_bold,
-            modifier = Modifier.width(64.dp)
-        )
-        Row(modifier = Modifier.weight(1f)) {
-            MediumText(
-                text = R.string.my_routines_exercises_reps,
-                fontFamily = montserrat_bold,
-                gravity = TextAlign.Center,
-                modifier = Modifier.weight(1f)
-            )
-            MediumText(
-                text = R.string.my_routines_exercises_kgs,
-                fontFamily = montserrat_bold,
-                gravity = TextAlign.Center,
-                modifier = Modifier.weight(1f)
-            )
-        }
-        Icon(
-            painterResource(R.drawable.ic_cross), null,
-            modifier = Modifier.alpha(0f)
-        )
-    }
-}
-
-@Composable
-fun SeriesItem(
-    i: Int,
-    serie: Serie,
-    updateReps: (Int?) -> Unit,
-    updateKgs: (String?) -> Unit,
-    deleteSerie: () -> Unit,
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        MediumText(
-            text = stringResource(R.string.my_routines_exercises_serie, "$i"),
-            modifier = Modifier.width(64.dp)
-        )
-
-        SpacerSmall(horizontal = true)
-
-        ItemTextField(
-            value = serie.reps?.toString(),
-            onValueChange = { updateReps(it.toIntOrNull()) },
-            keyboardType = KeyboardType.Number,
-            length = 4,
-            modifier = Modifier.weight(1f)
-        )
-
-        SpacerSmall(horizontal = true)
-
-        ItemTextField(
-            value = serie.kgs,
-            onValueChange = { updateKgs(it) },
-            keyboardType = KeyboardType.Decimal,
-            length = 6,
-            modifier = Modifier.weight(1f)
-        )
-
-        SpacerSmall(horizontal = true)
-
-        Icon(
-            painterResource(R.drawable.ic_cross), null,
-            modifier = Modifier.clip(RoundedCornerShape(8.dp))
-                .clickable(onClick = { deleteSerie() })
-        )
-    }
-}
-
-@Composable
-fun ItemTextField(
-    value: String?,
-    onValueChange: (String) -> Unit,
-    keyboardType: KeyboardType,
-    length: Int,
-    modifier: Modifier = Modifier
-) {
-    BasicTextField(
-        modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
-            .background(GrayLight)
-            .padding(8.dp),
-        value = value ?: "",
-        onValueChange = { onValueChange(it.take(length)) },
-        singleLine = true,
-        textStyle = MaterialTheme.typography.bodyLarge.copy(
-            color = Black,
-            textAlign = TextAlign.Center
-        ),
-        maxLines = 1,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = keyboardType,
-            imeAction = ImeAction.Next,
-        ),
-        decorationBox = { innerTextField ->
-            Box {
-                if (value == null) {
-                    MediumText(
-                        text = "0",
-                        color = Black,
-                        modifier = Modifier.fillMaxWidth().alpha(0.3f),
-                        gravity = TextAlign.Center
-                    )
-                }
-                innerTextField()
-            }
-        }
-    )
 }

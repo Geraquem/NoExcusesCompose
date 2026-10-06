@@ -5,7 +5,9 @@ import com.mmfsin.noexcusescompose.domain.models.ExerciseRtn
 data class DayStates(
     val isLoading: Boolean = true,
 
-    val exerciseRtnIdToEdit: String? = null,
+    val showDeleteExerciseRtnDialog: Boolean = false,
+
+    val exerciseRtnToEdit: ExerciseRtn? = null,
 
     val routineId: String? = null,
     val routineName: String = "",

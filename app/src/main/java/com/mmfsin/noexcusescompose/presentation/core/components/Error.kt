@@ -6,9 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,9 +16,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.presentation.core.theme.RedMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
+import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 
 @Preview
 @Composable
@@ -29,10 +30,13 @@ fun ErrorDialogPV() {
 
 @Composable
 fun ErrorDialog(accept: () -> Unit) {
-    Dialog(onDismissRequest = {}) {
+    Dialog(
+        onDismissRequest = {},
+        properties = DialogProperties(usePlatformDefaultWidth = false)
+    ) {
         Column(
-            modifier = Modifier.fillMaxWidth()
-                .clip(RoundedCornerShape(16.dp))
+            modifier = Modifier.fillMaxWidth(0.9f)
+                .clip(RoundedCornerShape(8.dp))
                 .background(White)
         ) {
             Box(
@@ -45,8 +49,7 @@ fun ErrorDialog(accept: () -> Unit) {
                 )
             }
             Column(
-                modifier = Modifier.padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier.fillMaxWidth().padding(16.dp),
             ) {
                 MediumText(text = R.string.error_title)
 
@@ -56,14 +59,15 @@ fun ErrorDialog(accept: () -> Unit) {
 
                 SpacerMedium()
 
-                Button(
-                    modifier = Modifier.fillMaxWidth(),
+                TextButton(
                     onClick = { accept() },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = RedMedium
-                    )
+                    modifier = Modifier.align(Alignment.End)
                 ) {
-                    MediumText(text = R.string.error_btn, color = White)
+                    MediumText(
+                        text = R.string.error_btn,
+                        fontFamily = montserrat_bold,
+                        color = RedMedium
+                    )
                 }
             }
         }

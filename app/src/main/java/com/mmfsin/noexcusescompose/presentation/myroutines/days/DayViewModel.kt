@@ -2,7 +2,9 @@ package com.mmfsin.noexcusescompose.presentation.myroutines.days
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.mmfsin.noexcusescompose.domain.models.ExerciseRtn
 import com.mmfsin.noexcusescompose.domain.usecases.CreateOrEditDayUseCase
+import com.mmfsin.noexcusescompose.domain.usecases.DeleteExerciseRtnUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetDayByIdUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetExercisesRtnByDayIdUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetRoutineByIdUseCase
@@ -20,6 +22,7 @@ class DayViewModel @Inject constructor(
     private val getRoutineByIdUseCase: GetRoutineByIdUseCase,
     private val createOrEditDayUseCase: CreateOrEditDayUseCase,
     private val getExercisesRtnByDayIdUseCase: GetExercisesRtnByDayIdUseCase,
+    private val deleteExerciseRtnUseCase: DeleteExerciseRtnUseCase,
 ) : BaseViewModel<DayStates>(DayStates()) {
 
     val routineId: String? = savedStateHandle["routineId"]
@@ -130,7 +133,27 @@ class DayViewModel @Inject constructor(
         shouldGoBack()
     }
 
-    fun showEditExerciseRtn(value: String?) = _uiState.update { it.copy(exerciseRtnIdToEdit = value) }
+    fun deleteExerciseRtn() {
+        val states = uiState.value
+        states.exerciseRtnToEdit?.id?.let { exerciseRtnId ->
+            executeUseCase(
+                { deleteExerciseRtnUseCase(exerciseRtnId) },
+                {
+                    _uiState.update {
+                        it.copy(
+                            showDeleteExerciseRtnDialog = false,
+                            exerciseRtnToEdit = null
+                        )
+                    }
+                },
+                { sww() }
+            )
+        } ?: run { sww() }
+    }
+
+    fun showEditExerciseRtn(value: ExerciseRtn?) = _uiState.update { it.copy(exerciseRtnToEdit = value) }
+
+    fun showDeleteExerciseRtnDialog(value: Boolean) = _uiState.update { it.copy(showDeleteExerciseRtnDialog = value) }
 
     fun shouldGoBack() = _uiState.update { it.copy(shouldGoBack = true) }
 

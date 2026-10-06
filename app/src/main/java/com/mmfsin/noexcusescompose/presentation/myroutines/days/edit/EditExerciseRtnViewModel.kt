@@ -2,25 +2,25 @@ package com.mmfsin.noexcusescompose.presentation.myroutines.days.edit
 
 import com.mmfsin.noexcusescompose.domain.models.ExerciseRtn
 import com.mmfsin.noexcusescompose.domain.models.createSerie
-import com.mmfsin.noexcusescompose.domain.usecases.AddExerciseToDayUseCase
+import com.mmfsin.noexcusescompose.domain.usecases.EditExerciseRtnUseCase
 import com.mmfsin.noexcusescompose.presentation.core.base.BaseViewModel
-import com.mmfsin.noexcusescompose.presentation.myroutines.exercises.add.AddExerciseRtnStates
-import com.mmfsin.noexcusescompose.util.checkNotNulls
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
-import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class EditExerciseRtnViewModel @Inject constructor(
-    private val addExerciseToDayUseCase: AddExerciseToDayUseCase,
+    private val editExerciseRtnUseCase: EditExerciseRtnUseCase,
 ) : BaseViewModel<EditExerciseRtnStates>(EditExerciseRtnStates()) {
 
-    fun updateDayId(dayId: String, exerciseId: String) {
+    fun updateExerciseRtn(exerciseRtn: ExerciseRtn) {
         _uiState.update {
             it.copy(
-                dayId = dayId,
-                exerciseId = exerciseId
+                exercise = exerciseRtn.exercise,
+                series = exerciseRtn.series,
+                rest = exerciseRtn.rest,
+                notes = exerciseRtn.notes,
+                superSerie = exerciseRtn.superSerie
             )
         }
     }
@@ -63,34 +63,34 @@ class EditExerciseRtnViewModel @Inject constructor(
     fun updateNotes(value: String?) = _uiState.update { it.copy(notes = value) }
     fun updateSuperSerie(value: Boolean) = _uiState.update { it.copy(superSerie = value) }
 
-    fun addExerciseToDay() {
-        val states = uiState.value
-        checkNotNulls(states.dayId, states.exerciseId) { dayId, exerciseId ->
-            val exerciseRtn = ExerciseRtn(
-                id = UUID.randomUUID().toString(),
-                dayId = dayId,
-                exerciseId = exerciseId,
-                exercise = null,
-                series = states.series,
-                rest = states.rest,
-                superSerie = states.superSerie,
-                notes = states.notes,
-                order = 0
-            )
-
-            executeUseCase(
-                { addExerciseToDayUseCase(exerciseRtn) },
-                { _uiState.update { it.copy(goBack = true) } },
-                { _uiState.update { it.copy(sww = true) } }
-            )
-        }
+    fun editExercise() {
+        //        val states = uiState.value
+        //        checkNotNulls(states.dayId, states.exerciseId) { dayId, exerciseId ->
+        //            val exerciseRtn = ExerciseRtn(
+        //                id = UUID.randomUUID().toString(),
+        //                dayId = dayId,
+        //                exerciseId = exerciseId,
+        //                exercise = null,
+        //                series = states.series,
+        //                rest = states.rest,
+        //                superSerie = states.superSerie,
+        //                notes = states.notes,
+        //                order = 0
+        //            )
+        //
+        //            executeUseCase(
+        //                { addExerciseToDayUseCase(exerciseRtn) },
+        //                { _uiState.update { it.copy(goBack = true) } },
+        //                { _uiState.update { it.copy(sww = true) } }
+        //            )
+        //        }
     }
 
     fun resetData() {
         _uiState.update {
             it.copy(
                 dayId = null,
-                exerciseId = null,
+                exercise = null,
                 series = emptyList(),
                 rest = null,
                 notes = null,

@@ -96,7 +96,7 @@ class RoutinesRepository @Inject constructor(
     override suspend fun editExerciseRtn(exerciseRtn: ExerciseRtn) {
         val exerciseRtnDTO = exerciseRtn.toExerciseRtnDTO(exerciseRtn.order)
         val seriesDTO = exerciseRtn.series.map { it.toSerieDTO(exerciseRtn.id) }
-        routinesDAO.insertExerciseWithSeries(
+        routinesDAO.updateExerciseWithSeries(
             exercise = exerciseRtnDTO,
             series = seriesDTO
         )
@@ -105,8 +105,4 @@ class RoutinesRepository @Inject constructor(
     override suspend fun deleteExerciseRtn(exerciseRtn: String) {
         routinesDAO.deleteExerciseRtnWithSeries(exerciseRtn)
     }
-
-    //    fun getExerciseRtn(exerciseRtn: String): Flow<ExerciseRtn?> {
-    //        return routinesDAO.getExerciseRtnWithSeries(exerciseRtn).map { it?.toExerciseRtn() }
-    //    }
 }

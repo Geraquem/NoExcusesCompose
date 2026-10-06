@@ -103,4 +103,14 @@ interface RoutinesDAO {
         deleteSeriesByExerciseRtnId(exerciseRtnId)
         deleteExerciseRtn(exerciseRtnId)
     }
+
+    @Transaction
+    suspend fun updateExerciseWithSeries(
+        exercise: ExerciseRtnDTO,
+        series: List<SerieDTO>
+    ) {
+        insertExerciseRtn(exercise)
+        deleteSeriesByExerciseRtnId(exercise.id)
+        insertSeries(series)
+    }
 }

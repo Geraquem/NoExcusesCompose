@@ -16,7 +16,7 @@ class EditExerciseRtnViewModel @Inject constructor(
     fun updateExerciseRtn(exerciseRtn: ExerciseRtn) {
         _uiState.update {
             it.copy(
-                exercise = exerciseRtn.exercise,
+                exerciseRtn = exerciseRtn,
                 series = exerciseRtn.series,
                 rest = exerciseRtn.rest,
                 notes = exerciseRtn.notes,
@@ -64,33 +64,32 @@ class EditExerciseRtnViewModel @Inject constructor(
     fun updateSuperSerie(value: Boolean) = _uiState.update { it.copy(superSerie = value) }
 
     fun editExercise() {
-        //        val states = uiState.value
-        //        checkNotNulls(states.dayId, states.exerciseId) { dayId, exerciseId ->
-        //            val exerciseRtn = ExerciseRtn(
-        //                id = UUID.randomUUID().toString(),
-        //                dayId = dayId,
-        //                exerciseId = exerciseId,
-        //                exercise = null,
-        //                series = states.series,
-        //                rest = states.rest,
-        //                superSerie = states.superSerie,
-        //                notes = states.notes,
-        //                order = 0
-        //            )
-        //
-        //            executeUseCase(
-        //                { addExerciseToDayUseCase(exerciseRtn) },
-        //                { _uiState.update { it.copy(goBack = true) } },
-        //                { _uiState.update { it.copy(sww = true) } }
-        //            )
-        //        }
+        val states = uiState.value
+        states.exerciseRtn?.let { exerciseRtn ->
+            val editedExerciseRtn = exerciseRtn.copy(
+                series = states.series,
+                rest = states.rest,
+                superSerie = states.superSerie,
+                notes = states.notes
+            )
+
+            executeUseCase(
+                { editExerciseRtnUseCase(editedExerciseRtn) },
+                { _uiState.update { it.copy(goBack = true) } },
+                {
+                    _uiState.update { it.copy(sww = true) }
+                }
+            )
+        } ?: run {
+            _uiState.update { it.copy(sww = true) }
+        }
     }
 
     fun resetData() {
         _uiState.update {
             it.copy(
                 dayId = null,
-                exercise = null,
+                exerciseRtn = null,
                 series = emptyList(),
                 rest = null,
                 notes = null,

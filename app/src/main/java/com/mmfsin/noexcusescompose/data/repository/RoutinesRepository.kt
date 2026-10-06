@@ -6,7 +6,6 @@ import com.mmfsin.noexcusescompose.data.mappers.createDayDTO
 import com.mmfsin.noexcusescompose.data.mappers.createRoutineDTO
 import com.mmfsin.noexcusescompose.data.mappers.toDay
 import com.mmfsin.noexcusescompose.data.mappers.toDayList
-import com.mmfsin.noexcusescompose.data.mappers.toExerciseRtn
 import com.mmfsin.noexcusescompose.data.mappers.toExerciseRtnDTO
 import com.mmfsin.noexcusescompose.data.mappers.toExerciseRtnList
 import com.mmfsin.noexcusescompose.data.mappers.toRoutine
@@ -94,11 +93,20 @@ class RoutinesRepository @Inject constructor(
         return routinesDAO.getExercisesRtnWithSeriesByDayId(dayId).map { it.toExerciseRtnList() }
     }
 
+    override suspend fun editExerciseRtn(exerciseRtn: ExerciseRtn) {
+        val exerciseRtnDTO = exerciseRtn.toExerciseRtnDTO(exerciseRtn.order)
+        val seriesDTO = exerciseRtn.series.map { it.toSerieDTO(exerciseRtn.id) }
+        routinesDAO.insertExerciseWithSeries(
+            exercise = exerciseRtnDTO,
+            series = seriesDTO
+        )
+    }
+
     override suspend fun deleteExerciseRtn(exerciseRtn: String) {
         routinesDAO.deleteExerciseRtnWithSeries(exerciseRtn)
     }
 
-//    fun getExerciseRtn(exerciseRtn: String): Flow<ExerciseRtn?> {
-//        return routinesDAO.getExerciseRtnWithSeries(exerciseRtn).map { it?.toExerciseRtn() }
-//    }
+    //    fun getExerciseRtn(exerciseRtn: String): Flow<ExerciseRtn?> {
+    //        return routinesDAO.getExerciseRtnWithSeries(exerciseRtn).map { it?.toExerciseRtn() }
+    //    }
 }

@@ -49,13 +49,11 @@ import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
 import com.mmfsin.noexcusescompose.presentation.core.theme.BlueLight
-import com.mmfsin.noexcusescompose.presentation.core.theme.BlueMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.RedHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
-import com.mmfsin.noexcusescompose.presentation.core.theme.YellowHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 import com.mmfsin.noexcusescompose.presentation.myroutines.exercises.add.ItemTextField
 import com.mmfsin.noexcusescompose.presentation.myroutines.exercises.add.SeriesHeader
@@ -255,15 +253,16 @@ fun EditExerciseRtnContent(
                             Switch(
                                 uiStates.superSerie, { updateSuperSerie(it) },
                                 thumbContent = {
-                                    val icon = if (uiStates.superSerie) R.drawable.ic_check else R.drawable.ic_add
-                                    Icon(
-                                        painterResource(icon), null,
-                                        tint = if (uiStates.superSerie) YellowHard else GrayHard
-                                    )
+                                    if (uiStates.superSerie) {
+                                        Icon(
+                                            painterResource(R.drawable.ic_check), null,
+                                            tint = BlueLight
+                                        )
+                                    }
                                 },
                                 colors = SwitchDefaults.colors(
                                     checkedThumbColor = White,
-                                    checkedTrackColor = BlueMedium,
+                                    checkedTrackColor = BlueLight,
                                     uncheckedThumbColor = GrayHard,
                                     uncheckedTrackColor = GrayMedium,
                                     uncheckedBorderColor = GrayHard

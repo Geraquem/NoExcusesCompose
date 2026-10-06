@@ -328,8 +328,8 @@ fun ExerciseRtnBox(
                                 else -> stringResource(R.string.my_routines_day_exercises_series, exerciseRtn.series.size.toString())
                             }
                             SmallText(text = series, fontFamily = alphazet)
+                            SpacerSmall(horizontal = true)
                         }
-                        SpacerSmall(horizontal = true)
 
                         exerciseRtn.rest?.let { rest ->
                             val rest = stringResource(R.string.my_routines_day_exercises_rest, rest)

@@ -268,7 +268,7 @@ fun AddExerciseRtnContent(
                                 },
                                 colors = SwitchDefaults.colors(
                                     checkedThumbColor = White,
-                                    checkedTrackColor = BlueMedium,
+                                    checkedTrackColor = BlueLight,
                                     uncheckedThumbColor = GrayHard,
                                     uncheckedTrackColor = GrayMedium,
                                     uncheckedBorderColor = GrayHard

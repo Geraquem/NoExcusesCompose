@@ -22,34 +22,42 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.mmfsin.noexcusescompose.R
+import com.mmfsin.noexcusescompose.domain.models.Routine
+import com.mmfsin.noexcusescompose.domain.models.getExampleRoutines
 import com.mmfsin.noexcusescompose.presentation.core.components.CustomTextField
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerLarge
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
 import com.mmfsin.noexcusescompose.presentation.core.theme.BlueLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.BlueMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
+import com.mmfsin.noexcusescompose.presentation.core.theme.RedMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 
 @Preview
 @Composable
-fun CreateRoutineDialogPV() {
-    CreateRoutineDialog(
+fun EditRoutineDialogPV() {
+    EditRoutineDialog(
+        routine = getExampleRoutines().first(),
+        {},
         {},
         { _, _ -> },
     )
 }
 
 @Composable
-fun CreateRoutineDialog(
+fun EditRoutineDialog(
+    routine: Routine,
     onDismiss: () -> Unit,
-    createRoutine: (String, String?) -> Unit,
+    deleteRoutine: () -> Unit,
+    editRoutine: (String, String?) -> Unit,
 ) {
 
-    var name by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf(routine.name) }
+    var description by remember { mutableStateOf(routine.description ?: "") }
 
     Dialog(
         onDismissRequest = { onDismiss() },
@@ -105,21 +113,25 @@ fun CreateRoutineDialog(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Spacer(Modifier.weight(1f))
 
-                    TextButton(onClick = { onDismiss() }) {
-                        MediumText(R.string.my_routines_create_cancel)
+                    TextButton(onClick = { deleteRoutine() }) {
+                        MediumText(
+                            text = R.string.my_routines_delete,
+                            fontFamily = montserrat_bold,
+                            color = RedMedium
+                        )
                     }
 
-                    SpacerSmall(horizontal = true)
+                    SpacerMedium(horizontal = true)
 
                     TextButton(
                         onClick = {
                             val finalDesc = description.ifBlank { null }
-                            createRoutine(name, finalDesc)
+                            editRoutine(name, finalDesc)
                         },
                         enabled = name.isNotBlank(),
                     ) {
                         MediumText(
-                            text = R.string.my_routines_create_save,
+                            text = R.string.my_routines_edit,
                             fontFamily = montserrat_bold,
                             color = if (name.isNotBlank()) BlueMedium else GrayMedium
                         )

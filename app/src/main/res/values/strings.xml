@@ -75,6 +75,9 @@
     <string name="my_routines_create_description_hint">Enfocada en brazos y piernas</string>
     <string name="my_routines_create_cancel">Cancelar</string>
     <string name="my_routines_create_save">Guardar</string>
+    <string name="my_routines_edit">Editar</string>
+    <string name="my_routines_delete">Eliminar</string>
+    <string name="my_routines_delete_text">¿Quieres eliminar %s?</string>
 
     <string name="my_routines_create_day">Añadir día</string>
     <string name="my_routines_days_empty">No hay días</string>

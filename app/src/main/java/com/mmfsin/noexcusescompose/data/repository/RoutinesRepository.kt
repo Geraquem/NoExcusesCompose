@@ -24,19 +24,19 @@ class RoutinesRepository @Inject constructor(
     val routinesDAO: RoutinesDAO,
 ) : IRoutinesRepository {
 
-    override suspend fun createOrEditRoutine(routineId: String?, name: String, description: String?) {
-        if (routineId != null) {
-            val routineDTO = routinesDAO.getMyRoutineById(routineId)
-            if (routineDTO != null) {
-                val updatedRoutine = routineDTO.copy(name = name, description = description)
-                routinesDAO.insertMyRoutine(updatedRoutine)
-                return
-            }
-        }
-
+    override suspend fun createRoutine(name: String, description: String?) {
         val order = routinesDAO.getNextRoutineOrder()
         val newRoutineDTO = createRoutineDTO(name, description, order)
         routinesDAO.insertMyRoutine(newRoutineDTO)
+    }
+
+    override suspend fun editRoutine(routine: Routine) {
+        val routineDTO = routinesDAO.getMyRoutineById(routine.id)
+        if (routineDTO != null) {
+            val updatedRoutine = routineDTO.copy(name = routine.name, description = routine.description)
+            routinesDAO.insertMyRoutine(updatedRoutine)
+            return
+        }
     }
 
     override fun getMyRoutines(): Flow<List<Routine>> {
@@ -54,6 +54,10 @@ class RoutinesRepository @Inject constructor(
 
     override fun updatePinnedRoutine(routineId: String) {
         routinesDAO.updatePinnedRoutine(routineId)
+    }
+
+    override fun deleteRoutine(routineId: String) {
+
     }
 
     override suspend fun createOrEditDay(routineId: String, dayId: String, name: String): String {

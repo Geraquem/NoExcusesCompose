@@ -1,4 +1,4 @@
-package com.mmfsin.noexcusescompose.presentation.myroutines.days.delete
+package com.mmfsin.noexcusescompose.presentation.myroutines.routines.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -29,13 +29,13 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 
 @Preview
 @Composable
-fun DeleteExerciseDialogPV() {
-    DeleteExerciseDialog("Press banca", {}, {})
+fun DeleteRoutineDialogPV() {
+    DeleteRoutineDialog("Rutina 1", {}, {})
 }
 
 @Composable
-fun DeleteExerciseDialog(
-    exerciseName: String,
+fun DeleteRoutineDialog(
+    routineName: String,
     cancel: () -> Unit,
     delete: () -> Unit
 ) {
@@ -55,7 +55,7 @@ fun DeleteExerciseDialog(
                 contentAlignment = Alignment.Center
             ) {
                 MediumText(
-                    text = R.string.my_routines_exercises_edit_delete,
+                    text = R.string.my_routines_delete,
                     allCaps = true,
                     color = White,
                     fontFamily = montserrat_bold
@@ -64,7 +64,7 @@ fun DeleteExerciseDialog(
             Column(
                 modifier = Modifier.padding(16.dp),
             ) {
-                val text = stringResource(R.string.my_routines_exercises_delete_text, exerciseName)
+                val text = stringResource(R.string.my_routines_delete_text, routineName)
                 MediumText(text = text)
 
                 SpacerLarge()
@@ -74,7 +74,7 @@ fun DeleteExerciseDialog(
 
                     TextButton(onClick = { cancel() }) {
                         MediumText(
-                            R.string.my_routines_exercises_delete_cancel,
+                            R.string.my_routines_create_cancel,
                             color = GrayHard
                         )
                     }
@@ -83,7 +83,7 @@ fun DeleteExerciseDialog(
 
                     TextButton(onClick = { delete() }) {
                         MediumText(
-                            text = R.string.my_routines_exercises_edit_delete,
+                            text = R.string.my_routines_delete,
                             fontFamily = montserrat_bold,
                             color = RedMedium
                         )

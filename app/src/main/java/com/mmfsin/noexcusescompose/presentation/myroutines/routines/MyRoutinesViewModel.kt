@@ -1,7 +1,10 @@
 package com.mmfsin.noexcusescompose.presentation.myroutines.routines
 
 import androidx.lifecycle.viewModelScope
-import com.mmfsin.noexcusescompose.domain.usecases.CreateOrEditRoutineUseCase
+import com.mmfsin.noexcusescompose.domain.models.Routine
+import com.mmfsin.noexcusescompose.domain.usecases.CreateRoutineUseCase
+import com.mmfsin.noexcusescompose.domain.usecases.DeleteRoutineUseCase
+import com.mmfsin.noexcusescompose.domain.usecases.EditRoutineUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetMyRoutinesUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.UpdatePinnedRoutineUseCase
 import com.mmfsin.noexcusescompose.presentation.core.base.BaseViewModel
@@ -13,7 +16,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MyRoutinesViewModel @Inject constructor(
     private val getMyRoutinesUseCase: GetMyRoutinesUseCase,
-    private val createOrEditRoutineUseCase: CreateOrEditRoutineUseCase,
+    private val createRoutineUseCase: CreateRoutineUseCase,
+    private val editRoutineUseCase: EditRoutineUseCase,
+    private val deleteRoutineUseCase: DeleteRoutineUseCase,
     private val updatePinnedRoutineUseCase: UpdatePinnedRoutineUseCase,
 ) : BaseViewModel<MyRoutinesStates>(MyRoutinesStates()) {
 
@@ -34,28 +39,50 @@ class MyRoutinesViewModel @Inject constructor(
         }
     }
 
-    fun createOrEditRoutine(routineId: String?) {
-        val states = uiState.value
-        val desc = states.newRoutineDescription.ifBlank { null }
+    fun createRoutine(name: String, description: String?) {
         executeUseCase(
-            { createOrEditRoutineUseCase(routineId, states.newRoutineName, desc) },
-            {
-                _uiState.update {
-                    it.copy(
-                        newRoutineName = "",
-                        newRoutineDescription = "",
-                        showCreateRoutineDialog = false
-                    )
-                }
-            },
+            { createRoutineUseCase(name, description) },
+            { _uiState.update { it.copy(showCreateRoutineDialog = false) } },
             { sww() },
         )
     }
 
-    fun updateNewRoutineName(value: String) = _uiState.update { it.copy(newRoutineName = value) }
-    fun updateNewRoutineDescription(value: String) = _uiState.update { it.copy(newRoutineDescription = value) }
+    fun editRoutine(name: String, description: String?) {
+        val states = uiState.value
+        states.routineToEdit?.let { routine ->
+            val editedRoutine = routine.copy(
+                name = name,
+                description = description
+            )
+            executeUseCase(
+                { editRoutineUseCase(editedRoutine) },
+                { routineToEdit(null) },
+                { sww() }
+            )
+        } ?: run { sww() }
+    }
+
+    fun deleteRoutine() {
+        val states = uiState.value
+        states.routineToEdit?.let { routine ->
+            executeUseCase(
+                { deleteRoutineUseCase(routine.id) },
+                {
+                    _uiState.update {
+                        it.copy(
+                            routineToEdit = null,
+                            showDeleteRoutineDialog = false,
+                        )
+                    }
+                },
+                { sww() }
+            )
+        } ?: run { sww() }
+    }
 
     fun showCreateRoutineDialog(value: Boolean) = _uiState.update { it.copy(showCreateRoutineDialog = value) }
+    fun routineToEdit(value: Routine?) = _uiState.update { it.copy(routineToEdit = value) }
+    fun showDeleteRoutineDialog(value: Boolean) = _uiState.update { it.copy(showDeleteRoutineDialog = value) }
 
     fun updatePushpin(routineId: String) {
         executeUseCase(

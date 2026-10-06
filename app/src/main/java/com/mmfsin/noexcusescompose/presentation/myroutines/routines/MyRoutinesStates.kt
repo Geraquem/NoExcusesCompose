@@ -6,10 +6,9 @@ data class MyRoutinesStates(
     val isLoading: Boolean = true,
 
     val showCreateRoutineDialog: Boolean = false,
+    val showDeleteRoutineDialog: Boolean = false,
 
-    val newRoutineName: String = "",
-    val newRoutineDescription: String = "",
-
+    val routineToEdit: Routine? = null,
     val myRoutines: List<Routine> = emptyList(),
 
     val sww: Boolean = false,

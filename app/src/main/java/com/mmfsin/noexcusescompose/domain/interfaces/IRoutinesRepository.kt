@@ -6,10 +6,12 @@ import com.mmfsin.noexcusescompose.domain.models.Routine
 import kotlinx.coroutines.flow.Flow
 
 interface IRoutinesRepository {
-    suspend fun createOrEditRoutine(routineId: String?, name: String, description: String?)
+    suspend fun createRoutine(name: String, description: String?)
+    suspend fun editRoutine(routine: Routine)
     fun getMyRoutines(): Flow<List<Routine>>
     suspend fun getRoutineById(routineId: String): Routine?
     fun updatePinnedRoutine(routineId: String)
+    fun deleteRoutine(routineId: String)
 
     suspend fun createOrEditDay(routineId: String, dayId: String, name: String): String
     fun getDays(routineId: String): Flow<List<Day>>

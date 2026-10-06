@@ -68,21 +68,17 @@ class EditExerciseRtnViewModel @Inject constructor(
         states.exerciseRtn?.let { exerciseRtn ->
             val editedExerciseRtn = exerciseRtn.copy(
                 series = states.series,
-                rest = states.rest,
+                rest = states.rest?.ifEmpty { null },
                 superSerie = states.superSerie,
-                notes = states.notes
+                notes = states.notes?.ifEmpty { null }
             )
 
             executeUseCase(
                 { editExerciseRtnUseCase(editedExerciseRtn) },
                 { _uiState.update { it.copy(goBack = true) } },
-                {
-                    _uiState.update { it.copy(sww = true) }
-                }
+                { _uiState.update { it.copy(sww = true) } }
             )
-        } ?: run {
-            _uiState.update { it.copy(sww = true) }
-        }
+        } ?: run { _uiState.update { it.copy(sww = true) } }
     }
 
     fun resetData() {

@@ -62,6 +62,7 @@ import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
 import com.mmfsin.noexcusescompose.presentation.core.theme.Black
+import com.mmfsin.noexcusescompose.presentation.core.theme.GrayHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.RedHard
@@ -342,7 +343,9 @@ fun ExerciseRtnBox(
                     onClick = { onEditClick() },
                     modifier = Modifier.align(Alignment.Top)
                 ) {
-                    Icon(painterResource(R.drawable.ic_edit), null)
+                    Icon(painterResource(R.drawable.ic_edit), null,
+                        tint= GrayHard
+                    )
                 }
             }
 

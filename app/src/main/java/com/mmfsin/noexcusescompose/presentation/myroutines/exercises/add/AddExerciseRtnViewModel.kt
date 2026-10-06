@@ -71,9 +71,9 @@ class AddExerciseRtnViewModel @Inject constructor(
                 exerciseId = exerciseId,
                 exercise = null,
                 series = states.series,
-                rest = states.rest,
+                rest = states.rest?.ifEmpty { null },
                 superSerie = states.superSerie,
-                notes = states.notes,
+                notes = states.notes?.ifEmpty { null },
                 order = 0
             )
 

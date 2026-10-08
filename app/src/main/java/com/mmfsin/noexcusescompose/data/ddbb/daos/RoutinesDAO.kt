@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import com.mmfsin.noexcusescompose.data.models.DayDTO
 import com.mmfsin.noexcusescompose.data.models.ExerciseRtnDTO
 import com.mmfsin.noexcusescompose.data.models.ExerciseRtnWithSeries
@@ -20,6 +21,9 @@ interface RoutinesDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMyRoutine(routine: MyRoutineDTO)
+
+    @Update
+    suspend fun updateMyRoutine(routine: MyRoutineDTO)
 
     @Query("SELECT * FROM table_routines WHERE createdByUser = 1")
     fun getMyRoutines(): Flow<List<RoutineWithDays>>
@@ -41,10 +45,16 @@ interface RoutinesDAO {
     )
     fun updatePinnedRoutine(routineId: String)
 
+    @Query("DELETE FROM table_routines WHERE id = :routineId")
+    suspend fun deleteRoutine(routineId: String)
+
     /********************* DAYS *********************/
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDay(day: DayDTO)
+
+    @Update
+    suspend fun updateDay(day: DayDTO)
 
     @Query("SELECT * FROM table_days WHERE routineId = :routineId")
     fun getDaysFromRoutine(routineId: String): Flow<List<DayDTO>>
@@ -57,7 +67,7 @@ interface RoutinesDAO {
 
 
     /****************** EXERCISES ******************/
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     suspend fun insertExerciseRtn(exercise: ExerciseRtnDTO)
 
     @Query(
@@ -69,7 +79,7 @@ interface RoutinesDAO {
     )
     suspend fun getNextExerciseRtnOrder(dayId: String): Int
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     suspend fun insertSeries(series: List<SerieDTO>)
 
     @Transaction
@@ -98,18 +108,15 @@ interface RoutinesDAO {
     @Query("DELETE FROM table_exercises_rtn WHERE id = :exerciseRtnId")
     suspend fun deleteExerciseRtn(exerciseRtnId: String)
 
-    @Transaction
-    suspend fun deleteExerciseRtnWithSeries(exerciseRtnId: String) {
-        deleteSeriesByExerciseRtnId(exerciseRtnId)
-        deleteExerciseRtn(exerciseRtnId)
-    }
+    @Update
+    suspend fun updateExerciseRtn(exercise: ExerciseRtnDTO)
 
     @Transaction
     suspend fun updateExerciseWithSeries(
         exercise: ExerciseRtnDTO,
         series: List<SerieDTO>
     ) {
-        insertExerciseRtn(exercise)
+        updateExerciseRtn(exercise)
         deleteSeriesByExerciseRtnId(exercise.id)
         insertSeries(series)
     }

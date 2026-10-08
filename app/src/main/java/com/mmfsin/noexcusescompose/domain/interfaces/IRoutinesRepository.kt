@@ -11,14 +11,13 @@ interface IRoutinesRepository {
     fun getMyRoutines(): Flow<List<Routine>>
     suspend fun getRoutineById(routineId: String): Routine?
     fun updatePinnedRoutine(routineId: String)
-    fun deleteRoutine(routineId: String)
+    suspend fun deleteRoutine(routineId: String)
 
     suspend fun createOrEditDay(routineId: String, dayId: String, name: String): String
-    fun getDays(routineId: String): Flow<List<Day>>
     fun getDayById(dayId: String): Day?
 
     suspend fun addExerciseToDay(exerciseRtn: ExerciseRtn)
-    suspend fun getExercisesRtnFromDay(dayId: String): Flow<List<ExerciseRtn>>
+    fun getExercisesRtnFromDay(dayId: String): Flow<List<ExerciseRtn>>
     suspend fun editExerciseRtn(exerciseRtn: ExerciseRtn)
     suspend fun deleteExerciseRtn(exerciseRtn: String)
 }

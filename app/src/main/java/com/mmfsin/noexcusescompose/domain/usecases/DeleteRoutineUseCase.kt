@@ -5,5 +5,5 @@ import javax.inject.Inject
 
 class DeleteRoutineUseCase @Inject constructor(val repository: IRoutinesRepository) {
 
-    suspend operator fun invoke(exerciseRtn: String) = repository.deleteExerciseRtn(exerciseRtn)
+    suspend operator fun invoke(routineId: String) = repository.deleteRoutine(routineId)
 }

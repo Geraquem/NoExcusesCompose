@@ -7,6 +7,6 @@ import javax.inject.Inject
 
 class GetExercisesRtnByDayIdUseCase @Inject constructor(val repository: IRoutinesRepository) {
 
-    suspend operator fun invoke(dayId: String): Flow<List<ExerciseRtn>> =
+    operator fun invoke(dayId: String): Flow<List<ExerciseRtn>> =
         repository.getExercisesRtnFromDay(dayId)
 }

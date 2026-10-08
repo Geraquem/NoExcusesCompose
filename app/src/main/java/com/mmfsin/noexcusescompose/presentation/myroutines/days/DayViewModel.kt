@@ -115,7 +115,7 @@ class DayViewModel @Inject constructor(
             if (states.dayName.isNotBlank()) {
                 executeUseCase(
                     { createOrEditDayUseCase(states.routineId, states.dayId, states.dayName) },
-                    { dayId -> addDayExercises(states.routineId, dayId) },
+                    { shouldGoBack() },
                     { sww() }
                 )
             } else _uiState.update { it.copy(emptyNameError = true) }
@@ -126,11 +126,6 @@ class DayViewModel @Inject constructor(
         val states = uiState.value
         if (states.dayName.isNotBlank()) createOrEditDay()
         else shouldGoBack()
-    }
-
-    fun addDayExercises(routineId: String, dayId: String) {
-        /** TODO */
-        shouldGoBack()
     }
 
     fun deleteExerciseRtn() {

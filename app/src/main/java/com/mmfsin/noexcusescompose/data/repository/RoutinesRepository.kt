@@ -1,6 +1,5 @@
 package com.mmfsin.noexcusescompose.data.repository
 
-import com.mmfsin.noexcusescompose.data.ddbb.SharedPrefs
 import com.mmfsin.noexcusescompose.data.ddbb.daos.RoutinesDAO
 import com.mmfsin.noexcusescompose.data.mappers.createDayDTO
 import com.mmfsin.noexcusescompose.data.mappers.createRoutineDTO
@@ -20,7 +19,6 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class RoutinesRepository @Inject constructor(
-    val prefs: SharedPrefs,
     val routinesDAO: RoutinesDAO,
 ) : IRoutinesRepository {
 
@@ -34,7 +32,7 @@ class RoutinesRepository @Inject constructor(
         val routineDTO = routinesDAO.getMyRoutineById(routine.id)
         if (routineDTO != null) {
             val updatedRoutine = routineDTO.copy(name = routine.name, description = routine.description)
-            routinesDAO.insertMyRoutine(updatedRoutine)
+            routinesDAO.updateMyRoutine(updatedRoutine)
             return
         }
     }
@@ -56,15 +54,15 @@ class RoutinesRepository @Inject constructor(
         routinesDAO.updatePinnedRoutine(routineId)
     }
 
-    override fun deleteRoutine(routineId: String) {
-
+    override suspend fun deleteRoutine(routineId: String) {
+        routinesDAO.deleteRoutine(routineId)
     }
 
     override suspend fun createOrEditDay(routineId: String, dayId: String, name: String): String {
         val dayDTO = routinesDAO.getDayById(dayId)
         if (dayDTO != null) {
             val updatedDay = dayDTO.copy(name = name)
-            routinesDAO.insertDay(updatedDay)
+            routinesDAO.updateDay(updatedDay)
             return dayId
         }
 
@@ -72,10 +70,6 @@ class RoutinesRepository @Inject constructor(
         val newDayDTO = createDayDTO(routineId, dayId, name, order)
         routinesDAO.insertDay(newDayDTO)
         return dayId
-    }
-
-    override fun getDays(routineId: String): Flow<List<Day>> {
-        return routinesDAO.getDaysFromRoutine(routineId).map { it.toDayList() }
     }
 
     override fun getDayById(dayId: String): Day? {
@@ -93,7 +87,7 @@ class RoutinesRepository @Inject constructor(
         )
     }
 
-    override suspend fun getExercisesRtnFromDay(dayId: String): Flow<List<ExerciseRtn>> {
+    override fun getExercisesRtnFromDay(dayId: String): Flow<List<ExerciseRtn>> {
         return routinesDAO.getExercisesRtnWithSeriesByDayId(dayId).map { it.toExerciseRtnList() }
     }
 
@@ -107,6 +101,6 @@ class RoutinesRepository @Inject constructor(
     }
 
     override suspend fun deleteExerciseRtn(exerciseRtn: String) {
-        routinesDAO.deleteExerciseRtnWithSeries(exerciseRtn)
+        routinesDAO.deleteExerciseRtn(exerciseRtn)
     }
 }

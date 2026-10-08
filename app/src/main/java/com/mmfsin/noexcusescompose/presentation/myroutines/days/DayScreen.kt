@@ -263,6 +263,7 @@ fun DayContent(
         if (uiStates.shouldGoBack) goBack()
         if (uiStates.sww) ErrorDialog { sww(false) }
     }
+
     BackHandler {
         handleBack()
     }

@@ -12,13 +12,13 @@ data class DayStates(
     val routineId: String? = null,
     val routineName: String = "",
 
-    val dayId: String = "",
+    val dayId: String? = null,
     val dayName: String = "",
     val dayOrder: Int = -1,
 
     val exercises: List<ExerciseRtn> = emptyList(),
 
-    val emptyNameError: Boolean = false,
+    val shouldGoToMuscularGroups: Boolean = false,
     val shouldGoBack: Boolean = false,
     val sww: Boolean = false,
 )

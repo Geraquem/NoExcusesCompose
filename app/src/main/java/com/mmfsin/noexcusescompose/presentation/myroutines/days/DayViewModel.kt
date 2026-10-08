@@ -9,6 +9,7 @@ import com.mmfsin.noexcusescompose.domain.usecases.GetDayByIdUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetExercisesRtnByDayIdUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetRoutineByIdUseCase
 import com.mmfsin.noexcusescompose.presentation.core.base.BaseViewModel
+import com.mmfsin.noexcusescompose.util.checkNotNulls
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -101,25 +102,33 @@ class DayViewModel @Inject constructor(
         }
     }
 
-    fun updateDayName(value: String) = _uiState.update {
-        it.copy(
-            dayName = value,
-            emptyNameError = false
-        )
-    }
+    fun updateDayName(value: String) = _uiState.update { it.copy(dayName = value) }
 
     fun createOrEditDay() {
         val states = uiState.value
         if (states.routineId == null) sww()
         else {
-            if (states.dayName.isNotBlank()) {
+            if (states.dayId != null) {
                 executeUseCase(
                     { createOrEditDayUseCase(states.routineId, states.dayId, states.dayName) },
                     { shouldGoBack() },
                     { sww() }
                 )
-            } else _uiState.update { it.copy(emptyNameError = true) }
+            } else sww()
         }
+    }
+
+    fun saveAndGoToMuscularGroups() {
+        val states = uiState.value
+        checkNotNulls(states.routineId, states.dayId) { rId, dId ->
+            executeUseCase(
+                { createOrEditDayUseCase(rId, dId, states.dayName) },
+                { dayId->
+                    getDayExercises(dayId)
+                    shouldGoToMuscularGroups(true) },
+                { sww() }
+            )
+        } ?: run { sww() }
     }
 
     fun handleBack() {
@@ -147,9 +156,9 @@ class DayViewModel @Inject constructor(
     }
 
     fun showEditExerciseRtn(value: ExerciseRtn?) = _uiState.update { it.copy(exerciseRtnToEdit = value) }
-
     fun showDeleteExerciseRtnDialog(value: Boolean) = _uiState.update { it.copy(showDeleteExerciseRtnDialog = value) }
 
+    fun shouldGoToMuscularGroups(value: Boolean) = _uiState.update { it.copy(shouldGoToMuscularGroups = value) }
     fun shouldGoBack() = _uiState.update { it.copy(shouldGoBack = true) }
 
     fun sww(value: Boolean = true) = _uiState.update { it.copy(sww = value) }

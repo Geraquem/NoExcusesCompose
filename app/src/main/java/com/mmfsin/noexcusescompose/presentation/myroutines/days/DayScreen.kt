@@ -98,17 +98,23 @@ fun DayScreen(
 
     DayContent(
         uiStates = uiStates,
-        goBack = { goBack() },
+        goBack = { viewModel.handleBack() },
         updateDayName = { viewModel.updateDayName(it) },
         createDay = { viewModel.createOrEditDay() },
         handleBack = { viewModel.handleBack() },
-        goToMuscularGroups = { goToMuscularGroups(uiStates.dayId, uiStates.dayName) },
+        goToMuscularGroups = { viewModel.saveAndGoToMuscularGroups() },
         goToExerciseDetail = { goToExerciseDetail(it) },
         showEditExerciseRtn = { viewModel.showEditExerciseRtn(it) },
         showDeleteExerciseRtnDialog = { viewModel.showDeleteExerciseRtnDialog(it) },
         deleteExerciseRtn = { viewModel.deleteExerciseRtn() },
         sww = { viewModel.sww(it) },
     )
+
+    if (uiStates.shouldGoToMuscularGroups) {
+        viewModel.shouldGoToMuscularGroups(false)
+        uiStates.dayId?.let { dayId -> goToMuscularGroups(dayId, uiStates.dayName) }
+    }
+    if (uiStates.shouldGoBack) goBack()
 }
 
 @Composable
@@ -133,7 +139,7 @@ fun DayContent(
             CustomToolbar(
                 goBack = { handleBack() },
                 titleString = uiStates.routineName,
-                iconRight = R.drawable.ic_add_circle,
+                iconRight = R.drawable.ic_save,
                 showIconRight = true,
                 iconRightClick = { createDay() }
             )
@@ -155,15 +161,6 @@ fun DayContent(
                     contentPadding = PaddingValues(vertical = 16.dp)
                 ) {
                     item {
-                        if (uiStates.emptyNameError) {
-                            SmallText(
-                                text = R.string.my_routines_day_error_empty_name,
-                                fontFamily = montserrat_bold,
-                                color = RedHard,
-                            )
-                            SpacerSmall()
-                        }
-
                         Row {
                             MediumText(
                                 text = R.string.my_routines_day,
@@ -260,7 +257,6 @@ fun DayContent(
             )
         }
 
-        if (uiStates.shouldGoBack) goBack()
         if (uiStates.sww) ErrorDialog { sww(false) }
     }
 
@@ -344,8 +340,9 @@ fun ExerciseRtnBox(
                     onClick = { onEditClick() },
                     modifier = Modifier.align(Alignment.Top)
                 ) {
-                    Icon(painterResource(R.drawable.ic_edit), null,
-                        tint= GrayHard
+                    Icon(
+                        painterResource(R.drawable.ic_edit), null,
+                        tint = GrayHard
                     )
                 }
             }

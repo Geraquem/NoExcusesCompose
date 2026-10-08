@@ -153,9 +153,7 @@ fun ExerciseBox(
     ) {
         Box {
             Column(
-                modifier = Modifier
-
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 ImageGif(

@@ -34,15 +34,13 @@ interface RoutinesDAO {
     @Query("SELECT COALESCE(MAX(`order`), -1) + 1 FROM table_routines")
     suspend fun getNextRoutineOrder(): Int
 
-    @Query(
-        """
+    @Query("""
     UPDATE table_routines
     SET pinned = CASE
         WHEN id = :routineId THEN NOT pinned
         ELSE 0
     END
-    """
-    )
+    """)
     fun updatePinnedRoutine(routineId: String)
 
     @Query("DELETE FROM table_routines WHERE id = :routineId")
@@ -62,21 +60,25 @@ interface RoutinesDAO {
     @Query("SELECT * FROM table_days WHERE id = :dayId")
     fun getDayById(dayId: String): DayDTO?
 
-    @Query("SELECT COALESCE(MAX(`order`), -1) + 1 FROM table_days")
-    suspend fun getNextDayOrder(): Int
+    @Query("""
+    SELECT COALESCE(MAX(`order`), -1) + 1
+    FROM table_days
+    WHERE routineId = :routineId
+    """)
+    suspend fun getNextDayOrder(routineId: String): Int
 
+    @Query("DELETE FROM table_days WHERE id = :dayId")
+    suspend fun deleteDay(dayId: String)
 
     /****************** EXERCISES ******************/
     @Insert
     suspend fun insertExerciseRtn(exercise: ExerciseRtnDTO)
 
-    @Query(
-        """
+    @Query("""
     SELECT COALESCE(MAX(`order`), -1) + 1
     FROM table_exercises_rtn
     WHERE dayId = :dayId
-    """
-    )
+    """)
     suspend fun getNextExerciseRtnOrder(dayId: String): Int
 
     @Insert
@@ -92,14 +94,12 @@ interface RoutinesDAO {
     }
 
     @Transaction
-    @Query(
-        """
+    @Query("""
     SELECT *
     FROM table_exercises_rtn
     WHERE dayId = :dayId
     ORDER BY `order` ASC
-    """
-    )
+    """)
     fun getExercisesRtnWithSeriesByDayId(dayId: String): Flow<List<ExerciseRtnWithSeries>>
 
     @Query("DELETE FROM table_series WHERE exerciseRtnId = :exerciseRtnId")

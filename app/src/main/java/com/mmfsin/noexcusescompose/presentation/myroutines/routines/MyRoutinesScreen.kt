@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -58,11 +57,12 @@ import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
 import com.mmfsin.noexcusescompose.presentation.core.theme.Black
 import com.mmfsin.noexcusescompose.presentation.core.theme.BlueLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
-import com.mmfsin.noexcusescompose.presentation.core.theme.OrangeHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 import com.mmfsin.noexcusescompose.presentation.myroutines.routines.components.CreateRoutineDialog
+import com.mmfsin.noexcusescompose.presentation.myroutines.routines.components.DeleteDayDialog
 import com.mmfsin.noexcusescompose.presentation.myroutines.routines.components.DeleteRoutineDialog
 import com.mmfsin.noexcusescompose.presentation.myroutines.routines.components.EditRoutineDialog
 
@@ -75,8 +75,8 @@ fun MyRoutinesPV() {
             myRoutines = getExampleRoutines(),
         ),
         {}, {}, { _, _ -> }, {},
-        { _, _ -> }, {}, {}, { _, _ -> },
-        {}, {},
+        { _, _ -> }, {}, {}, {},
+        {}, { _, _ -> }, {}, {},
     )
 }
 
@@ -94,10 +94,13 @@ fun MyRoutinesScreen(
 
         showCreateRoutineDialog = { viewModel.showCreateRoutineDialog(it) },
         createRoutine = { name, description -> viewModel.createRoutine(name, description) },
-        routineToEdit = { viewModel.routineToEdit(it) },
+        updateRoutineToEdit = { viewModel.updateRoutineToEdit(it) },
         editRoutine = { name, description -> viewModel.editRoutine(name, description) },
         showDeleteRoutineDialog = { viewModel.showDeleteRoutineDialog(it) },
         deleteRoutine = { viewModel.deleteRoutine() },
+
+        updateDayToDelete = { viewModel.updateDayToDelete(it) },
+        deleteDay = { viewModel.deleteDay() },
 
         goToDayDetail = { routineId, dayId -> goToDayDetail(routineId, dayId) },
 
@@ -113,10 +116,15 @@ fun MyRoutinesContent(
 
     showCreateRoutineDialog: (Boolean) -> Unit,
     createRoutine: (String, String?) -> Unit,
-    routineToEdit: (Routine?) -> Unit,
+
+    updateRoutineToEdit: (Routine?) -> Unit,
     editRoutine: (String, String?) -> Unit,
+
     showDeleteRoutineDialog: (Boolean) -> Unit,
     deleteRoutine: () -> Unit,
+
+    updateDayToDelete: (Day?) -> Unit,
+    deleteDay: () -> Unit,
 
     goToDayDetail: (String, String?) -> Unit,
 
@@ -157,8 +165,9 @@ fun MyRoutinesContent(
                         ) { routine ->
                             RoutineBox(
                                 routine = routine,
-                                editRoutine = { routineToEdit(routine) },
+                                editRoutine = { updateRoutineToEdit(routine) },
                                 goToDayDetail = { dayId -> goToDayDetail(routine.id, dayId) },
+                                onDayLongClick = { day -> updateDayToDelete(day) },
                                 updatePushpin = { updatePinnedRoutine(routine.id) },
                             )
                         }
@@ -188,7 +197,7 @@ fun MyRoutinesContent(
         if (uiStates.routineToEdit != null) {
             EditRoutineDialog(
                 routine = uiStates.routineToEdit,
-                onDismiss = { routineToEdit(null) },
+                onDismiss = { updateRoutineToEdit(null) },
                 deleteRoutine = { showDeleteRoutineDialog(true) },
                 editRoutine = { name, description -> editRoutine(name, description) }
             )
@@ -202,6 +211,14 @@ fun MyRoutinesContent(
             )
         }
 
+        if (uiStates.dayToDelete != null) {
+            DeleteDayDialog(
+                dayName = uiStates.dayToDelete.name,
+                cancel = { updateDayToDelete(null) },
+                delete = { deleteDay() }
+            )
+        }
+
         if (uiStates.sww) ErrorDialog { sww(false) }
         if (uiStates.isLoading) LoadingLottie()
     }
@@ -212,10 +229,11 @@ fun RoutineBox(
     routine: Routine,
     editRoutine: () -> Unit,
     goToDayDetail: (String?) -> Unit,
+    onDayLongClick: (Day) -> Unit,
     updatePushpin: () -> Unit
 ) {
 
-    var expanded by rememberSaveable { mutableStateOf(false) }
+    var expanded by rememberSaveable { mutableStateOf(true) }
 
     Card(
         modifier = Modifier.fillMaxWidth()
@@ -282,10 +300,13 @@ fun RoutineBox(
                 Column(Modifier.fillMaxWidth()) {
                     SpacerSmall()
 
-                    routine.days.sortedBy { it.order }.forEach { day ->
+                    routine.days.sortedBy { it.order }.forEachIndexed { i, day ->
                         DayBox(
+                            position = i + 1,
                             day = day,
-                            onDayClick = { goToDayDetail(day.id) })
+                            onDayClick = { goToDayDetail(day.id) },
+                            onDayLongClick = { onDayLongClick(day) }
+                        )
                     }
 
                     TextButton(
@@ -306,23 +327,29 @@ fun RoutineBox(
 
 @Composable
 fun DayBox(
+    position: Int,
     day: Day,
-    onDayClick: () -> Unit
+    onDayClick: () -> Unit,
+    onDayLongClick: () -> Unit
 ) {
-    Row(
-        Modifier.fillMaxWidth()
-            .clickable(onClick = { onDayClick() })
+    Card(
+        modifier = Modifier.fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 4.dp)
-            .border(1.dp, color = OrangeHard, shape = RoundedCornerShape(8.dp))
-            .padding(horizontal = 12.dp, vertical = 6.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .combinedClickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() },
+                onClick = { onDayClick() },
+                onLongClick = { onDayLongClick() }
+            ),
+        colors = CardDefaults.cardColors(containerColor = GrayLight),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
     ) {
         Column(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 6.dp),
             verticalArrangement = Arrangement.Center
         ) {
             SmallText(
-                text = "Día ${day.order + 1}",
+                text = "Día $position",
                 fontFamily = montserrat_bold,
             )
             MediumText(text = day.name)

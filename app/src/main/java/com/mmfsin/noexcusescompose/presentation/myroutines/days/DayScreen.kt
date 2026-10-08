@@ -71,6 +71,7 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.alphazet
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 import com.mmfsin.noexcusescompose.presentation.myroutines.days.delete.DeleteExerciseDialog
 import com.mmfsin.noexcusescompose.presentation.myroutines.days.edit.EditExerciseRtnDialog
+import sh.calvin.reorderable.ReorderableItem
 
 @Preview
 @Composable
@@ -206,6 +207,8 @@ fun DayContent(
                         }
                         SpacerSmall()
                     }
+
+//                    ReorderableItem
 
                     itemsIndexed(
                         items = uiStates.exercises,

@@ -1,8 +1,10 @@
 package com.mmfsin.noexcusescompose.presentation.myroutines.routines
 
 import androidx.lifecycle.viewModelScope
+import com.mmfsin.noexcusescompose.domain.models.Day
 import com.mmfsin.noexcusescompose.domain.models.Routine
 import com.mmfsin.noexcusescompose.domain.usecases.CreateRoutineUseCase
+import com.mmfsin.noexcusescompose.domain.usecases.DeleteDayUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.DeleteRoutineUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.EditRoutineUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetMyRoutinesUseCase
@@ -19,6 +21,7 @@ class MyRoutinesViewModel @Inject constructor(
     private val createRoutineUseCase: CreateRoutineUseCase,
     private val editRoutineUseCase: EditRoutineUseCase,
     private val deleteRoutineUseCase: DeleteRoutineUseCase,
+    private val deleteDayUseCase: DeleteDayUseCase,
     private val updatePinnedRoutineUseCase: UpdatePinnedRoutineUseCase,
 ) : BaseViewModel<MyRoutinesStates>(MyRoutinesStates()) {
 
@@ -56,7 +59,7 @@ class MyRoutinesViewModel @Inject constructor(
             )
             executeUseCase(
                 { editRoutineUseCase(editedRoutine) },
-                { routineToEdit(null) },
+                { updateRoutineToEdit(null) },
                 { sww() }
             )
         } ?: run { sww() }
@@ -80,9 +83,22 @@ class MyRoutinesViewModel @Inject constructor(
         } ?: run { sww() }
     }
 
-    fun showCreateRoutineDialog(value: Boolean) = _uiState.update { it.copy(showCreateRoutineDialog = value) }
-    fun routineToEdit(value: Routine?) = _uiState.update { it.copy(routineToEdit = value) }
+    fun deleteDay() {
+        val states = uiState.value
+        states.dayToDelete?.let { day ->
+            executeUseCase(
+                { deleteDayUseCase(day.id) },
+                { _uiState.update { it.copy(dayToDelete = null) } },
+                { sww() }
+            )
+        }
+    }
+
+    fun updateRoutineToEdit(value: Routine?) = _uiState.update { it.copy(routineToEdit = value) }
+    fun updateDayToDelete(value: Day?) = _uiState.update { it.copy(dayToDelete = value) }
+
     fun showDeleteRoutineDialog(value: Boolean) = _uiState.update { it.copy(showDeleteRoutineDialog = value) }
+    fun showCreateRoutineDialog(value: Boolean) = _uiState.update { it.copy(showCreateRoutineDialog = value) }
 
     fun updatePushpin(routineId: String) {
         executeUseCase(

@@ -66,7 +66,7 @@ class RoutinesRepository @Inject constructor(
             return dayId
         }
 
-        val order = routinesDAO.getNextDayOrder()
+        val order = routinesDAO.getNextDayOrder(routineId)
         val newDayDTO = createDayDTO(routineId, dayId, name, order)
         routinesDAO.insertDay(newDayDTO)
         return dayId
@@ -74,6 +74,10 @@ class RoutinesRepository @Inject constructor(
 
     override fun getDayById(dayId: String): Day? {
         return routinesDAO.getDayById(dayId)?.toDay()
+    }
+
+    override suspend fun deleteDay(dayId: String) {
+        routinesDAO.deleteDay(dayId)
     }
 
     override suspend fun addExerciseToDay(exerciseRtn: ExerciseRtn) {

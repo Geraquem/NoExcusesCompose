@@ -1,8 +1,6 @@
 package com.mmfsin.noexcusescompose.presentation.myroutines.days
 
-import androidx.compose.runtime.mutableStateListOf
 import com.mmfsin.noexcusescompose.domain.models.ExerciseRtn
-
 
 data class DayStates(
     val isLoading: Boolean = true,

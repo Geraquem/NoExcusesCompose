@@ -111,6 +111,9 @@ interface RoutinesDAO {
     @Update
     suspend fun updateExerciseRtn(exercise: ExerciseRtnDTO)
 
+    @Update
+    suspend fun updateExerciseRtnOrders(exercises: List<ExerciseRtnDTO>)
+
     @Transaction
     suspend fun updateExerciseWithSeries(
         exercise: ExerciseRtnDTO,

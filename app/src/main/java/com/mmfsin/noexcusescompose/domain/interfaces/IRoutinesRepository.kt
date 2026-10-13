@@ -19,6 +19,7 @@ interface IRoutinesRepository {
 
     suspend fun addExerciseToDay(exerciseRtn: ExerciseRtn)
     fun getExercisesRtnFromDay(dayId: String): Flow<List<ExerciseRtn>>
+    suspend fun updateExercisesOrder(exercises: List<ExerciseRtn>)
     suspend fun editExerciseRtn(exerciseRtn: ExerciseRtn)
     suspend fun deleteExerciseRtn(exerciseRtn: String)
 }

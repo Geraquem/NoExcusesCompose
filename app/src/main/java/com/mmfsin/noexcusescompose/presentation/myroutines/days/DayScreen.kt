@@ -30,9 +30,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -59,6 +57,7 @@ import com.mmfsin.noexcusescompose.presentation.core.components.ImageGif
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
 import com.mmfsin.noexcusescompose.presentation.core.components.OutlinedButtonCustomIcon
 import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerCustom
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
@@ -136,15 +135,10 @@ fun DayContent(
     sww: (Boolean) -> Unit
 ) {
 
-    val auxList by remember { mutableStateOf("") }
-
     val lazyListState = rememberLazyListState()
     val reorderableState = rememberReorderableLazyListState(
         lazyListState = lazyListState
-    ) { from, to ->
-        //        uiStates.exercises.add(to.index, uiStates.exercises.removeAt(from.index))
-        //        moveExercise(from.index, to.index)
-    }
+    ) { from, to -> moveExercise(from.index - 1, to.index - 1) }
 
     Scaffold(
         topBar = {
@@ -228,19 +222,18 @@ fun DayContent(
                             state = reorderableState,
                             key = exerciseRtn.id
                         ) {
+                            Column(
+                                modifier = Modifier.longPressDraggableHandle()
+                            ) {
+                                ExerciseRtnBox(
+                                    position = i,
+                                    exerciseRtn = exerciseRtn,
+                                    onEditClick = { showEditExerciseRtn(exerciseRtn) }
+                                )
 
-                            //                            Column(
-                            //                                modifier = Modifier.longPressDraggableHandle()
-                            //                            ) {
-                            //                                ExerciseRtnBox(
-                            //                                    position = i,
-                            //                                    exerciseRtn = exerciseRtn,
-                            //                                    onEditClick = { showEditExerciseRtn(exerciseRtn) }
-                            //                                )
-                            //
-                            //                                if (!exerciseRtn.superSerie) SpacerCustom(12.dp)
-                            //                                else SuperSerie()
-                            //                            }
+                                if (!exerciseRtn.superSerie) SpacerCustom(12.dp)
+                                else SuperSerie()
+                            }
                         }
                     }
 
@@ -370,7 +363,7 @@ fun ExerciseRtnBox(
                 }
             }
 
-            AnimatedVisibility(expanded) {
+            AnimatedVisibility(expanded && exerciseRtn.series.isNotEmpty()) {
                 Column(Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
                     ShowSerieHeader()
                     exerciseRtn.series.forEachIndexed { i, serie ->

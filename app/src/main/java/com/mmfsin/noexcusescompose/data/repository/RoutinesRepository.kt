@@ -95,6 +95,12 @@ class RoutinesRepository @Inject constructor(
         return routinesDAO.getExercisesRtnWithSeriesByDayId(dayId).map { it.toExerciseRtnList().sortedBy { e -> e.order } }
     }
 
+    override suspend fun updateExercisesOrder(exercises: List<ExerciseRtn>) {
+        routinesDAO.updateExerciseRtnOrders(
+            exercises.mapIndexed { index, exercise -> exercise.toExerciseRtnDTO(index) }
+        )
+    }
+
     override suspend fun editExerciseRtn(exerciseRtn: ExerciseRtn) {
         val exerciseRtnDTO = exerciseRtn.toExerciseRtnDTO(exerciseRtn.order)
         val seriesDTO = exerciseRtn.series.map { it.toSerieDTO(exerciseRtn.id) }

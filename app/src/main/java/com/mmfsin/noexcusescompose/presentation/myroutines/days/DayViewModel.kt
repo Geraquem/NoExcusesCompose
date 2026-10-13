@@ -8,6 +8,7 @@ import com.mmfsin.noexcusescompose.domain.usecases.DeleteExerciseRtnUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetDayByIdUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetExercisesRtnByDayIdUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetRoutineByIdUseCase
+import com.mmfsin.noexcusescompose.domain.usecases.UpdateExercisesOrderUseCase
 import com.mmfsin.noexcusescompose.presentation.core.base.BaseViewModel
 import com.mmfsin.noexcusescompose.util.checkNotNulls
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +25,7 @@ class DayViewModel @Inject constructor(
     private val createOrEditDayUseCase: CreateOrEditDayUseCase,
     private val getExercisesRtnByDayIdUseCase: GetExercisesRtnByDayIdUseCase,
     private val deleteExerciseRtnUseCase: DeleteExerciseRtnUseCase,
+    private val updateExercisesOrderUseCase: UpdateExercisesOrderUseCase,
 ) : BaseViewModel<DayStates>(DayStates()) {
 
     val routineId: String? = savedStateHandle["routineId"]
@@ -139,19 +141,22 @@ class DayViewModel @Inject constructor(
     }
 
     fun moveExercise(from: Int, to: Int) {
-        _uiState.update { state ->
-            val exercises = state.exercises.toMutableList()
+        val exercises = uiState.value.exercises.toMutableList()
+        if (from !in exercises.indices || to !in exercises.indices || from == to) return
 
-            val item = exercises.removeAt(from)
+        val item = exercises.removeAt(from)
+        exercises.add(to.coerceIn(0, exercises.size), item)
 
-            val targetIndex = to.coerceIn(0, exercises.size)
-
-            exercises.add(targetIndex, item)
-
-            state.copy(
-                exercises = exercises
-            )
+        val reorderedExercises = exercises.mapIndexed { index, exercise ->
+            exercise.copy(order = index)
         }
+        _uiState.update { it.copy(exercises = reorderedExercises) }
+
+        executeUseCase(
+            { updateExercisesOrderUseCase(reorderedExercises) },
+            {},
+            { sww() }
+        )
     }
 
     fun deleteExerciseRtn() {

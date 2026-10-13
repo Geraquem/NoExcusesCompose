@@ -30,7 +30,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -57,7 +59,6 @@ import com.mmfsin.noexcusescompose.presentation.core.components.ImageGif
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
 import com.mmfsin.noexcusescompose.presentation.core.components.OutlinedButtonCustomIcon
 import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
-import com.mmfsin.noexcusescompose.presentation.core.components.SpacerCustom
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
@@ -65,13 +66,13 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.Black
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
-import com.mmfsin.noexcusescompose.presentation.core.theme.RedHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.alphazet
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 import com.mmfsin.noexcusescompose.presentation.myroutines.days.delete.DeleteExerciseDialog
 import com.mmfsin.noexcusescompose.presentation.myroutines.days.edit.EditExerciseRtnDialog
 import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyListState
 
 @Preview
 @Composable
@@ -80,11 +81,11 @@ fun DayScreenPV() {
         uiStates = DayStates(
             isLoading = false,
             dayName = "Pecho y tríceps",
-            exercises = getExerciseRtnExamples()
+            exercises = getExerciseRtnExamples().toMutableList()
         ),
         {}, {}, {}, {},
-        {}, {}, {}, {},
-        {}, {}
+        {}, {}, {}, { _, _ -> },
+        {}, {}, {},
     )
 }
 
@@ -106,6 +107,7 @@ fun DayScreen(
         goToMuscularGroups = { viewModel.saveAndGoToMuscularGroups() },
         goToExerciseDetail = { goToExerciseDetail(it) },
         showEditExerciseRtn = { viewModel.showEditExerciseRtn(it) },
+        moveExercise = { from, to -> viewModel.moveExercise(from, to) },
         showDeleteExerciseRtnDialog = { viewModel.showDeleteExerciseRtnDialog(it) },
         deleteExerciseRtn = { viewModel.deleteExerciseRtn() },
         sww = { viewModel.sww(it) },
@@ -128,12 +130,21 @@ fun DayContent(
     goToMuscularGroups: () -> Unit,
     goToExerciseDetail: (String) -> Unit,
     showEditExerciseRtn: (ExerciseRtn?) -> Unit,
+    moveExercise: (Int, Int) -> Unit,
     showDeleteExerciseRtnDialog: (Boolean) -> Unit,
     deleteExerciseRtn: () -> Unit,
     sww: (Boolean) -> Unit
 ) {
 
-    val listState = rememberLazyListState()
+    val auxList by remember { mutableStateOf("") }
+
+    val lazyListState = rememberLazyListState()
+    val reorderableState = rememberReorderableLazyListState(
+        lazyListState = lazyListState
+    ) { from, to ->
+        //        uiStates.exercises.add(to.index, uiStates.exercises.removeAt(from.index))
+        //        moveExercise(from.index, to.index)
+    }
 
     Scaffold(
         topBar = {
@@ -158,7 +169,7 @@ fun DayContent(
                 LocalOverscrollFactory provides null
             ) {
                 LazyColumn(
-                    state = listState,
+                    state = lazyListState,
                     contentPadding = PaddingValues(vertical = 16.dp)
                 ) {
                     item {
@@ -208,20 +219,29 @@ fun DayContent(
                         SpacerSmall()
                     }
 
-//                    ReorderableItem
-
                     itemsIndexed(
                         items = uiStates.exercises,
                         key = { _, exercise -> exercise.id }
                     ) { i, exerciseRtn ->
-                        ExerciseRtnBox(
-                            position = i,
-                            exerciseRtn = exerciseRtn,
-                            onEditClick = { showEditExerciseRtn(exerciseRtn) }
-                        )
 
-                        if (!exerciseRtn.superSerie) SpacerCustom(12.dp)
-                        else SuperSerie()
+                        ReorderableItem(
+                            state = reorderableState,
+                            key = exerciseRtn.id
+                        ) {
+
+                            //                            Column(
+                            //                                modifier = Modifier.longPressDraggableHandle()
+                            //                            ) {
+                            //                                ExerciseRtnBox(
+                            //                                    position = i,
+                            //                                    exerciseRtn = exerciseRtn,
+                            //                                    onEditClick = { showEditExerciseRtn(exerciseRtn) }
+                            //                                )
+                            //
+                            //                                if (!exerciseRtn.superSerie) SpacerCustom(12.dp)
+                            //                                else SuperSerie()
+                            //                            }
+                        }
                     }
 
                     item {

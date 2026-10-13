@@ -123,9 +123,10 @@ class DayViewModel @Inject constructor(
         checkNotNulls(states.routineId, states.dayId) { rId, dId ->
             executeUseCase(
                 { createOrEditDayUseCase(rId, dId, states.dayName) },
-                { dayId->
+                { dayId ->
                     getDayExercises(dayId)
-                    shouldGoToMuscularGroups(true) },
+                    shouldGoToMuscularGroups(true)
+                },
                 { sww() }
             )
         } ?: run { sww() }
@@ -135,6 +136,22 @@ class DayViewModel @Inject constructor(
         val states = uiState.value
         if (states.dayName.isNotBlank()) createOrEditDay()
         else shouldGoBack()
+    }
+
+    fun moveExercise(from: Int, to: Int) {
+        _uiState.update { state ->
+            val exercises = state.exercises.toMutableList()
+
+            val item = exercises.removeAt(from)
+
+            val targetIndex = to.coerceIn(0, exercises.size)
+
+            exercises.add(targetIndex, item)
+
+            state.copy(
+                exercises = exercises
+            )
+        }
     }
 
     fun deleteExerciseRtn() {

@@ -92,7 +92,7 @@ class RoutinesRepository @Inject constructor(
     }
 
     override fun getExercisesRtnFromDay(dayId: String): Flow<List<ExerciseRtn>> {
-        return routinesDAO.getExercisesRtnWithSeriesByDayId(dayId).map { it.toExerciseRtnList() }
+        return routinesDAO.getExercisesRtnWithSeriesByDayId(dayId).map { it.toExerciseRtnList().sortedBy { e -> e.order } }
     }
 
     override suspend fun editExerciseRtn(exerciseRtn: ExerciseRtn) {

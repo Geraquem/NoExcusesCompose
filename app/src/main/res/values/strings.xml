@@ -64,6 +64,8 @@
 
     <!-- MY ROUTINES -->
     <string name="my_routines_empty">No tienes ninguna rutina creada.</string>
+    <string name="my_routines_top_text_title">Mis planes de entrenamiento</string>
+    <string name="my_routines_top_text_subtitle">Organiza tus días y entrena a tu ritmo</string>
     <string name="my_routines_toolbar">Mis rutinas</string>
     <string name="my_routines_day">Día</string>
     <string name="my_routines_days">Días</string>
@@ -85,9 +87,10 @@
     <string name="my_routines_day_error_empty_name">El nombre no puede estar vacío</string>
     <string name="my_routines_day_add_exercises">Añadir ejercicio</string>
     <string name="my_routines_day_exercises">Ejercicios</string>
+    <string name="my_routines_day_exercise">Ejercicio</string>
     <string name="my_routines_day_exercises_serie">%s serie</string>
     <string name="my_routines_day_exercises_series">%s series</string>
-    <string name="my_routines_day_exercises_rest">Desc. %s min/serie</string>
+    <string name="my_routines_day_exercises_rest">%s min/serie</string>
     <string name="my_routines_day_exercises_super_serie">Super serie</string>
 
     <string name="my_routines_exercises_add">Añadir ejercicio</string>

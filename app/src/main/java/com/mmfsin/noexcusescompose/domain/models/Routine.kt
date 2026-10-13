@@ -1,5 +1,12 @@
 package com.mmfsin.noexcusescompose.domain.models
 
+import androidx.compose.ui.graphics.Color
+import com.mmfsin.noexcusescompose.presentation.core.theme.BlueLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.GreenLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.OrangeLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.PurpleLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.RedLight
+
 data class Routine(
     var id: String,
     var name: String,
@@ -9,7 +16,21 @@ data class Routine(
     val createdByUser: Boolean,
     val pinnedDate: Long?,
     val order: Int,
+    val color: Color,
 )
+
+enum class RoutineColor(val id: Int, val color: Color) {
+    RED(0, RedLight),
+    GREEN(1, GreenLight),
+    BLUE(2, BlueLight),
+    ORANGE(3, OrangeLight),
+    PURPLE(4, PurpleLight);
+
+    companion object {
+        fun getRandomRoutineColorId(): Int = entries.random().id
+        fun getRoutineColorById(id: Int): Color = entries.find { it.id == id }?.color ?: BlueLight
+    }
+}
 
 fun getExampleRoutines() = listOf(
     Routine(
@@ -21,16 +42,18 @@ fun getExampleRoutines() = listOf(
         createdByUser = true,
         pinnedDate = 0,
         order = 0,
+        color = PurpleLight
     ),
     Routine(
         id = "2",
-        name = "Rutina 2 ww  ews´.fklñdk fs´fd´s",
+        name = "Rutina 2",
         description = null,
         days = getExampleDays(),
         pinned = true,
         createdByUser = true,
         pinnedDate = 0,
         order = 1,
+        color = GreenLight
     ),
     Routine(
         id = "3",
@@ -41,5 +64,6 @@ fun getExampleRoutines() = listOf(
         createdByUser = false,
         pinnedDate = 0,
         order = 2,
+        color = OrangeLight
     ),
 )

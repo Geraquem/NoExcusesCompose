@@ -21,11 +21,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -66,7 +66,6 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.GrayHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
-import com.mmfsin.noexcusescompose.presentation.core.theme.alphazet
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 import com.mmfsin.noexcusescompose.presentation.myroutines.days.delete.DeleteExerciseDialog
 import com.mmfsin.noexcusescompose.presentation.myroutines.days.edit.EditExerciseRtnDialog
@@ -209,6 +208,24 @@ fun DayContent(
                                     strokeCap = StrokeCap.Round
                                 )
                             }
+
+                            Spacer(Modifier.weight(1f))
+
+                            val total = uiStates.exercises.size
+                            if (total != 0) {
+                                Row(
+                                    modifier = Modifier.padding(start = 6.dp)
+                                        .background(GrayLight, RoundedCornerShape(8.dp))
+                                        .padding(horizontal = 16.dp, vertical = 2.dp)
+                                ) {
+                                    SmallText(text = "$total")
+                                    SpacerMini(horizontal = true)
+                                    SmallText(
+                                        text = if (total == 1) R.string.my_routines_day_exercise
+                                        else R.string.my_routines_day_exercises
+                                    )
+                                }
+                            }
                         }
                         SpacerSmall()
                     }
@@ -333,34 +350,54 @@ fun ExerciseRtnBox(
                             text = e.name
                         )
                     }
-                    SpacerMini()
+
+                    SpacerSmall()
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         if (exerciseRtn.series.isNotEmpty()) {
+                            Icon(
+                                painterResource(R.drawable.ic_series), null,
+                                tint = GrayHard,
+                                modifier = Modifier.size(16.dp)
+                            )
+
+                            SpacerMini(horizontal = true)
+
                             val series = when (exerciseRtn.series.size) {
                                 1 -> stringResource(R.string.my_routines_day_exercises_serie, exerciseRtn.series.size.toString())
                                 else -> stringResource(R.string.my_routines_day_exercises_series, exerciseRtn.series.size.toString())
                             }
-                            SmallText(text = series, fontFamily = alphazet)
+                            SmallText(text = series)
                             SpacerSmall(horizontal = true)
                         }
 
                         exerciseRtn.rest?.let { rest ->
+                            Icon(
+                                painterResource(R.drawable.ic_rest), null,
+                                tint = GrayHard,
+                                modifier = Modifier.size(16.dp)
+                            )
+
+                            SpacerMini(horizontal = true)
+
                             val rest = stringResource(R.string.my_routines_day_exercises_rest, rest)
-                            SmallText(text = rest, fontFamily = alphazet)
+                            SmallText(text = rest)
                         }
                     }
                 }
 
-                IconButton(
-                    onClick = { onEditClick() },
-                    modifier = Modifier.align(Alignment.Top)
-                ) {
-                    Icon(
-                        painterResource(R.drawable.ic_edit), null,
-                        tint = GrayHard
-                    )
-                }
+                Icon(
+                    painterResource(R.drawable.ic_settings), null,
+                    tint = GrayHard,
+                    modifier = Modifier.size(28.dp)
+                        .align(Alignment.Top)
+                        .clip(CircleShape)
+                        .clickable(onClick = { onEditClick() })
+                        .padding(top = 4.dp)
+                        .padding(end = 4.dp)
+                        .background(GrayMedium, CircleShape)
+                        .padding(4.dp)
+                )
             }
 
             AnimatedVisibility(expanded && exerciseRtn.series.isNotEmpty()) {
@@ -375,13 +412,25 @@ fun ExerciseRtnBox(
 
             exerciseRtn.notes?.let { notes ->
                 SpacerSmall()
-                MediumText(
-                    text = notes,
+                Row(
                     modifier = Modifier.fillMaxWidth()
                         .padding(horizontal = 12.dp)
                         .background(GrayLight, RoundedCornerShape(8.dp))
                         .padding(horizontal = 8.dp, vertical = 6.dp)
-                )
+                ) {
+                    Icon(
+                        painterResource(R.drawable.ic_notes), null,
+                        tint = GrayHard,
+                        modifier = Modifier.size(24.dp)
+                    )
+
+                    SpacerMini(horizontal = true)
+
+                    MediumText(
+                        text = notes,
+                        color = GrayHard
+                    )
+                }
             }
         }
     }
@@ -401,7 +450,11 @@ fun SuperSerie() {
         SmallText(
             text = R.string.my_routines_day_exercises_super_serie,
             allCaps = true,
-            fontFamily = montserrat_bold
+            fontFamily = montserrat_bold,
+            modifier = Modifier
+                .padding(vertical = 6.dp)
+                .background(GrayLight, RoundedCornerShape(8.dp))
+                .padding(horizontal = 16.dp, vertical = 2.dp)
         )
 
         SpacerSmall(horizontal = true)

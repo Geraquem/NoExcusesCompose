@@ -6,6 +6,7 @@ import com.mmfsin.noexcusescompose.data.models.MyRoutineDTO
 import com.mmfsin.noexcusescompose.data.models.NoteDTO
 import com.mmfsin.noexcusescompose.data.models.SerieDTO
 import com.mmfsin.noexcusescompose.domain.models.ExerciseRtn
+import com.mmfsin.noexcusescompose.domain.models.RoutineColor.Companion.getRandomRoutineColorId
 import com.mmfsin.noexcusescompose.domain.models.Serie
 import java.util.UUID
 
@@ -30,7 +31,8 @@ fun createRoutineDTO(
     id = UUID.randomUUID().toString(),
     name = name,
     description = description,
-    order = order
+    order = order,
+    colorId = getRandomRoutineColorId()
 )
 
 fun createDayDTO(

@@ -8,13 +8,16 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -23,7 +26,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -34,11 +39,16 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mmfsin.noexcusescompose.R
@@ -53,13 +63,15 @@ import com.mmfsin.noexcusescompose.presentation.core.components.OutlinedButtonCu
 import com.mmfsin.noexcusescompose.presentation.core.components.OutlinedButtonCustomIcon
 import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerLarge
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
 import com.mmfsin.noexcusescompose.presentation.core.theme.Black
-import com.mmfsin.noexcusescompose.presentation.core.theme.BlueLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.GrayHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
+import com.mmfsin.noexcusescompose.presentation.core.theme.alphazet
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 import com.mmfsin.noexcusescompose.presentation.myroutines.routines.components.CreateRoutineDialog
 import com.mmfsin.noexcusescompose.presentation.myroutines.routines.components.DeleteDayDialog
@@ -159,6 +171,16 @@ fun MyRoutinesContent(
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                         contentPadding = PaddingValues(vertical = 16.dp)
                     ) {
+                        item {
+                            SmallText(
+                                text = R.string.my_routines_top_text_title,
+                                allCaps = true
+                            )
+                            MediumText(
+                                text = R.string.my_routines_top_text_subtitle,
+                            )
+                        }
+
                         items(
                             items = uiStates.myRoutines,
                             key = { routine -> routine.id }
@@ -233,7 +255,7 @@ fun RoutineBox(
     updatePushpin: () -> Unit
 ) {
 
-    var expanded by rememberSaveable { mutableStateOf(true) }
+    var expanded by rememberSaveable { mutableStateOf(false) }
 
     Card(
         modifier = Modifier.fillMaxWidth()
@@ -260,7 +282,7 @@ fun RoutineBox(
                     Row(
                         modifier = Modifier
                             .width(100.dp)
-                            .background(BlueLight, RoundedCornerShape(8.dp))
+                            .background(routine.color, RoundedCornerShape(8.dp))
                             .padding(vertical = 2.dp, horizontal = 12.dp),
                         horizontalArrangement = Arrangement.Center
                     ) {
@@ -276,14 +298,30 @@ fun RoutineBox(
 
                     SpacerSmall()
 
-                    MediumText(
-                        text = routine.name,
-                        fontFamily = montserrat_bold
-                    )
+                    Row {
+                        Box(
+                            modifier = Modifier.background(routine.color, RoundedCornerShape(8.dp)).padding(4.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                painterResource(R.drawable.ic_dumbbell), null,
+                                modifier = Modifier.size(18.dp).rotate(145f)
+                            )
+                        }
 
-                    routine.description?.let { d ->
-                        SpacerMini()
-                        MediumText(text = d)
+                        SpacerSmall(horizontal = true)
+
+                        Column {
+                            MediumText(
+                                text = routine.name,
+                                fontFamily = montserrat_bold,
+                                fontSize = 18.sp
+                            )
+
+                            routine.description?.let { d ->
+                                MediumText(text = d)
+                            }
+                        }
                     }
                 }
 
@@ -304,20 +342,36 @@ fun RoutineBox(
                         DayBox(
                             position = i + 1,
                             day = day,
+                            color = routine.color,
                             onDayClick = { goToDayDetail(day.id) },
                             onDayLongClick = { onDayLongClick(day) }
                         )
                     }
 
+                    SpacerSmall()
+                    Box(
+                        Modifier.fillMaxWidth().height(0.5.dp)
+                            .padding(horizontal = 12.dp).background(GrayHard)
+                    )
+                    SpacerMini()
+
                     TextButton(
                         onClick = { goToDayDetail(null) },
-                        modifier = Modifier.align(Alignment.End)
-                            .padding(end = 6.dp)
+                        modifier = Modifier.padding(horizontal = 6.dp)
                     ) {
-                        SmallText(
-                            text = R.string.my_routines_create_day,
-                            allCaps = true,
-                        )
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                painterResource(R.drawable.ic_add), null,
+                                tint = Black,
+                                modifier = Modifier.size(20.dp)
+                            )
+                            SpacerSmall(horizontal = true)
+                            SmallText(
+                                text = R.string.my_routines_create_day,
+                                fontWeight = FontWeight.SemiBold,
+                            )
+                            Spacer(Modifier.weight(1f))
+                        }
                     }
                 }
             }
@@ -329,21 +383,33 @@ fun RoutineBox(
 fun DayBox(
     position: Int,
     day: Day,
+    color: Color,
     onDayClick: () -> Unit,
     onDayLongClick: () -> Unit
 ) {
-    Card(
+    Row(
         modifier = Modifier.fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 4.dp)
+            .background(color = GrayLight, shape = RoundedCornerShape(8.dp))
+            .padding(horizontal = 8.dp, vertical = 4.dp)
             .combinedClickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() },
                 onClick = { onDayClick() },
                 onLongClick = { onDayLongClick() }
             ),
-        colors = CardDefaults.cardColors(containerColor = GrayLight),
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
+        verticalAlignment = Alignment.CenterVertically
     ) {
+        Box(
+            modifier = Modifier.size(34.dp).background(color, CircleShape).padding(4.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            MediumText(
+                text = "$position",
+                fontFamily = alphazet
+            )
+        }
+
         Column(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 6.dp),
             verticalArrangement = Arrangement.Center

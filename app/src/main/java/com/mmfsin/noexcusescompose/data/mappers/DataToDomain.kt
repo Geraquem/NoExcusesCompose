@@ -15,6 +15,7 @@ import com.mmfsin.noexcusescompose.domain.models.ExerciseRtn
 import com.mmfsin.noexcusescompose.domain.models.MuscularGroup
 import com.mmfsin.noexcusescompose.domain.models.Note
 import com.mmfsin.noexcusescompose.domain.models.Routine
+import com.mmfsin.noexcusescompose.domain.models.RoutineColor.Companion.getRoutineColorById
 import com.mmfsin.noexcusescompose.domain.models.Serie
 import com.mmfsin.noexcusescompose.domain.models.Stretch
 import com.mmfsin.noexcusescompose.domain.models.Stretching
@@ -66,7 +67,8 @@ fun RoutineWithDays.toRoutine(days: List<Day>) = Routine(
     pinned = routine.pinned,
     createdByUser = routine.createdByUser,
     pinnedDate = routine.pinnedDate,
-    order = routine.order
+    order = routine.order,
+    color = getRoutineColorById(routine.colorId)
 )
 
 fun MyRoutineDTO.toRoutine(days: List<Day>) = Routine(
@@ -77,7 +79,8 @@ fun MyRoutineDTO.toRoutine(days: List<Day>) = Routine(
     pinned = pinned,
     createdByUser = createdByUser,
     pinnedDate = pinnedDate,
-    order = order
+    order = order,
+    color = getRoutineColorById(colorId)
 )
 
 fun DayDTO.toDay() = Day(

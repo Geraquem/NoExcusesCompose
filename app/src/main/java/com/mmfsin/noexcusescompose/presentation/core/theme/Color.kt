@@ -14,11 +14,11 @@ val Black = Color.Black
 val White = Color.White
 val Transparent =  Color(0x00FFFFFF)
 
-val GrayLight = Color(0xFFEEEEEE)
+val GrayLight = Color(0xFFF3F3F3)
 val GrayMedium = Color(0xFFDCDCDC)
-val GrayHard = Color(0xFF909090)
+val GrayHard = Color(0xFF717171)
 
-val GreenLight = Color(0xFFBEF5C5)
+val GreenLight = Color(0xFFCEFFD3)
 val GreenMedium = Color(0xFF58AF63)
 val GreenHard = Color(0xFF00A513)
 
@@ -27,7 +27,7 @@ val RedMedium = Color(0xFFDC5656)
 val RedHard = Color(0xFFD40505)
 
 val OrangeTransparent = Color(0x66FFC76E)
-val OrangeLight = Color(0xFFFFE3AF)
+val OrangeLight = Color(0xFFFDE8BD)
 val OrangeMedium = Color(0xFFD9A147)
 val OrangeHard = Color(0xFFF69A00)
 
@@ -36,11 +36,11 @@ val YellowMedium = Color(0xFFF5ED9D)
 val YellowHard = Color(0xFFEFD62A)
 
 val BlueTransparent = Color(0x6695B7EE)
-val BlueLight = Color(0xFFABCAFA)
+val BlueLight = Color(0xFFCCDFFF)
 val BlueMedium = Color(0xFF4B87E7)
 val BlueHard = Color(0xFF0449BF)
 
-val PurpleLight = Color(0xFFB588CB)
+val PurpleLight = Color(0xFFEFD9FF)
 val Purple = Color(0xFF7A2493)
 val PurpleDark = Color(0xFF764186)
 

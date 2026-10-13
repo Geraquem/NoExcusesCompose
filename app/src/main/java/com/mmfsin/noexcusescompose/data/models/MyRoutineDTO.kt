@@ -16,4 +16,5 @@ data class MyRoutineDTO(
     var createdByUser: Boolean = true,
     var pinnedDate: Long? = null,
     var order: Int = 0,
+    var colorId: Int = 0,
 )

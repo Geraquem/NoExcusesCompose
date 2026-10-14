@@ -114,6 +114,7 @@
 
     <!-- DEFAULT ROUTINES -->
     <string name="df_routine_top_title">Rutinas predefinidas</string>
+    <string name="df_routine_exercises_reps">%s reps</string>
 
     <!-- FAVORITES -->
     <string name="favs_title">Favoritos</string>

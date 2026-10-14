@@ -47,7 +47,7 @@ fun getExerciseRtnExamples() = listOf(
         exercise = getExercisesExamples().last(),
         series = emptyList(),
         rest = null,
-        notes = null,
+        notes = "12,10,8",
         superSerie = false,
         order = 0
     ),

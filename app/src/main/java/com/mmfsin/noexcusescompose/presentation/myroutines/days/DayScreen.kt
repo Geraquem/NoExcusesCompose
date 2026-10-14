@@ -313,7 +313,7 @@ fun ExerciseRtnBox(
                 .background(color = White, shape = RoundedCornerShape(8.dp))
                 .clip(RoundedCornerShape(8.dp))
                 .clickable(onClick = { if (exerciseRtn.series.isNotEmpty()) expanded = !expanded })
-                .padding(bottom = 12.dp)
+                .padding(bottom = 16.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth().padding(start = 8.dp, end = 4.dp).padding(top = 4.dp),

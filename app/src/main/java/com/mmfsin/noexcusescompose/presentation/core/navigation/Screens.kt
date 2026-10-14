@@ -25,6 +25,11 @@ data class MuscularGroupsRtn(val dayId: String, val dayName: String)
 @Serializable
 data class ExercisesRtn(val dayId: String, val dayName: String, val mGroupId: String)
 
+/************* DEFAULT ROUTINES ****************/
+
+@Serializable
+data object DfRoutines
+
 /******************************************/
 
 @Serializable

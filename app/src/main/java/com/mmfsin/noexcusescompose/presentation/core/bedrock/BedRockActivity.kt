@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationDfRoutines
 import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationExercises
 import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationFavorites
 import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationMyRoutines
@@ -12,6 +13,7 @@ import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationStretc
 import com.mmfsin.noexcusescompose.util.BEDROCK_BOOL_ARGS
 import com.mmfsin.noexcusescompose.util.BEDROCK_NAV_GRAPH
 import com.mmfsin.noexcusescompose.util.BEDROCK_STR_ARGS
+import com.mmfsin.noexcusescompose.util.NAV_DF_ROUTINES
 import com.mmfsin.noexcusescompose.util.NAV_EXERCISES
 import com.mmfsin.noexcusescompose.util.NAV_FAVORITES
 import com.mmfsin.noexcusescompose.util.NAV_MY_ROUTINES
@@ -32,6 +34,7 @@ class BedRockActivity : ComponentActivity() {
         setContent {
             when (navGraph) {
                 NAV_EXERCISES -> NavigationExercises(mgroupId = strArgs)
+                NAV_DF_ROUTINES -> NavigationDfRoutines()
                 NAV_MY_ROUTINES -> NavigationMyRoutines()
                 NAV_STRETCH -> NavigationStretch()
                 NAV_FAVORITES -> NavigationFavorites()

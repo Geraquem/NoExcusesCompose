@@ -112,6 +112,9 @@
     <string name="my_routines_exercises_delete_text">¿Quieres eliminar %s de tu rutina de entrenamiento?</string>
     <string name="my_routines_exercises_delete_cancel">Cancelar</string>
 
+    <!-- DEFAULT ROUTINES -->
+    <string name="df_routine_top_title">Rutinas predefinidas</string>
+
     <!-- FAVORITES -->
     <string name="favs_title">Favoritos</string>
     <string name="favs_empty">No has marcado ningún ejercicio como favorito</string>

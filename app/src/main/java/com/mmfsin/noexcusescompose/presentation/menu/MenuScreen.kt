@@ -47,6 +47,7 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 import com.mmfsin.noexcusescompose.presentation.menu.components.UnpinNoteDialog
 import com.mmfsin.noexcusescompose.presentation.notes.NoteBox
+import com.mmfsin.noexcusescompose.util.NAV_DF_ROUTINES
 import com.mmfsin.noexcusescompose.util.NAV_EXERCISES
 import com.mmfsin.noexcusescompose.util.NAV_FAVORITES
 import com.mmfsin.noexcusescompose.util.NAV_MY_ROUTINES
@@ -68,7 +69,7 @@ fun MenuScreenPV() {
             )
         ),
         {}, {}, {}, {},
-        {}, {},{},
+        {}, {}, {}, {},
     )
 }
 
@@ -80,6 +81,7 @@ fun MenuScreen(viewModel: MenuViewModel = hiltViewModel()) {
     MenuContent(
         uiStates = uiStates,
         goToExercises = { context.openBedRockActivity(NAV_EXERCISES, it) },
+        goToDfRoutines = { context.openBedRockActivity(NAV_DF_ROUTINES) },
         goToMyRoutines = { context.openBedRockActivity(NAV_MY_ROUTINES) },
         goToStretch = { context.openBedRockActivity(NAV_STRETCH) },
         goToFavorites = { context.openBedRockActivity(NAV_FAVORITES) },
@@ -94,6 +96,7 @@ fun MenuScreen(viewModel: MenuViewModel = hiltViewModel()) {
 fun MenuContent(
     uiStates: MenuStates,
     goToExercises: (String?) -> Unit,
+    goToDfRoutines: () -> Unit,
     goToMyRoutines: () -> Unit,
     goToStretch: () -> Unit,
     goToFavorites: () -> Unit,
@@ -129,7 +132,7 @@ fun MenuContent(
                 title = R.string.menu_default_routines_title,
                 titleColor = GreenHard,
                 description = R.string.menu_default_routines_description,
-                onClick = {}
+                onClick = { goToDfRoutines() }
             )
 
             Column {

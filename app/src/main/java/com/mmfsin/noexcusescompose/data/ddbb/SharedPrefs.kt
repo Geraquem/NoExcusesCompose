@@ -2,6 +2,7 @@ package com.mmfsin.noexcusescompose.data.ddbb
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import com.mmfsin.noexcusescompose.util.SP_DF_ROUTINES_SERVER
 import com.mmfsin.noexcusescompose.util.SP_EXERCISES_SERVER
 import com.mmfsin.noexcusescompose.util.SP_MUSCULAR_GROUPS_SERVER
 import com.mmfsin.noexcusescompose.util.SP_STRETCH_SERVER
@@ -14,6 +15,10 @@ class SharedPrefs @Inject constructor(
     /** VERSION */
     fun getVersionSaved(): Long = prefs.getLong(SP_VERSION_SAVED, -1)
     fun updateVersionSaved(value: Long) = prefs.edit { putLong(SP_VERSION_SAVED, value) }
+
+    /** DF ROUTINES SERVER */
+    fun getDfRoutinesFromServer(): Boolean = prefs.getBoolean(SP_DF_ROUTINES_SERVER, true)
+    fun updateDfRoutinesFromServer(value: Boolean) = prefs.edit { putBoolean(SP_DF_ROUTINES_SERVER, value) }
 
     /** MUSCULAR GROUPS SERVER */
     fun getMuscularGroupsFromServer(): Boolean = prefs.getBoolean(SP_MUSCULAR_GROUPS_SERVER, true)
@@ -29,6 +34,7 @@ class SharedPrefs @Inject constructor(
 
     fun restartValues(){
         prefs.edit {
+            putBoolean(SP_DF_ROUTINES_SERVER, true)
             putBoolean(SP_MUSCULAR_GROUPS_SERVER, true)
             putBoolean(SP_EXERCISES_SERVER, true)
             putBoolean(SP_STRETCH_SERVER, true)

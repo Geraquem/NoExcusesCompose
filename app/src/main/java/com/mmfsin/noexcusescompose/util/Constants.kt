@@ -12,6 +12,7 @@ const val BEDROCK_STR_ARGS = "bedrock_str_args"
 const val BEDROCK_BOOL_ARGS = "bedrock_bool_args"
 
 const val NAV_EXERCISES = "nav_exercises"
+const val NAV_DF_ROUTINES = "nav_df_routines"
 const val NAV_MY_ROUTINES = "nav_my_routines"
 const val NAV_STRETCH = "nav_stretch"
 const val NAV_FAVORITES = "nav_favorite_exercises"
@@ -36,12 +37,14 @@ const val DS_PINNED_NOTE = "ds_pinned_note"
 /** SHARED PREFS */
 const val SHARED_PREFS_NAME = "betweenminds_shared_prefs"
 const val SP_VERSION_SAVED = "sp_version_saved"
+const val SP_DF_ROUTINES_SERVER= "sp_df_routines_server"
 const val SP_MUSCULAR_GROUPS_SERVER = "sp_muscular_groups_server"
 const val SP_EXERCISES_SERVER = "sp_exercises_server"
 const val SP_STRETCH_SERVER = "sp_stretch_server"
 
 /** FIREBASE */
 const val VERSION = "version"
+const val DEFAULT_ROUTINES = "default_routines"
 const val MUSCULAR_GROUPS = "muscular_groups"
 const val EXERCISES = "exercises"
 const val STRETCH = "stretching"

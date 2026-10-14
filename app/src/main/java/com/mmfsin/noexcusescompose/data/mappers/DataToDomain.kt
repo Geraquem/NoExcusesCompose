@@ -2,6 +2,7 @@ package com.mmfsin.noexcusescompose.data.mappers
 
 import com.mmfsin.noexcusescompose.data.models.DayDTO
 import com.mmfsin.noexcusescompose.data.models.ExerciseDTO
+import com.mmfsin.noexcusescompose.data.models.ExerciseRtnDTO
 import com.mmfsin.noexcusescompose.data.models.ExerciseRtnWithSeries
 import com.mmfsin.noexcusescompose.data.models.MuscularGroupDTO
 import com.mmfsin.noexcusescompose.data.models.MyRoutineDTO
@@ -83,8 +84,6 @@ fun MyRoutineDTO.toRoutine(days: List<Day>) = Routine(
     color = getRoutineColorById(colorId)
 )
 
-fun List<MyRoutineDTO>.toRoutineList() = this.map { it.toRoutine(emptyList()) }
-
 fun DayDTO.toDay() = Day(
     id = id,
     routineId = routineId,
@@ -104,6 +103,24 @@ fun ExerciseRtnWithSeries.toExerciseRtn() = ExerciseRtn(
     notes = exerciseRtn.notes,
     superSerie = exerciseRtn.superSerie,
     order = exerciseRtn.order
+)
+
+fun createDfExerciseRtnDTO(
+    id: String,
+    dayId: String,
+    exerciseId: String,
+    rest: String,
+    series: String,
+    superSerie: Boolean,
+    order: Int
+) = ExerciseRtnDTO(
+    id = id,
+    dayId = dayId,
+    exerciseId = exerciseId,
+    rest = rest,
+    notes = series,
+    superSerie = superSerie,
+    order = order
 )
 
 fun SerieDTO.toSerie() = Serie(

@@ -25,6 +25,9 @@ interface RoutinesDAO {
     @Query("SELECT * FROM table_routines WHERE createdByUser = 0")
     fun getDfRoutines(): Flow<List<RoutineWithDays>>
 
+    @Query("SELECT * FROM table_exercises_rtn WHERE dayId = :dayId")
+    fun getDfDayExercises(dayId: String): List<ExerciseRtnDTO>
+
     /******************* ROUTINES *******************/
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -87,6 +90,9 @@ interface RoutinesDAO {
 
     /****************** EXERCISES ******************/
     @Insert
+    suspend fun insertExercisesRtn(exercises: List<ExerciseRtnDTO>)
+
+    @Insert
     suspend fun insertExerciseRtn(exercise: ExerciseRtnDTO)
 
     @Query(
@@ -120,6 +126,17 @@ interface RoutinesDAO {
     """
     )
     fun getExercisesRtnWithSeriesByDayId(dayId: String): Flow<List<ExerciseRtnWithSeries>>
+
+    @Transaction
+    @Query(
+        """
+    SELECT *
+    FROM table_exercises_rtn
+    WHERE dayId = :dayId
+    ORDER BY `order` ASC
+    """
+    )
+    fun getExercisesRtnWithSeriesByDayIdNoFlow(dayId: String): List<ExerciseRtnWithSeries>
 
     @Query("DELETE FROM table_series WHERE exerciseRtnId = :exerciseRtnId")
     suspend fun deleteSeriesByExerciseRtnId(exerciseRtnId: String)

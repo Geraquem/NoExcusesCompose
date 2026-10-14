@@ -3,17 +3,19 @@ package com.mmfsin.noexcusescompose.data.repository
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mmfsin.noexcusescompose.data.ddbb.SharedPrefs
+import com.mmfsin.noexcusescompose.data.ddbb.daos.ExercisesDAO
 import com.mmfsin.noexcusescompose.data.ddbb.daos.RoutinesDAO
 import com.mmfsin.noexcusescompose.data.mappers.createDayDTO
+import com.mmfsin.noexcusescompose.data.mappers.createDfExerciseRtnDTO
 import com.mmfsin.noexcusescompose.data.mappers.createRoutineDTO
 import com.mmfsin.noexcusescompose.data.mappers.toDay
 import com.mmfsin.noexcusescompose.data.mappers.toDayList
 import com.mmfsin.noexcusescompose.data.mappers.toExerciseRtnDTO
 import com.mmfsin.noexcusescompose.data.mappers.toExerciseRtnList
 import com.mmfsin.noexcusescompose.data.mappers.toRoutine
-import com.mmfsin.noexcusescompose.data.mappers.toRoutineList
 import com.mmfsin.noexcusescompose.data.mappers.toSerieDTO
 import com.mmfsin.noexcusescompose.data.models.DayDTO
+import com.mmfsin.noexcusescompose.data.models.ExerciseRtnWithSeries
 import com.mmfsin.noexcusescompose.data.models.MyRoutineDTO
 import com.mmfsin.noexcusescompose.domain.interfaces.IRoutinesRepository
 import com.mmfsin.noexcusescompose.domain.models.Day
@@ -21,6 +23,7 @@ import com.mmfsin.noexcusescompose.domain.models.ExerciseRtn
 import com.mmfsin.noexcusescompose.domain.models.Routine
 import com.mmfsin.noexcusescompose.util.DAYS
 import com.mmfsin.noexcusescompose.util.DEFAULT_ROUTINES
+import com.mmfsin.noexcusescompose.util.EXERCISES
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -30,6 +33,7 @@ import javax.inject.Inject
 class RoutinesRepository @Inject constructor(
     val prefs: SharedPrefs,
     val routinesDAO: RoutinesDAO,
+    val exercisesDAO: ExercisesDAO,
 ) : IRoutinesRepository {
 
     override suspend fun getDfRoutines(): Flow<List<Routine>> {
@@ -63,6 +67,44 @@ class RoutinesRepository @Inject constructor(
             }
 
             if (days.isNotEmpty()) routinesDAO.insertDays(days)
+        }
+    }
+
+    override suspend fun getDfDayExercises(routineId: String, dayId: String): List<ExerciseRtn> {
+        val exercises = routinesDAO.getExercisesRtnWithSeriesByDayIdNoFlow(dayId)
+        return if (exercises.isNotEmpty()) exercises.toExerciseRtnList().sortedBy { e -> e.order }
+        else {
+            val snapshot = Firebase.firestore.collection(DEFAULT_ROUTINES).document(routineId)
+                .collection(DAYS).document(dayId).collection(EXERCISES).get().await()
+
+            val list = mutableListOf<ExerciseRtnWithSeries>()
+            snapshot.documents.mapIndexedNotNull { i, document ->
+                val id = document.id
+                val dayId = document.getString("dayId") ?: return@mapIndexedNotNull null
+                val exerciseId = document.getString("exerciseId") ?: return@mapIndexedNotNull null
+                val series = document.getString("reps") ?: return@mapIndexedNotNull null
+                val rest = document.getString("desc") ?: return@mapIndexedNotNull null
+                val superSerie = document.getBoolean("superSerie") ?: false
+
+                list.add(
+                    ExerciseRtnWithSeries(
+                        exerciseRtn = createDfExerciseRtnDTO(
+                            id = id,
+                            dayId = dayId,
+                            exerciseId = exerciseId,
+                            series = series,
+                            rest = rest,
+                            superSerie = superSerie,
+                            order = i
+                        ),
+                        series = emptyList(),
+                        exercise = exercisesDAO.getExerciseById(exerciseId).first()
+                    )
+                )
+            }
+
+            if (list.isNotEmpty()) routinesDAO.insertExercisesRtn(list.map { it.exerciseRtn })
+            list.toExerciseRtnList().sortedBy { e -> e.order }
         }
     }
 

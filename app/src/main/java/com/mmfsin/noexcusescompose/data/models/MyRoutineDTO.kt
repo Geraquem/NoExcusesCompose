@@ -13,7 +13,7 @@ data class MyRoutineDTO(
     var name: String = "",
     var description: String? = null,
     var pinned: Boolean = false,
-    var createdByUser: Boolean = true,
+    var createdByUser: Boolean = false,
     var pinnedDate: Long? = null,
     var order: Int = 0,
     var colorId: Int = 0,

@@ -23,7 +23,7 @@ interface RoutinesDAO {
     suspend fun insertDfRoutines(routines: List<MyRoutineDTO>)
 
     @Query("SELECT * FROM table_routines WHERE createdByUser = 0")
-    fun getDRoutines():  List<RoutineWithDays>
+    fun getDfRoutines(): Flow<List<RoutineWithDays>>
 
     /******************* ROUTINES *******************/
 
@@ -57,6 +57,9 @@ interface RoutinesDAO {
     suspend fun deleteRoutine(routineId: String)
 
     /********************* DAYS *********************/
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertDays(days: List<DayDTO>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDay(day: DayDTO)

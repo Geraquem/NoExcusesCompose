@@ -45,6 +45,7 @@ const val SP_STRETCH_SERVER = "sp_stretch_server"
 /** FIREBASE */
 const val VERSION = "version"
 const val DEFAULT_ROUTINES = "default_routines"
+const val DAYS = "days"
 const val MUSCULAR_GROUPS = "muscular_groups"
 const val EXERCISES = "exercises"
 const val STRETCH = "stretching"

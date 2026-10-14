@@ -83,6 +83,8 @@ fun MyRoutineDTO.toRoutine(days: List<Day>) = Routine(
     color = getRoutineColorById(colorId)
 )
 
+fun List<MyRoutineDTO>.toRoutineList() = this.map { it.toRoutine(emptyList()) }
+
 fun DayDTO.toDay() = Day(
     id = id,
     routineId = routineId,

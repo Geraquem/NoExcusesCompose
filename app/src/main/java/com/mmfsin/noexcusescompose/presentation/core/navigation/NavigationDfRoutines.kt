@@ -7,9 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.mmfsin.noexcusescompose.presentation.dfroutines.days.DfDayScreen
 import com.mmfsin.noexcusescompose.presentation.exercises.detail.ExerciseDetailScreen
 import com.mmfsin.noexcusescompose.presentation.myroutines.days.DayScreen
-import com.mmfsin.noexcusescompose.presentation.routines.DfRoutinesScreen
+import com.mmfsin.noexcusescompose.presentation.dfroutines.routines.DfRoutinesScreen
 
 @Composable
 fun NavigationDfRoutines() {
@@ -28,22 +29,14 @@ fun NavigationDfRoutines() {
             DfRoutinesScreen (
                 goBack = { activity?.finish() },
                 goToDayDetail = { routineId, dayId ->
-//                    navController.navigate(DayDetail(routineId, dayId))
+                    navController.navigate(DfDayDetail(routineId, dayId))
                 }
             )
         }
 
-        composable<DayDetail> {
-            DayScreen(
+        composable<DfDayDetail> {
+            DfDayScreen(
                 goBack = { navController.popBackStack() },
-                goToMuscularGroups = { id, name ->
-                    navController.navigate(
-                        MuscularGroupsRtn(
-                            dayId = id,
-                            dayName = name
-                        )
-                    )
-                },
                 goToExerciseDetail = { exerciseId ->
                     navController.navigate(ExerciseDetail(exerciseId))
                 }

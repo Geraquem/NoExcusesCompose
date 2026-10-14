@@ -31,6 +31,7 @@ fun createRoutineDTO(
     id = UUID.randomUUID().toString(),
     name = name,
     description = description,
+    createdByUser = true,
     order = order,
     colorId = getRandomRoutineColorId()
 )

@@ -20,9 +20,7 @@ import com.mmfsin.noexcusescompose.domain.models.RoutineColor.Companion.getRouti
 import com.mmfsin.noexcusescompose.domain.models.Serie
 import com.mmfsin.noexcusescompose.domain.models.Stretch
 import com.mmfsin.noexcusescompose.domain.models.Stretching
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import com.mmfsin.noexcusescompose.util.formatDate
 
 /*********************************************************************************************************/
 /******************************************  MUSCULAR GROUPS  ********************************************/
@@ -67,7 +65,7 @@ fun RoutineWithDays.toRoutine(days: List<Day>) = Routine(
     days = days,
     pinned = routine.pinned,
     createdByUser = routine.createdByUser,
-    pinnedDate = routine.pinnedDate,
+    pinnedDate = formatDate(routine.pinnedDate),
     order = routine.order,
     color = getRoutineColorById(routine.colorId)
 )
@@ -79,7 +77,7 @@ fun MyRoutineDTO.toRoutine(days: List<Day>) = Routine(
     days = days,
     pinned = pinned,
     createdByUser = createdByUser,
-    pinnedDate = pinnedDate,
+    pinnedDate = formatDate(pinnedDate),
     order = order,
     color = getRoutineColorById(colorId)
 )
@@ -167,13 +165,8 @@ fun NoteDTO.toNote() = Note(
     id = id,
     title = title,
     description = description,
-    date = formatDate(date),
+    date = formatDate(date) ?: "",
     pinned = pinned
 )
-
-private fun formatDate(date: Long): String {
-    val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-    return sdf.format(Date(date))
-}
 
 fun List<NoteDTO>.toNoteList() = this.map { it.toNote() }

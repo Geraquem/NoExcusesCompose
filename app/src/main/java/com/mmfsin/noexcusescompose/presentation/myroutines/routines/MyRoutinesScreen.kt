@@ -42,6 +42,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,6 +62,7 @@ import com.mmfsin.noexcusescompose.presentation.core.components.OutlinedButtonCu
 import com.mmfsin.noexcusescompose.presentation.core.components.OutlinedButtonCustomIcon
 import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerLarge
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
 import com.mmfsin.noexcusescompose.presentation.core.theme.Black
@@ -249,7 +251,8 @@ fun RoutineBox(
     editRoutine: () -> Unit,
     goToDayDetail: (String?) -> Unit,
     onDayLongClick: (Day) -> Unit,
-    updatePushpin: () -> Unit
+    updatePushpin: () -> Unit,
+    showPinnedDate: Boolean = false,
 ) {
 
     var expanded by rememberSaveable { mutableStateOf(false) }
@@ -370,6 +373,13 @@ fun RoutineBox(
                             Spacer(Modifier.weight(1f))
                         }
                     }
+                }
+            }
+
+            if (showPinnedDate && routine.pinnedDate != null) {
+                SpacerMedium()
+                Box(Modifier.padding(horizontal = 12.dp)) {
+                    SmallText(text = stringResource(R.string.menu_none_routine_pinned_date, routine.pinnedDate))
                 }
             }
         }

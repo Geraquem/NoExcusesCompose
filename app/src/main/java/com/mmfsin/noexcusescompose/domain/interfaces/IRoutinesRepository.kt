@@ -14,7 +14,8 @@ interface IRoutinesRepository {
     suspend fun editRoutine(routine: Routine)
     fun getMyRoutines(): Flow<List<Routine>>
     suspend fun getRoutineById(routineId: String): Routine?
-    fun updatePinnedRoutine(routineId: String)
+    suspend fun updatePinnedRoutine(routineId: String)
+    suspend fun getPinnedRoutine(): Flow<Routine?>
     suspend fun deleteRoutine(routineId: String)
 
     suspend fun createOrEditDay(routineId: String, dayId: String, name: String): String

@@ -32,9 +32,12 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.domain.models.Note
+import com.mmfsin.noexcusescompose.domain.models.getExampleRoutines
 import com.mmfsin.noexcusescompose.presentation.core.components.ButtonCustom
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
+import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerCustom
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
 import com.mmfsin.noexcusescompose.presentation.core.theme.Black
@@ -46,6 +49,7 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.PurpleDark
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 import com.mmfsin.noexcusescompose.presentation.menu.components.UnpinNoteDialog
+import com.mmfsin.noexcusescompose.presentation.myroutines.routines.RoutineBox
 import com.mmfsin.noexcusescompose.presentation.notes.NoteBox
 import com.mmfsin.noexcusescompose.util.NAV_DF_ROUTINES
 import com.mmfsin.noexcusescompose.util.NAV_EXERCISES
@@ -60,13 +64,14 @@ import com.mmfsin.noexcusescompose.util.openBedRockActivity
 fun MenuScreenPV() {
     MenuContent(
         uiStates = MenuStates(
+            actualRoutine = getExampleRoutines().first(),
             actualNote = Note(
                 id = "",
                 title = "Notita 1",
                 description = "Description notita",
                 date = "12 de agosto de 1245",
                 pinned = true
-            )
+            ),
         ),
         {}, {}, {}, {},
         {}, {}, {}, {},
@@ -113,10 +118,30 @@ fun MenuContent(
                 .background(GrayMedium)
                 .padding(horizontal = 16.dp)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
+            SpacerSmall()
+
+            uiStates.actualRoutine?.let { routine ->
+                SmallText(
+                    text = R.string.menu_my_actual_routine,
+                    modifier = Modifier.padding(start = 6.dp)
+                )
+
+                SpacerMini()
+
+                RoutineBox(
+                    routine = routine,
+                    editRoutine = {},
+                    goToDayDetail = { dayId -> },
+                    onDayLongClick = {},
+                    updatePushpin = { },
+                    showPinnedDate = true
+                )
+            }
+
             uiStates.actualNote?.let { note ->
+                SpacerMedium()
                 NoteBox(
                     note = note,
                     onClick = { openNoteDetail(note.id) },
@@ -124,7 +149,7 @@ fun MenuContent(
                 )
             }
 
-            SpacerMini()
+            SpacerMedium()
 
             MenuBox(
                 icon = R.drawable.ic_df_routines,

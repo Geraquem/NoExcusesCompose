@@ -48,13 +48,24 @@ interface RoutinesDAO {
     @Query(
         """
     UPDATE table_routines
-    SET pinned = CASE
-        WHEN id = :routineId THEN NOT pinned
-        ELSE 0
-    END
+    SET
+        pinned = CASE
+            WHEN id = :routineId THEN NOT pinned
+            ELSE 0
+        END,
+        pinnedDate = CASE
+            WHEN id = :routineId AND pinned = 0 THEN :pinnedDate
+            ELSE NULL
+        END
     """
     )
-    fun updatePinnedRoutine(routineId: String)
+    suspend fun updatePinnedRoutine(
+        routineId: String,
+        pinnedDate: Long
+    )
+
+    @Query("SELECT * FROM table_routines WHERE pinned = 1")
+    fun getPinnedRoutine(): Flow<RoutineWithDays?>
 
     @Query("DELETE FROM table_routines WHERE id = :routineId")
     suspend fun deleteRoutine(routineId: String)

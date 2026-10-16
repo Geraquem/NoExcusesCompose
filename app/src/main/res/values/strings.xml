@@ -19,7 +19,7 @@
     <string name="bottom_nav_stretching">Estiramientos</string>
 
     <!-- MENU -->
-    <string name="menu_none_routine_pinned">¡Fija aqui la rutina que estés haciendo!</string>
+    <string name="menu_none_routine_pinned">¡Fija aquí la rutina que estés haciendo!</string>
     <string name="menu_none_routine_pinned_date">Fijada desde el %s</string>
     <string name="menu_none_routine_pinned_description">Solo tienes que pulsar el icono</string>
     <string name="menu_default_routines_title">Rutinas</string>

@@ -14,7 +14,7 @@ data class Routine(
     var days: List<Day>,
     var pinned: Boolean,
     val createdByUser: Boolean,
-    val pinnedDate: Long?,
+    val pinnedDate: String?,
     val order: Int,
     val color: Color,
 )
@@ -40,7 +40,7 @@ fun getExampleRoutines() = listOf(
         days = getExampleDays(),
         pinned = false,
         createdByUser = true,
-        pinnedDate = 0,
+        pinnedDate = null,
         order = 0,
         color = PurpleLight
     ),
@@ -51,7 +51,7 @@ fun getExampleRoutines() = listOf(
         days = getExampleDays(),
         pinned = true,
         createdByUser = true,
-        pinnedDate = 0,
+        pinnedDate = "24 Agosto 2025",
         order = 1,
         color = GreenLight
     ),
@@ -62,7 +62,7 @@ fun getExampleRoutines() = listOf(
         days = getExampleDays(),
         pinned = false,
         createdByUser = false,
-        pinnedDate = 0,
+        pinnedDate = null,
         order = 2,
         color = OrangeLight
     ),

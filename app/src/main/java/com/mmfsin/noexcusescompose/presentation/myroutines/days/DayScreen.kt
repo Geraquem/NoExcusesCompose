@@ -340,7 +340,7 @@ fun ExerciseRtnBox(
 
                     SpacerMini()
 
-                    Row() {
+                    Row {
                         MediumText(
                             text = "${position + 1}.",
                             fontFamily = montserrat_bold

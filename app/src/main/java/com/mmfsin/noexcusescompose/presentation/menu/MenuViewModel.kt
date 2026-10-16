@@ -3,6 +3,7 @@ package com.mmfsin.noexcusescompose.presentation.menu
 import androidx.lifecycle.viewModelScope
 import com.mmfsin.noexcusescompose.domain.usecases.GetMuscularGroupsUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetPinnedNoteUseCase
+import com.mmfsin.noexcusescompose.domain.usecases.GetPinnedRoutineUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.UpdatePinnedNoteUseCase
 import com.mmfsin.noexcusescompose.presentation.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,12 +14,14 @@ import javax.inject.Inject
 @HiltViewModel
 class MenuViewModel @Inject constructor(
     private val getMuscularGroupsUseCase: GetMuscularGroupsUseCase,
+    private val getPinnedRoutineUseCase: GetPinnedRoutineUseCase,
     private val getPinnedNoteUseCase: GetPinnedNoteUseCase,
     private val updatePinnedNoteUseCase: UpdatePinnedNoteUseCase,
 ) : BaseViewModel<MenuStates>(MenuStates()) {
 
     init {
         getMuscularGroups()
+        getPinnedRoutine()
         getPinnedNote()
     }
 
@@ -34,6 +37,14 @@ class MenuViewModel @Inject constructor(
             },
             {},
         )
+    }
+
+    fun getPinnedRoutine() {
+        viewModelScope.launch {
+            getPinnedRoutineUseCase().collect { routine ->
+                _uiState.update { it.copy(actualRoutine = routine) }
+            }
+        }
     }
 
     fun getPinnedNote() {

@@ -5,5 +5,5 @@ import javax.inject.Inject
 
 class UpdatePinnedRoutineUseCase @Inject constructor(val repository: IRoutinesRepository) {
 
-    operator fun invoke(routineId: String) = repository.updatePinnedRoutine(routineId)
+    suspend operator fun invoke(routineId: String) = repository.updatePinnedRoutine(routineId)
 }

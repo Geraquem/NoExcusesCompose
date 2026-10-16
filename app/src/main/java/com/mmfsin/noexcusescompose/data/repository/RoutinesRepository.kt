@@ -136,8 +136,17 @@ class RoutinesRepository @Inject constructor(
         return routinesDAO.getMyRoutineById(routineId)?.toRoutine(days)
     }
 
-    override fun updatePinnedRoutine(routineId: String) {
-        routinesDAO.updatePinnedRoutine(routineId)
+    override suspend fun updatePinnedRoutine(routineId: String) {
+        routinesDAO.updatePinnedRoutine(
+            routineId = routineId,
+            pinnedDate = System.currentTimeMillis()
+        )
+    }
+
+    override suspend fun getPinnedRoutine(): Flow<Routine?> {
+        return routinesDAO.getPinnedRoutine().map { routine ->
+            routine?.toRoutine(days = routine.days.map { it.toDay() }.sortedBy { it.order })
+        }
     }
 
     override suspend fun deleteRoutine(routineId: String) {

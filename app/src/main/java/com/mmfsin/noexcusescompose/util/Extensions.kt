@@ -13,6 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import com.mmfsin.noexcusescompose.presentation.core.bedrock.BedRockActivity
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 fun <T1 : Any, T2 : Any, R : Any> checkNotNulls(p1: T1?, p2: T2?, block: (T1, T2) -> R): R? {
     return if (p1 != null && p2 != null) block(p1, p2) else null
@@ -88,4 +91,10 @@ fun Double?.deletePointZero(): String? {
             formatted.replace(".0", "")
         } else formatted
     } ?: run { null }
+}
+
+fun formatDate(date: Long?): String? {
+    if (date == null) return null
+    val sdf = SimpleDateFormat("dd MM yyyy", Locale.getDefault())
+    return sdf.format(Date(date))
 }

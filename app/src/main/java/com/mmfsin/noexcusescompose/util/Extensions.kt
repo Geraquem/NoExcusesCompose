@@ -14,6 +14,9 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import com.mmfsin.noexcusescompose.presentation.core.bedrock.BedRockActivity
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
@@ -95,6 +98,13 @@ fun Double?.deletePointZero(): String? {
 
 fun formatDate(date: Long?): String? {
     if (date == null) return null
-    val sdf = SimpleDateFormat("dd MM yyyy", Locale.getDefault())
-    return sdf.format(Date(date))
+    return Instant.ofEpochMilli(date)
+        .atZone(ZoneId.systemDefault())
+        .format(
+            DateTimeFormatter.ofPattern(
+                "dd MMM yyyy",
+                Locale.forLanguageTag("es-ES")
+            )
+        )
+        .replaceFirstChar { it.uppercase(Locale.forLanguageTag("es-ES")) }
 }

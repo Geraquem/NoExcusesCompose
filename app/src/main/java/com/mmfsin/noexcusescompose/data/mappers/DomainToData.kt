@@ -4,10 +4,12 @@ import com.mmfsin.noexcusescompose.data.models.DayDTO
 import com.mmfsin.noexcusescompose.data.models.ExerciseRtnDTO
 import com.mmfsin.noexcusescompose.data.models.MyRoutineDTO
 import com.mmfsin.noexcusescompose.data.models.NoteDTO
+import com.mmfsin.noexcusescompose.data.models.RmDTO
 import com.mmfsin.noexcusescompose.data.models.SerieDTO
 import com.mmfsin.noexcusescompose.domain.models.ExerciseRtn
 import com.mmfsin.noexcusescompose.domain.models.RoutineColor.Companion.getRandomRoutineColorId
 import com.mmfsin.noexcusescompose.domain.models.Serie
+import org.checkerframework.checker.units.qual.kg
 import java.util.UUID
 
 fun createNoteDTO(
@@ -64,4 +66,11 @@ fun Serie.toSerieDTO(exerciseRtnId: String) = SerieDTO(
     reps = reps,
     kgs = kgs,
     order = order
+)
+
+fun createRmDTO(exerciseId: String, date: Long, kgs: Double) = RmDTO(
+    id = UUID.randomUUID().toString(),
+    exerciseId = exerciseId,
+    date = date,
+    kgs = kgs
 )

@@ -21,12 +21,12 @@ import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.presentation.calendar.CalendarScreen
 import com.mmfsin.noexcusescompose.presentation.core.components.CustomMainToolbar
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
-import com.mmfsin.noexcusescompose.presentation.maximums.MaximumsScreen
 import com.mmfsin.noexcusescompose.presentation.menu.MenuScreen
 import com.mmfsin.noexcusescompose.presentation.notes.NotesScreen
+import com.mmfsin.noexcusescompose.presentation.rms.rms.RmsScreen
 import com.mmfsin.noexcusescompose.util.BN_CALENDAR_ID
 import com.mmfsin.noexcusescompose.util.BN_HOME_ID
-import com.mmfsin.noexcusescompose.util.BN_MAXIMUMS_ID
+import com.mmfsin.noexcusescompose.util.BN_RMS_ID
 import com.mmfsin.noexcusescompose.util.BN_NOTES_ID
 
 @Composable
@@ -37,7 +37,7 @@ fun NavigationMain() {
         BottomNavItem(id = BN_HOME_ID, name = stringResource(R.string.bottom_nav_home), icon = painterResource(R.drawable.ic_home)),
         BottomNavItem(id = BN_NOTES_ID, name = stringResource(R.string.bottom_nav_notes), icon = painterResource(R.drawable.ic_notes)),
         BottomNavItem(id = BN_CALENDAR_ID, name = stringResource(R.string.bottom_nav_calendar), icon = painterResource(R.drawable.ic_calendar)),
-        BottomNavItem(id = BN_MAXIMUMS_ID, name = stringResource(R.string.bottom_nav_maximum), icon = painterResource(R.drawable.ic_maximum)),
+        BottomNavItem(id = BN_RMS_ID, name = stringResource(R.string.bottom_nav_maximum), icon = painterResource(R.drawable.ic_maximum)),
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -84,8 +84,8 @@ fun NavigationMain() {
             composable(route = BN_CALENDAR_ID) {
                 CalendarScreen()
             }
-            composable(route = BN_MAXIMUMS_ID) {
-                MaximumsScreen()
+            composable(route = BN_RMS_ID) {
+                RmsScreen()
             }
         }
     }

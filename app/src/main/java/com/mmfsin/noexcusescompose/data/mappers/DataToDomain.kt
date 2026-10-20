@@ -7,6 +7,7 @@ import com.mmfsin.noexcusescompose.data.models.ExerciseRtnWithSeries
 import com.mmfsin.noexcusescompose.data.models.MuscularGroupDTO
 import com.mmfsin.noexcusescompose.data.models.MyRoutineDTO
 import com.mmfsin.noexcusescompose.data.models.NoteDTO
+import com.mmfsin.noexcusescompose.data.models.RmWithExercise
 import com.mmfsin.noexcusescompose.data.models.RoutineWithDays
 import com.mmfsin.noexcusescompose.data.models.SerieDTO
 import com.mmfsin.noexcusescompose.data.models.StretchDTO
@@ -15,6 +16,7 @@ import com.mmfsin.noexcusescompose.domain.models.Exercise
 import com.mmfsin.noexcusescompose.domain.models.ExerciseRtn
 import com.mmfsin.noexcusescompose.domain.models.MuscularGroup
 import com.mmfsin.noexcusescompose.domain.models.Note
+import com.mmfsin.noexcusescompose.domain.models.RmData
 import com.mmfsin.noexcusescompose.domain.models.Routine
 import com.mmfsin.noexcusescompose.domain.models.RoutineColor.Companion.getRoutineColorById
 import com.mmfsin.noexcusescompose.domain.models.Serie
@@ -52,7 +54,6 @@ fun ExerciseDTO.toExercise() = Exercise(
 )
 
 fun List<ExerciseDTO>.toExerciseList() = this.map { it.toExercise() }
-
 
 /*********************************************************************************************************/
 /**********************************************  ROUTINES  ***********************************************/
@@ -156,7 +157,6 @@ fun StretchDTO.toStretching() = Stretching(
 
 fun List<StretchDTO>.toStretching() = this.map { it.toStretching() }
 
-
 /*********************************************************************************************************/
 /***********************************************  NOTES  *************************************************/
 /*********************************************************************************************************/
@@ -170,3 +170,13 @@ fun NoteDTO.toNote() = Note(
 )
 
 fun List<NoteDTO>.toNoteList() = this.map { it.toNote() }
+
+/*********************************************************************************************************/
+/***********************************************  RMS  ***************************************************/
+/*********************************************************************************************************/
+
+fun RmWithExercise.toRmData() = RmData(
+    id = rmDTO.id,
+    kgs = rmDTO.kgs,
+    date = formatDate(rmDTO.date)
+)

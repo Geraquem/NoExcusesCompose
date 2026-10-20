@@ -3,7 +3,7 @@ package com.mmfsin.noexcusescompose.util
 /** BOTTOM NAV */
 const val BN_HOME_ID = "bottom_nav_home_id"
 const val BN_CALENDAR_ID = "bottom_nav_calendar_id"
-const val BN_MAXIMUMS_ID = "bottom_nav_maximums_id"
+const val BN_RMS_ID = "bottom_nav_rms_id"
 const val BN_NOTES_ID = "bottom_nav_notes_id"
 
 /** BEDROCK ARGS */
@@ -17,6 +17,8 @@ const val NAV_MY_ROUTINES = "nav_my_routines"
 const val NAV_STRETCH = "nav_stretch"
 const val NAV_FAVORITES = "nav_favorite_exercises"
 const val NAV_NOTE_DETAIL = "nav_note_detail"
+const val NAV_RM_ADD = "nav_rm_add"
+const val NAV_RM_DETAIL = "nav_rm_detail"
 
 /** ROOM */
 const val DDBB_NAME = "noexcuses_room_ddbb"
@@ -28,6 +30,7 @@ const val TABLE_EXERCISES_RTN = "table_exercises_rtn"
 const val TABLE_SERIES = "table_series"
 const val TABLE_STRETCH = "table_stretch"
 const val TABLE_NOTES = "table_notes"
+const val TABLE_RMS = "table_rms"
 
 /** DATA STORE */
 const val DATA_STORE_NAME = "noexcuses_data_store"

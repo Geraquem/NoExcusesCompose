@@ -3,11 +3,13 @@ package com.mmfsin.noexcusescompose.di
 import com.mmfsin.noexcusescompose.data.repository.ExercisesRepository
 import com.mmfsin.noexcusescompose.data.repository.MenuRepository
 import com.mmfsin.noexcusescompose.data.repository.NotesRepository
+import com.mmfsin.noexcusescompose.data.repository.RmsRepository
 import com.mmfsin.noexcusescompose.data.repository.RoutinesRepository
 import com.mmfsin.noexcusescompose.data.repository.StretchRepository
 import com.mmfsin.noexcusescompose.domain.interfaces.IExercisesRepository
 import com.mmfsin.noexcusescompose.domain.interfaces.IMenuRepository
 import com.mmfsin.noexcusescompose.domain.interfaces.INotesRepository
+import com.mmfsin.noexcusescompose.domain.interfaces.IRmsRepository
 import com.mmfsin.noexcusescompose.domain.interfaces.IRoutinesRepository
 import com.mmfsin.noexcusescompose.domain.interfaces.IStretchRepository
 import dagger.Binds
@@ -33,4 +35,7 @@ interface DataModule {
 
     @Binds
     fun bindNotesRepository(repository: NotesRepository): INotesRepository
+
+    @Binds
+    fun bindRmsRepository(repository: RmsRepository): IRmsRepository
 }

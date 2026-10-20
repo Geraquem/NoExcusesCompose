@@ -134,4 +134,14 @@
     <string name="notes_unpin_cancel">Cancelar</string>
     <string name="notes_unpin_accept">Aceptar</string>
 
+    <!-- RMs -->
+    <string name="rms_empty">No tienen ninguna RM registrada</string>
+    <string name="rms_create">Registrar RM</string>
+    <string name="rms_add_title">Añadir rm</string>
+    <string name="rms_date">Fecha:</string>
+    <string name="rms_select_weight">Peso:</string>
+    <string name="rms_kgs">Kgs</string>
+    <string name="rms_last_kgs">Último peso:</string>
+    <string name="rms_max_kgs">Peso máximo:</string>
+
 </resources>

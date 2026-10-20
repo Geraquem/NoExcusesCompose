@@ -1,0 +1,233 @@
+package com.mmfsin.noexcusescompose.presentation.rms.rms
+
+import androidx.compose.foundation.LocalOverscrollFactory
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mmfsin.noexcusescompose.R
+import com.mmfsin.noexcusescompose.domain.models.MuscularGroupType.Companion.getMuscularGroupColor
+import com.mmfsin.noexcusescompose.domain.models.Rm
+import com.mmfsin.noexcusescompose.domain.models.RmData
+import com.mmfsin.noexcusescompose.domain.models.getRmsExamples
+import com.mmfsin.noexcusescompose.presentation.core.components.ImageGif
+import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
+import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
+import com.mmfsin.noexcusescompose.presentation.core.components.OutlinedButtonCustom
+import com.mmfsin.noexcusescompose.presentation.core.components.OutlinedButtonCustomIcon
+import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
+import com.mmfsin.noexcusescompose.presentation.core.theme.Black
+import com.mmfsin.noexcusescompose.presentation.core.theme.GrayHard
+import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
+import com.mmfsin.noexcusescompose.presentation.core.theme.White
+import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
+import com.mmfsin.noexcusescompose.util.NAV_RM_ADD
+import com.mmfsin.noexcusescompose.util.openBedRockActivity
+
+@Preview
+@Composable
+fun RmsPV() {
+    RmsContent(
+        uiStates = RmsStates(
+            isLoading = false,
+            rms = getRmsExamples()
+        ),
+        {}
+    )
+}
+
+@Composable
+fun RmsScreen(viewModel: RmsViewModel = hiltViewModel()) {
+    val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+
+    RmsContent(
+        uiStates = uiStates,
+        createRm = { context.openBedRockActivity(NAV_RM_ADD) }
+    )
+}
+
+@Composable
+fun RmsContent(
+    uiStates: RmsStates,
+    createRm: () -> Unit
+) {
+    Column(
+        Modifier.fillMaxSize()
+            .background(GrayMedium)
+            .padding(horizontal = 16.dp)
+    ) {
+        if (uiStates.rms.isEmpty()) {
+            EmptyRms(
+                createRm = { createRm() }
+            )
+        } else {
+            CompositionLocalProvider(
+                LocalOverscrollFactory provides null
+            ) {
+                LazyColumn(
+                    state = rememberLazyListState(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    contentPadding = PaddingValues(vertical = 16.dp)
+                ) {
+
+                    itemsIndexed(
+                        items = uiStates.rms,
+                        key = { i, _ -> i }
+                    ) { i, rm ->
+                        RmBox(
+                            position = i + 1,
+                            rm = rm,
+                            goToRmDetail = {}
+                        )
+                    }
+
+                    item {
+                        SpacerSmall()
+                        OutlinedButtonCustomIcon(
+                            onClick = { createRm() },
+                            text = R.string.rms_create,
+                            icon = R.drawable.ic_add,
+                            modifier = Modifier.fillMaxWidth(),
+                            color = Black
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    if (uiStates.isLoading) LoadingLottie()
+}
+
+@Composable
+fun RmBox(
+    position: Int,
+    rm: Rm,
+    goToRmDetail: () -> Unit
+) {
+    var expanded by rememberSaveable { mutableStateOf(false) }
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        onClick = { expanded = !expanded },
+        colors = CardDefaults.cardColors(containerColor = White),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
+    ) {
+        Row(
+            Modifier.fillMaxWidth().padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ImageGif(
+                url = rm.exercise.gifURL,
+                modifier = Modifier.size(100.dp)
+            )
+
+            SpacerSmall(horizontal = true)
+
+            Column() {
+                SmallText(
+                    text = rm.exercise.category.replaceFirstChar { it.uppercase() },
+                    modifier = Modifier.fillMaxWidth().background(
+                        color = getMuscularGroupColor(rm.exercise.category),
+                        shape = RoundedCornerShape(8.dp)
+                    ),
+                    gravity = TextAlign.Center
+                )
+                SpacerMini()
+
+                MediumText(
+                    text = rm.exercise.name,
+                    fontFamily = montserrat_bold
+                )
+
+                SpacerSmall()
+
+                Row() {
+                    MediumText(text = R.string.rms_last_kgs)
+                    SpacerSmall(horizontal = true)
+                    MediumText(
+                        text = "12.5kg",
+                        fontFamily = montserrat_bold
+                    )
+                }
+
+                SpacerMini()
+
+                val rm = rm.data.map { it.kgs }
+                Row() {
+                    MediumText(text = R.string.rms_max_kgs)
+                    SpacerSmall(horizontal = true)
+                    MediumText(
+                        text = "12.5kg",
+                        fontFamily = montserrat_bold
+                    )
+                }
+            }
+            //            SpacerMedium()
+            //            Row(Modifier.fillMaxWidth()) {
+            //
+            //                SpacerMini(horizontal = true)
+            //                Column() {
+            //                    rm.data.forEachIndexed { i, data ->
+            //                        RmDataBox(i + 1, data)
+            //                        SpacerMini()
+            //                    }
+            //                }
+            //            }
+        }
+    }
+}
+
+@Composable
+fun EmptyRms(createRm: () -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 42.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(Modifier.weight(1f))
+        MediumText(
+            text = R.string.rms_empty,
+            gravity = TextAlign.Center,
+        )
+        SpacerMedium()
+        OutlinedButtonCustom(
+            onClick = { createRm() },
+            text = R.string.rms_create,
+            color = Black
+        )
+        Spacer(Modifier.weight(1f))
+    }
+}

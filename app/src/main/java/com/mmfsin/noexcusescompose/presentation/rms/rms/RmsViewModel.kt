@@ -1,6 +1,8 @@
 package com.mmfsin.noexcusescompose.presentation.rms.rms
 
 import androidx.lifecycle.viewModelScope
+import com.mmfsin.noexcusescompose.domain.models.Rm
+import com.mmfsin.noexcusescompose.domain.usecases.DeleteRmUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetRmsUseCase
 import com.mmfsin.noexcusescompose.presentation.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,6 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RmsViewModel @Inject constructor(
     private val getRmsUseCase: GetRmsUseCase,
+    private val deleteRmUseCase: DeleteRmUseCase,
 ) : BaseViewModel<RmsStates>(RmsStates()) {
 
     init {
@@ -29,6 +32,19 @@ class RmsViewModel @Inject constructor(
             }
         }
     }
+
+    fun deleteRm() {
+        val states = uiState.value
+        states.rmToDelete?.let { rm ->
+            executeUseCase(
+                { deleteRmUseCase(exerciseId = rm.exercise.id) },
+                { updateRmIdToDelete(null) },
+                { sww() },
+            )
+        }
+    }
+
+    fun updateRmIdToDelete(value: Rm? = null) = _uiState.update { it.copy(rmToDelete = value) }
 
     fun sww(value: Boolean = true) = _uiState.update { it.copy(sww = value) }
 }

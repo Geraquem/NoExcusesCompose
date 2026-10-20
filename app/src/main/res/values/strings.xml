@@ -144,4 +144,7 @@
     <string name="rms_last_kgs">Último peso:</string>
     <string name="rms_max_kgs">Peso máximo:</string>
 
+    <string name="rms_delete_rm">¿Quieres eliminar todas las rm asociadas a %s?</string>
+    <string name="rms_delete_rm_data">¿Quieres eliminar esta rm?</string>
+
 </resources>

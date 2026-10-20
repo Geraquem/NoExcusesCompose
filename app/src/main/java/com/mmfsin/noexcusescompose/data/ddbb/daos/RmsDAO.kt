@@ -18,5 +18,11 @@ interface RmsDAO {
     fun getRms(): Flow<List<RmWithExercise>>
 
     @Query("SELECT * FROM table_rms WHERE exerciseId = :exerciseId")
-    fun getRmByExerciseId(exerciseId: String):  Flow<List<RmWithExercise>>
+    fun getRmByExerciseId(exerciseId: String): Flow<List<RmWithExercise>>
+
+    @Query("DELETE FROM table_rms WHERE exerciseId = :exerciseId")
+    fun deleteRm(exerciseId: String)
+
+    @Query("DELETE FROM table_rms WHERE id = :rmId")
+    fun deleteRmData(rmId: String)
 }

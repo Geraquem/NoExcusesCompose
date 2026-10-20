@@ -48,7 +48,6 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 import com.mmfsin.noexcusescompose.presentation.myroutines.exercises.add.ItemTextField
-import com.mmfsin.noexcusescompose.util.deletePointZero
 import com.mmfsin.noexcusescompose.util.formatDate
 import java.time.LocalDate
 import java.time.ZoneId
@@ -76,8 +75,7 @@ fun AddRmDialogDialog(
     var date by remember { mutableLongStateOf(System.currentTimeMillis()) }
     var dateText by remember { mutableStateOf(formatDate(date).orEmpty()) }
 
-    var kgs by remember { mutableDoubleStateOf(0.0) }
-    var kgsStr by remember { mutableStateOf(kgs.deletePointZero()) }
+    var kgsStr by remember { mutableStateOf("") }
 
     var showPicker by remember { mutableStateOf(false) }
 
@@ -192,12 +190,12 @@ fun AddRmDialogDialog(
 
                 SpacerLarge()
 
-                val enabled = kgs == 0.0
+                val kgs = kgsStr.toDoubleOrNull()
                 ButtonCustom(
-                    onClick = { addRm(date, kgs) },
+                    onClick = { kgs?.let { addRm(date, it) } },
                     text = R.string.rms_add_title,
                     color = BlueLight,
-                    enabled = enabled,
+                    enabled = kgs != null && kgs > 0.0,
                     modifier = Modifier.fillMaxWidth()
                 )
             }

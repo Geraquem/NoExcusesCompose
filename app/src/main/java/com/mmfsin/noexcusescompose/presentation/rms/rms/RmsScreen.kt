@@ -48,6 +48,7 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.Black
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
+import com.mmfsin.noexcusescompose.presentation.rms.rms.components.DeleteRmDialog
 import com.mmfsin.noexcusescompose.util.NAV_RM_ADD
 import com.mmfsin.noexcusescompose.util.NAV_RM_DETAIL
 import com.mmfsin.noexcusescompose.util.deletePointZero
@@ -61,7 +62,7 @@ fun RmsPV() {
             isLoading = false,
             rms = getRmsExamples()
         ),
-        {}, {}
+        {}, {}, {}, {}
     )
 }
 
@@ -73,7 +74,9 @@ fun RmsScreen(viewModel: RmsViewModel = hiltViewModel()) {
     RmsContent(
         uiStates = uiStates,
         createRm = { context.openBedRockActivity(NAV_RM_ADD) },
-        goToRmDetail = { exerciseId -> context.openBedRockActivity(NAV_RM_DETAIL, exerciseId) }
+        goToRmDetail = { exerciseId -> context.openBedRockActivity(NAV_RM_DETAIL, exerciseId) },
+        updateRmToDelete = { viewModel.updateRmIdToDelete(it) },
+        deleteRm = { viewModel.deleteRm() },
     )
 }
 
@@ -82,6 +85,8 @@ fun RmsContent(
     uiStates: RmsStates,
     createRm: () -> Unit,
     goToRmDetail: (String) -> Unit,
+    updateRmToDelete: (Rm?) -> Unit,
+    deleteRm: () -> Unit,
 ) {
     Column(
         Modifier.fillMaxSize()
@@ -109,7 +114,7 @@ fun RmsContent(
                         RmBox(
                             rm = rm,
                             goToRmDetail = { goToRmDetail(it) },
-                            showDeleteRm = {}
+                            updateRmToDelete = { updateRmToDelete(it) }
                         )
                     }
 
@@ -128,6 +133,14 @@ fun RmsContent(
         }
     }
 
+    if (uiStates.rmToDelete != null) {
+        DeleteRmDialog(
+            exerciseName = uiStates.rmToDelete.exercise.name,
+            cancel = { updateRmToDelete(null) },
+            delete = { deleteRm() }
+        )
+    }
+
     if (uiStates.isLoading) LoadingLottie()
 }
 
@@ -135,7 +148,7 @@ fun RmsContent(
 fun RmBox(
     rm: Rm,
     goToRmDetail: (String) -> Unit,
-    showDeleteRm: (String) -> Unit
+    updateRmToDelete: (Rm) -> Unit
 ) {
 
     Card(
@@ -144,7 +157,7 @@ fun RmBox(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() },
                 onClick = { goToRmDetail(rm.exercise.id) },
-                onLongClick = { showDeleteRm(rm.exercise.id) }
+                onLongClick = { updateRmToDelete(rm) }
             ),
         colors = CardDefaults.cardColors(containerColor = White),
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
@@ -180,8 +193,8 @@ fun RmBox(
 
                 val kgs = rm.data.map { it.kgs }
 
-                Row() {
-                    MediumText(text = R.string.rms_last_kgs)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    SmallText(text = R.string.rms_last_kgs)
                     SpacerSmall(horizontal = true)
                     MediumText(
                         text = "${kgs.last().deletePointZero()}",
@@ -196,8 +209,8 @@ fun RmBox(
 
                 SpacerMini()
 
-                Row() {
-                    MediumText(text = R.string.rms_max_kgs)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    SmallText(text = R.string.rms_max_kgs)
                     SpacerSmall(horizontal = true)
                     MediumText(
                         text = "${kgs.max().deletePointZero()}",
@@ -210,17 +223,6 @@ fun RmBox(
                     )
                 }
             }
-            //            SpacerMedium()
-            //            Row(Modifier.fillMaxWidth()) {
-            //
-            //                SpacerMini(horizontal = true)
-            //                Column() {
-            //                    rm.data.forEachIndexed { i, data ->
-            //                        RmDataBox(i + 1, data)
-            //                        SpacerMini()
-            //                    }
-            //                }
-            //            }
         }
     }
 }

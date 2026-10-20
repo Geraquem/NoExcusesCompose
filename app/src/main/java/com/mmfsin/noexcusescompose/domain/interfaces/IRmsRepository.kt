@@ -7,4 +7,7 @@ interface IRmsRepository {
     suspend fun addRm(exerciseId: String, date: Long, kgs: Double)
     fun getRms(): Flow<List<Rm>>
     fun getRmByExerciseId(exerciseId: String): Flow<Rm?>
+
+    fun deleteRm(exerciseId: String)
+    fun deleteRmData(rmId: String)
 }

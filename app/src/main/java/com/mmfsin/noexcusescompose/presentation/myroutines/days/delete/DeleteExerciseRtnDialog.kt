@@ -62,8 +62,8 @@ fun DeleteExerciseDialog(
                 )
             }
             Column(
-                modifier = Modifier.padding(16.dp),
-            ) {
+                modifier = Modifier.padding(horizontal = 16.dp)
+                    .padding(top = 16.dp, bottom = 12.dp),            ) {
                 val text = stringResource(R.string.my_routines_exercises_delete_text, exerciseName)
                 MediumText(text = text)
 

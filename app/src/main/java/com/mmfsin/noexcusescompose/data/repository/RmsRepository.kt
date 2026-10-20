@@ -43,4 +43,7 @@ class RmsRepository @Inject constructor(
             )
         }
     }
+
+    override fun deleteRm(exerciseId: String) = rmsDAO.deleteRm(exerciseId)
+    override fun deleteRmData(rmId: String) = rmsDAO.deleteRmData(rmId)
 }

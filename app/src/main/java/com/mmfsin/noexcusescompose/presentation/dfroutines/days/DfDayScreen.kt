@@ -248,7 +248,7 @@ fun DfExerciseRtnBox(
                 ) {
                     SmallText(
                         text = e.category.replaceFirstChar { it.uppercase() },
-                        modifier = Modifier.width(150.dp).background(
+                        modifier = Modifier.fillMaxWidth().background(
                             color = getMuscularGroupColor(e.category),
                             shape = RoundedCornerShape(8.dp)
                         ),
@@ -309,6 +309,8 @@ fun DfExerciseRtnBox(
                         }
                     }
                 }
+
+                SpacerMini(horizontal = true)
 
                 Icon(
                     painterResource(R.drawable.ic_eye), null,

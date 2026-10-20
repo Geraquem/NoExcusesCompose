@@ -48,6 +48,8 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.GrayHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
+import com.mmfsin.noexcusescompose.presentation.rms.detail.components.DeleteRmDataDialog
+import com.mmfsin.noexcusescompose.presentation.rms.exercises.components.AddRmDialogDialog
 import com.mmfsin.noexcusescompose.util.deletePointZero
 
 @Preview
@@ -58,7 +60,8 @@ fun RmDetailScreenPV() {
             isLoading = false,
             rm = getRmsExamples().first()
         ),
-        {}, {}, {}
+        {}, {}, {}, { _, _, _ -> }, {},
+        {}
     )
 }
 
@@ -74,7 +77,10 @@ fun RmDetailScreen(
         uiStates = uiStates,
         goBack = { goBack() },
         toExerciseDetail = { goToExerciseDetail(it) },
-        addRm = { },
+        showAddRmDialog = { viewModel.showAddRmDialog(it) },
+        addRm = { exerciseId, date, weight -> viewModel.addRm(exerciseId, date, weight) },
+        updateRmIdToDelete = { viewModel.updateRmIdToDelete(it) },
+        deleteRm = { viewModel.deleteRmData(it) },
     )
 }
 
@@ -83,7 +89,10 @@ fun RmDetailContent(
     uiStates: RmDetailStates,
     goBack: () -> Unit,
     toExerciseDetail: (String) -> Unit,
-    addRm: () -> Unit,
+    showAddRmDialog: (Boolean) -> Unit,
+    addRm: (String, Long, Double) -> Unit,
+    updateRmIdToDelete: (String?) -> Unit,
+    deleteRm: (String) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -99,7 +108,7 @@ fun RmDetailContent(
             ) {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize()
-                        .background(GrayMedium)
+                        .background(White)
                         .padding(innerPadding),
                     state = rememberLazyListState(),
                     contentPadding = PaddingValues(vertical = 12.dp, horizontal = 16.dp)
@@ -115,7 +124,7 @@ fun RmDetailContent(
                                     .clickable(onClick = { toExerciseDetail(rm.exercise.id) })
                                     .padding(top = 4.dp)
                                     .padding(end = 4.dp)
-                                    .background(White, CircleShape)
+                                    .background(GrayMedium, CircleShape)
                                     .padding(4.dp)
                             )
 
@@ -138,14 +147,14 @@ fun RmDetailContent(
                                     RmDataLine(
                                         position = i + 1,
                                         data = data,
-                                        deleteData = {}
+                                        deleteData = { updateRmIdToDelete(data.id) }
                                     )
                                     SpacerMini()
                                 }
 
                                 SpacerMedium()
                                 OutlinedButtonCustomIcon(
-                                    onClick = { addRm() },
+                                    onClick = { showAddRmDialog(true) },
                                     text = R.string.rms_create,
                                     icon = R.drawable.ic_add,
                                     modifier = Modifier.fillMaxWidth(),
@@ -156,10 +165,27 @@ fun RmDetailContent(
                     }
                 }
             }
+
+            if (uiStates.rmIdToDelete != null) {
+                DeleteRmDataDialog(
+                    cancel = { updateRmIdToDelete(null) },
+                    delete = { deleteRm(uiStates.rmIdToDelete) }
+                )
+            }
+
+            if (uiStates.showAddRmDialog) {
+                AddRmDialogDialog(
+                    onDismiss = { showAddRmDialog(false) },
+                    exercise = rm.exercise,
+                    seeExercise = { toExerciseDetail(rm.exercise.id) },
+                    addRm = { date, kgs -> addRm(rm.exercise.id, date, kgs) }
+                )
+            }
         }
     }
 
     if (uiStates.isLoading) LoadingFullScreen()
+    if (uiStates.shouldGoBack) goBack()
     if (uiStates.sww) ErrorDialog { goBack() }
 }
 
@@ -169,7 +195,10 @@ fun RmDataLine(
     data: RmData,
     deleteData: () -> Unit
 ) {
-    Row(Modifier.fillMaxWidth()) {
+    Row(
+        Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         MediumText(
             text = "${position}.",
             fontFamily = montserrat_bold

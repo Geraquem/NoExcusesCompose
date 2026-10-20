@@ -21,7 +21,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,6 +42,7 @@ import com.mmfsin.noexcusescompose.presentation.core.components.ImageGif
 import com.mmfsin.noexcusescompose.presentation.core.components.LoadingFullScreen
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
 import com.mmfsin.noexcusescompose.presentation.core.components.OutlinedButtonCustomIcon
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerLarge
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
@@ -51,6 +54,19 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 import com.mmfsin.noexcusescompose.presentation.rms.detail.components.DeleteRmDataDialog
 import com.mmfsin.noexcusescompose.presentation.rms.exercises.components.AddRmDialogDialog
 import com.mmfsin.noexcusescompose.util.deletePointZero
+import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
+import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottom
+import com.patrykandpatrick.vico.compose.cartesian.axis.rememberStart
+import com.patrykandpatrick.vico.compose.cartesian.layer.rememberLineCartesianLayer
+import com.patrykandpatrick.vico.compose.cartesian.rememberCartesianChart
+import com.patrykandpatrick.vico.core.cartesian.axis.HorizontalAxis
+import com.patrykandpatrick.vico.core.cartesian.axis.VerticalAxis
+import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
+import com.patrykandpatrick.vico.core.cartesian.data.CartesianValueFormatter
+import com.patrykandpatrick.vico.core.cartesian.data.lineSeries
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Preview
 @Composable
@@ -143,7 +159,7 @@ fun RmDetailContent(
 
                                 SpacerSmall()
 
-                                rm.data.forEachIndexed { i, data ->
+                                rm.data.sortedBy { it.millis }.forEachIndexed { i, data ->
                                     RmDataLine(
                                         position = i + 1,
                                         data = data,
@@ -161,6 +177,23 @@ fun RmDetailContent(
                                     color = Black
                                 )
                             }
+                        }
+                    }
+
+                    item {
+                        Column {
+                            SpacerMedium()
+
+                            MediumText(
+                                text = R.string.rms_kgs,
+                                fontFamily = montserrat_bold
+                            )
+
+                            SpacerSmall()
+
+                            RmLineChart(rm.data)
+
+                            SpacerLarge()
                         }
                     }
                 }
@@ -238,4 +271,46 @@ fun RmDataLine(
                 .clickable(onClick = { deleteData() })
         )
     }
+}
+
+@Composable
+fun RmLineChart(
+    data: List<RmData>,
+) {
+    val modelProducer = remember { CartesianChartModelProducer() }
+    val sortedData = remember(data) { data.sortedBy { it.millis } }
+
+    LaunchedEffect(sortedData) {
+        modelProducer.runTransaction {
+            lineSeries {
+                series(
+                    x = sortedData.indices.map { it.toFloat() },
+                    y = sortedData.map { it.kgs.toFloat() }
+                )
+            }
+        }
+    }
+
+    val dateFormatter = remember(sortedData) {
+        val formatter = SimpleDateFormat("dd/MM", Locale.getDefault())
+
+        CartesianValueFormatter { _, value, _ ->
+            val index = value.toInt()
+
+            sortedData.getOrNull(index)
+                ?.let { formatter.format(Date(it.millis)) }
+                ?: " "
+        }
+    }
+    CartesianChartHost(
+        chart = rememberCartesianChart(
+            rememberLineCartesianLayer(),
+            startAxis = VerticalAxis.rememberStart(),
+            bottomAxis = HorizontalAxis.rememberBottom(
+                valueFormatter = dateFormatter,
+                itemPlacer = remember { HorizontalAxis.ItemPlacer.aligned() }
+            ),
+        ),
+        modelProducer = modelProducer,
+    )
 }

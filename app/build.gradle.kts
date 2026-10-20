@@ -102,9 +102,8 @@ dependencies {
     /** Reoderable Recyclers */
     implementation("sh.calvin.reorderable:reorderable:2.4.0")
 
-    //Animate BG
-    implementation("nl.dionsegijn:konfetti-compose:2.0.5")
-    implementation("com.github.doctoror.particlesdrawable:library:2.0.2")
+    /** Charts */
+    implementation(libs.vico.compose)
 
     /** Testing */
     testImplementation(libs.junit)

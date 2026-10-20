@@ -178,5 +178,6 @@ fun List<NoteDTO>.toNoteList() = this.map { it.toNote() }
 fun RmWithExercise.toRmData() = RmData(
     id = rmDTO.id,
     kgs = rmDTO.kgs,
+    millis = rmDTO.date,
     date = formatDate(rmDTO.date)
 )

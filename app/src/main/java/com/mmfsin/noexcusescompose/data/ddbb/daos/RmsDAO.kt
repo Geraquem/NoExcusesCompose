@@ -16,4 +16,7 @@ interface RmsDAO {
 
     @Query("SELECT * FROM table_rms")
     fun getRms(): Flow<List<RmWithExercise>>
+
+    @Query("SELECT * FROM table_rms WHERE exerciseId = :exerciseId")
+    fun getRmByExerciseId(exerciseId: String):  Flow<List<RmWithExercise>>
 }

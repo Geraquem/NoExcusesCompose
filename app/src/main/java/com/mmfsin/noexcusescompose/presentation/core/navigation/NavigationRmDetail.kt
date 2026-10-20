@@ -8,37 +8,25 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mmfsin.noexcusescompose.presentation.exercises.detail.ExerciseDetailScreen
-import com.mmfsin.noexcusescompose.presentation.exercises.exercises.ExercisesScreen
-import com.mmfsin.noexcusescompose.presentation.exercises.mgroups.MGroupsScreen
+import com.mmfsin.noexcusescompose.presentation.rms.detail.RmDetailScreen
 
 @Composable
-fun NavigationRmDetail() {
+fun NavigationRmDetail(exerciseId: String) {
 
     val activity = LocalActivity.current
     val navController = rememberNavController()
 
     NavHost(
         navController = navController,
-        startDestination = MuscularGroups,
+        startDestination = RmDetail(exerciseId),
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None },
         popEnterTransition = { EnterTransition.None },
         popExitTransition = { ExitTransition.None }
     ) {
-        composable<MuscularGroups> {
-            MGroupsScreen(
+        composable<RmDetail> {
+            RmDetailScreen(
                 goBack = { activity?.finish() },
-                goToExercises = { mGroupId ->
-                    navController.navigate(Exercises(mGroupId))
-                }
-            )
-        }
-        composable<Exercises> {
-            ExercisesScreen(
-                goBack = {
-                    if (navController.previousBackStackEntry == null) activity?.finish()
-                    else navController.popBackStack()
-                },
                 goToExerciseDetail = { exerciseId ->
                     navController.navigate(ExerciseDetail(exerciseId))
                 }

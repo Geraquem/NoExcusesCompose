@@ -219,7 +219,7 @@ fun DfExerciseRtnBox(
     exerciseRtn: ExerciseRtn,
     toExerciseDetail: () -> Unit
 ) {
-    var expanded by rememberSaveable { mutableStateOf(true) }
+    var expanded by rememberSaveable { mutableStateOf(false) }
 
     exerciseRtn.exercise?.let { e ->
 

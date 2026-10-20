@@ -21,11 +21,6 @@ class RmsRepository @Inject constructor(
 
     override fun getRms(): Flow<List<Rm>> {
         return rmsDAO.getRms().map { rms ->
-            println("--------------------------------------------------------------------------------------------------------------")
-            println("--------------------------------------------------------------------------------------------------------------")
-            println("$rms")
-            println("--------------------------------------------------------------------------------------------------------------")
-            println("--------------------------------------------------------------------------------------------------------------")
             rms.filter { it.exercise != null }
                 .groupBy { it.rmDTO.exerciseId }
                 .values.mapNotNull { group ->
@@ -35,6 +30,17 @@ class RmsRepository @Inject constructor(
                         data = group.map { item -> item.toRmData() }.sortedByDescending { it.date }
                     )
                 }
+        }
+    }
+
+    override fun getRmByExerciseId(exerciseId: String): Flow<Rm?> {
+        return rmsDAO.getRmByExerciseId(exerciseId).map { rms ->
+            val first = rms.firstOrNull() ?: return@map null
+            val exercise = first.exercise ?: return@map null
+            Rm(
+                exercise = exercise.toExercise(),
+                data = rms.map { it.toRmData() }.sortedByDescending { it.date }
+            )
         }
     }
 }

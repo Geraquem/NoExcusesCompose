@@ -38,6 +38,9 @@ data class ExercisesRtn(val dayId: String, val dayName: String, val mGroupId: St
 @Serializable
 data class RmsExercises(val mGroupId: String)
 
+@Serializable
+data class RmDetail(val exerciseId: String)
+
 /******************************************/
 
 @Serializable

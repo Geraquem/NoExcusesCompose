@@ -74,7 +74,7 @@ fun ButtonCustom(
         colors = ButtonDefaults.buttonColors(
             containerColor = color
         ),
-        shape = RoundedCornerShape(25),
+        shape = RoundedCornerShape(50),
         elevation = ButtonDefaults.buttonElevation(
             defaultElevation = 4.dp,
             pressedElevation = 2.dp,
@@ -84,7 +84,7 @@ fun ButtonCustom(
         MediumText(
             text = text,
             color = textColor,
-            modifier = textModifier.padding(vertical = 4.dp),
+            modifier = textModifier.padding(vertical = 2.dp),
             fontFamily = montserrat_regular,
             allCaps = true,
             fontWeight = FontWeight.SemiBold
@@ -109,7 +109,7 @@ fun ButtonCustom(
         colors = ButtonDefaults.buttonColors(
             containerColor = color
         ),
-        shape = RoundedCornerShape(25),
+        shape = RoundedCornerShape(50),
         elevation = ButtonDefaults.buttonElevation(
             defaultElevation = 4.dp,
             pressedElevation = 2.dp,
@@ -119,7 +119,7 @@ fun ButtonCustom(
         MediumText(
             text = text,
             color = textColor,
-            modifier = textModifier.padding(vertical = 4.dp),
+            modifier = textModifier.padding(vertical = 2.dp),
             fontFamily = montserrat_regular,
             allCaps = true,
             fontWeight = FontWeight.SemiBold
@@ -142,9 +142,9 @@ fun ButtonCustomIcon(
         modifier = modifier
             .shadow(
                 elevation = 4.dp,
-                shape = RoundedCornerShape(25)
+                shape = RoundedCornerShape(50)
             )
-            .clip(RoundedCornerShape(25))
+            .clip(RoundedCornerShape(50))
             .background(if (enabled) color else GrayMedium)
             .clickable(onClick = { if (enabled) onClick() })
             .padding(horizontal = 12.dp, vertical = 8.dp),
@@ -159,7 +159,7 @@ fun ButtonCustomIcon(
             MediumText(
                 text = text,
                 color = textColor,
-                modifier = textModifier.padding(vertical = 4.dp),
+                modifier = textModifier.padding(vertical = 2.dp),
                 fontFamily = montserrat_regular,
                 allCaps = true
             )
@@ -182,9 +182,9 @@ fun ButtonCustomIcon(
         modifier = modifier
             .shadow(
                 elevation = 4.dp,
-                shape = RoundedCornerShape(25)
+                shape = RoundedCornerShape(50)
             )
-            .clip(RoundedCornerShape(25))
+            .clip(RoundedCornerShape(50))
             .background(if (enabled) color else GrayMedium)
             .clickable(onClick = { if (enabled) onClick() })
             .padding(horizontal = 12.dp, vertical = 8.dp),
@@ -199,7 +199,7 @@ fun ButtonCustomIcon(
             MediumText(
                 text = text,
                 color = textColor,
-                modifier = textModifier.padding(vertical = 4.dp),
+                modifier = textModifier.padding(vertical = 2.dp),
                 fontFamily = montserrat_regular,
                 allCaps = true
             )
@@ -221,13 +221,13 @@ fun OutlinedButtonCustom(
         modifier = modifier,
         enabled = enabled,
         border = BorderStroke(1.dp, color),
-        shape = RoundedCornerShape(25)
+        shape = RoundedCornerShape(50)
     ) {
         MediumText(
             text = text,
             color = color,
             gravity = TextAlign.Center,
-            modifier = textModifier.padding(vertical = 4.dp),
+            modifier = textModifier.padding(vertical = 2.dp),
             fontFamily = montserrat_regular,
             allCaps = true
         )
@@ -248,13 +248,13 @@ fun OutlinedButtonCustom(
         modifier = modifier,
         enabled = enabled,
         border = BorderStroke(1.dp, color),
-        shape = RoundedCornerShape(25)
+        shape = RoundedCornerShape(50)
     ) {
         MediumText(
             text = text,
             color = color,
             gravity = TextAlign.Center,
-            modifier = textModifier.padding(vertical = 4.dp),
+            modifier = textModifier.padding(vertical = 2.dp),
             fontFamily = montserrat_regular,
             allCaps = true
         )
@@ -276,7 +276,7 @@ fun OutlinedButtonCustomIcon(
         modifier = modifier,
         enabled = enabled,
         border = BorderStroke(1.dp, color),
-        shape = RoundedCornerShape(25)
+        shape = RoundedCornerShape(50)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
@@ -289,7 +289,7 @@ fun OutlinedButtonCustomIcon(
                     text = text,
                     color = color,
                     gravity = TextAlign.Center,
-                    modifier = textModifier.padding(vertical = 4.dp),
+                    modifier = textModifier.padding(vertical = 2.dp),
                     fontFamily = montserrat_regular,
                     allCaps = true
                 )
@@ -313,7 +313,7 @@ fun OutlinedButtonCustomIcon(
         modifier = modifier,
         enabled = enabled,
         border = BorderStroke(1.dp, color),
-        shape = RoundedCornerShape(25)
+        shape = RoundedCornerShape(50)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
@@ -326,7 +326,7 @@ fun OutlinedButtonCustomIcon(
                     text = text,
                     color = color,
                     gravity = TextAlign.Center,
-                    modifier = textModifier.padding(vertical = 4.dp),
+                    modifier = textModifier.padding(vertical = 2.dp),
                     fontFamily = montserrat_regular,
                     allCaps = true
                 )

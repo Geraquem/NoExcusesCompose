@@ -255,8 +255,9 @@ fun EditExerciseRtnContent(
                                 thumbContent = {
                                     if (uiStates.superSerie) {
                                         Icon(
-                                            painterResource(R.drawable.ic_check), null,
-                                            tint = BlueLight
+                                            painterResource(R.drawable.ic_chain), null,
+                                            tint = BlueLight,
+                                            modifier = Modifier.size(16.dp)
                                         )
                                     }
                                 },

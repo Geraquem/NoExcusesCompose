@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -29,6 +30,7 @@ import com.mmfsin.noexcusescompose.util.BN_HOME_ID
 import com.mmfsin.noexcusescompose.util.BN_RMS_ID
 import com.mmfsin.noexcusescompose.util.BN_NOTES_ID
 
+@Preview
 @Composable
 fun NavigationMain() {
     val navController = rememberNavController()

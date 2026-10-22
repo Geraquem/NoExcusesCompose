@@ -2,6 +2,7 @@ package com.mmfsin.noexcusescompose.presentation.myroutines.exercises.add
 
 import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -260,11 +261,13 @@ fun AddExerciseRtnContent(
                             Switch(
                                 uiStates.superSerie, { updateSuperSerie(it) },
                                 thumbContent = {
-                                    val icon = if (uiStates.superSerie) R.drawable.ic_check else R.drawable.ic_add
-                                    Icon(
-                                        painterResource(icon), null,
-                                        tint = if (uiStates.superSerie) YellowHard else GrayHard
-                                    )
+                                    if (uiStates.superSerie) {
+                                        Icon(
+                                            painterResource(R.drawable.ic_chain), null,
+                                            tint = BlueLight,
+                                            modifier = Modifier.size(16.dp)
+                                        )
+                                    }
                                 },
                                 colors = SwitchDefaults.colors(
                                     checkedThumbColor = White,
@@ -404,7 +407,8 @@ fun ItemTextField(
     BasicTextField(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
-            .background(GrayLight)
+            .border(1.dp, GrayMedium, RoundedCornerShape(8.dp))
+            .background(GrayLight, RoundedCornerShape(8.dp))
             .padding(8.dp),
         value = value ?: "",
         onValueChange = { onValueChange(it.take(length)) },

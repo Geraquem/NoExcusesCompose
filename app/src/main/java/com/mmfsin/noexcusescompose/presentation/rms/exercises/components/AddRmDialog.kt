@@ -9,17 +9,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -138,42 +137,52 @@ fun AddRmDialogDialog(
                     }
                 }
 
-                SpacerMedium()
-
-                MediumText(
-                    text = R.string.rms_date,
-                    fontFamily = montserrat_bold
-                )
-
-                SpacerMini()
+                SpacerLarge()
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    MediumText(
-                        text = dateText,
-                        modifier = Modifier.weight(1f).background(GrayLight, RoundedCornerShape(8.dp))
-                            .padding(horizontal = 12.dp, vertical = 6.dp)
+                    Icon(painterResource(R.drawable.ic_calendar), null)
+                    SpacerSmall(horizontal = true)
+                    MediumText(text = R.string.rms_date)
+                }
+
+                SpacerSmall()
+
+                Card(
+                    onClick = { showPicker = true },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = GrayLight
+                    ),
+                    elevation = CardDefaults.elevatedCardElevation(
+                        defaultElevation = 4.dp
                     )
-
-                    SpacerMini(horizontal = true)
-
-                    IconButton(
-                        onClick = { showPicker = true },
-                        colors = IconButtonDefaults.iconButtonColors(
-                            containerColor = BlueLight
-                        ),
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth().background(GrayLight, RoundedCornerShape(8.dp))
+                            .padding(horizontal = 12.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(painterResource(R.drawable.ic_calendar), null)
+                        MediumText(
+                            text = dateText,
+                            modifier = Modifier.weight(1f)
+                        )
+
+                        SpacerMini(horizontal = true)
+
+                        Icon(painterResource(R.drawable.ic_arrow_down), null)
                     }
                 }
 
                 SpacerMedium()
 
-                MediumText(
-                    text = R.string.rms_select_weight,
-                    fontFamily = montserrat_bold
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(painterResource(R.drawable.ic_dumbbell), null)
+                    SpacerSmall(horizontal = true)
+                    MediumText(text = R.string.rms_select_weight)
+                }
 
                 SpacerMini()
+
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     ItemTextField(
                         value = kgsStr,

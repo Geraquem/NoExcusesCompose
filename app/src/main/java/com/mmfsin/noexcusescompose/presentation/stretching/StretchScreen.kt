@@ -29,9 +29,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -46,10 +49,12 @@ import com.mmfsin.noexcusescompose.presentation.core.components.ImageGif
 import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
 import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
-import com.mmfsin.noexcusescompose.presentation.core.components.SpacerLarge
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
+import com.mmfsin.noexcusescompose.presentation.core.theme.Black
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
+import com.mmfsin.noexcusescompose.presentation.core.theme.Transparent
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 
@@ -130,30 +135,63 @@ fun StretchBox(stretch: Stretch) {
             .padding(horizontal = 12.dp, vertical = 18.dp)
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(
-                Modifier.size(14.dp).background(
-                    getMuscularGroupColor(stretch.mGroup),
-                    shape = CircleShape
-                )
-            )
-            SpacerSmall(horizontal = true)
-            MediumText(
-                text = stretch.mGroup.replaceFirstChar { it.uppercase() },
-                fontFamily = montserrat_bold
-            )
+            Column() {
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(
+                        Modifier.size(16.dp)
+                            .background(
+                                getMuscularGroupColor(stretch.mGroup),
+                                shape = CircleShape
+                            )
+                    )
+                    SpacerSmall(horizontal = true)
+
+                    MediumText(
+                        text = stretch.mGroup.replaceFirstChar { it.uppercase() },
+                        fontFamily = montserrat_bold
+                    )
+                }
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(
+                        Modifier.size(16.dp)
+                            .background(
+                                Transparent,
+                                shape = CircleShape
+                            )
+                    )
+                    SpacerSmall(horizontal = true)
+
+
+                    val total = stretch.stretching.size
+                    val text = if (total == 1) stringResource(R.string.stretching_total_one)
+                    else stringResource(R.string.stretching_total, "$total")
+                    SmallText(
+                        text = text,
+                        color = Black,
+                        modifier = Modifier.alpha(0.75f)
+                    )
+                }
+            }
+
             Spacer(Modifier.weight(1f))
+
             Icon(
                 painterResource(R.drawable.ic_arrow_down), null,
-                modifier = Modifier.graphicsLayer { scaleY = if (expanded) 1f else -1f })
+                modifier = Modifier.graphicsLayer { scaleY = if (expanded) -1f else 1f })
         }
 
         AnimatedVisibility(expanded) {
             Column {
-                SpacerLarge()
+                SpacerMedium()
                 stretch.stretching.forEachIndexed { i, stretching ->
-                    StretchExercise(i + 1, stretching)
+                    StretchExercise(
+                        i + 1,
+                        color = getMuscularGroupColor(stretch.mGroup),
+                        stretching = stretching
+                    )
                 }
             }
         }
@@ -161,17 +199,40 @@ fun StretchBox(stretch: Stretch) {
 }
 
 @Composable
-fun StretchExercise(index: Int, stretching: Stretching) {
+fun StretchExercise(
+    index: Int,
+    color: Color,
+    stretching: Stretching
+) {
     Column(Modifier.fillMaxWidth()) {
-        Row {
-            SmallText(text = "$index.", fontFamily = montserrat_bold)
-            SpacerMini(horizontal = true)
-            SmallText(text = stretching.description)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                modifier = Modifier.size(24.dp).background(color, CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                SmallText(
+                    text = "$index",
+                    fontFamily = montserrat_bold
+                )
+            }
+            SpacerSmall(horizontal = true)
+            SmallText(
+                text = stretching.name,
+                fontFamily = montserrat_bold
+            )
         }
+
         SpacerMini()
+
         ImageGif(
             url = stretching.imageURL,
             modifier = Modifier.size(200.dp).align(Alignment.CenterHorizontally)
         )
+
+        SpacerSmall()
+
+        SmallText(text = stretching.description)
+
+        SpacerMedium()
     }
 }

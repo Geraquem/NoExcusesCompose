@@ -142,6 +142,7 @@ fun List<StretchDTO>.toStretchList(): List<Stretch> {
         val (mGroup, stretching) = data
         val stretch = Stretch(
             mGroup = mGroup,
+            iconUrl = stretching.first().iconUrl,
             stretching = stretching.toStretching().sortedBy { it.order }
         )
         result.add(stretch)
@@ -151,8 +152,9 @@ fun List<StretchDTO>.toStretchList(): List<Stretch> {
 
 fun StretchDTO.toStretching() = Stretching(
     imageURL = imageURL,
+    order = order,
     description = description,
-    order = order
+    name = name
 )
 
 fun List<StretchDTO>.toStretching() = this.map { it.toStretching() }

@@ -20,7 +20,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -44,7 +43,6 @@ import com.mmfsin.noexcusescompose.domain.models.MuscularGroupType.Companion.get
 import com.mmfsin.noexcusescompose.domain.models.Stretch
 import com.mmfsin.noexcusescompose.domain.models.Stretching
 import com.mmfsin.noexcusescompose.domain.models.getExampleStretchData
-import com.mmfsin.noexcusescompose.presentation.core.components.CustomToolbar
 import com.mmfsin.noexcusescompose.presentation.core.components.ImageGif
 import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
@@ -66,60 +64,44 @@ fun StretchScreenPV() {
             isLoading = false,
             stretchingExercises = getExampleStretchData()
         ),
-        {},
     )
 }
 
 @Composable
-fun StretchScreen(
-    viewModel: StretchViewModel = hiltViewModel(),
-    goBack: () -> Unit
-) {
+fun StretchScreen(viewModel: StretchViewModel = hiltViewModel()) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
 
     StretchContent(
         uiStates = uiStates,
-        goBack = { goBack() },
     )
 }
 
 @Composable
 fun StretchContent(
     uiStates: StretchStates,
-    goBack: () -> Unit,
 ) {
-    Scaffold(
-        topBar = {
-            CustomToolbar(
-                goBack = { goBack() },
-                title = R.string.stretching_title
-            )
-        }
-    ) { innerPadding ->
-        Box(
-            Modifier.fillMaxSize()
-                .background(GrayMedium)
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp)
+    Box(
+        Modifier.fillMaxSize()
+            .background(GrayMedium)
+            .padding(horizontal = 16.dp)
+    ) {
+        CompositionLocalProvider(
+            LocalOverscrollFactory provides null
         ) {
-            CompositionLocalProvider(
-                LocalOverscrollFactory provides null
+            LazyColumn(
+                state = rememberLazyListState(),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                contentPadding = PaddingValues(vertical = 16.dp)
             ) {
-                LazyColumn(
-                    state = rememberLazyListState(),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    contentPadding = PaddingValues(vertical = 16.dp)
-                ) {
-                    items(
-                        items = uiStates.stretchingExercises,
-                        key = { e -> e.mGroup }
-                    ) { exercise -> StretchBox(exercise) }
-                }
+                items(
+                    items = uiStates.stretchingExercises,
+                    key = { e -> e.mGroup }
+                ) { exercise -> StretchBox(exercise) }
             }
         }
-
-        if (uiStates.isLoading) LoadingLottie()
     }
+
+    if (uiStates.isLoading) LoadingLottie()
 }
 
 @Composable

@@ -15,12 +15,14 @@
     <string name="bottom_nav_home">Inicio</string>
     <string name="bottom_nav_maximum">Máximos</string>
     <string name="bottom_nav_calendar">Calendario</string>
+    <string name="bottom_nav_stretch">Estiramientos</string>
     <string name="bottom_nav_notes">Notas</string>
     <string name="bottom_nav_stretching">Estiramientos</string>
 
     <!-- MENU -->
     <string name="menu_none_routine_pinned">¡Fija aquí la rutina que estés haciendo!</string>
     <string name="menu_none_routine_pinned_date">Fijada desde el %s</string>
+    <string name="menu_unpin">¿Quieres desfijar %s?</string>
     <string name="menu_none_routine_pinned_description">Solo tienes que pulsar el icono</string>
     <string name="menu_default_routines_title">Rutinas</string>
     <string name="menu_default_routines_description">Ponte en forma con los planes de entrenamiento creados para ganar masa muscular, definir o simplemente mantener la línea.</string>
@@ -132,7 +134,6 @@
     <!-- NOTES -->
     <string name="notes_empty">No tienes ninguna nota</string>
     <string name="notes_create">Crear nota</string>
-    <string name="notes_unpin_question">¿Quieres desfijar la nota %s?</string>
     <string name="notes_unpin_cancel">Cancelar</string>
     <string name="notes_unpin_accept">Aceptar</string>
 

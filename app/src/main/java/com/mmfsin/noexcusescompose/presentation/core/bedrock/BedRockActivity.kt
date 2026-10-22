@@ -4,23 +4,24 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationDayDetail
 import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationDfRoutines
 import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationExercises
 import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationFavorites
 import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationMyRoutines
 import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationRmAdd
 import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationRmDetail
-import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationStretch
 import com.mmfsin.noexcusescompose.util.BEDROCK_BOOL_ARGS
 import com.mmfsin.noexcusescompose.util.BEDROCK_NAV_GRAPH
 import com.mmfsin.noexcusescompose.util.BEDROCK_STR_ARGS
+import com.mmfsin.noexcusescompose.util.BEDROCK_STR_ARGS_2
+import com.mmfsin.noexcusescompose.util.NAV_DAY_DETAIL
 import com.mmfsin.noexcusescompose.util.NAV_DF_ROUTINES
 import com.mmfsin.noexcusescompose.util.NAV_EXERCISES
 import com.mmfsin.noexcusescompose.util.NAV_FAVORITES
 import com.mmfsin.noexcusescompose.util.NAV_MY_ROUTINES
 import com.mmfsin.noexcusescompose.util.NAV_RM_ADD
 import com.mmfsin.noexcusescompose.util.NAV_RM_DETAIL
-import com.mmfsin.noexcusescompose.util.NAV_STRETCH
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,6 +32,7 @@ class BedRockActivity : ComponentActivity() {
 
         val navGraph = intent?.getStringExtra(BEDROCK_NAV_GRAPH)
         val strArgs = intent?.getStringExtra(BEDROCK_STR_ARGS)
+        val strArgs2 = intent?.getStringExtra(BEDROCK_STR_ARGS_2)
         val boolArgs = intent?.getBooleanExtra(BEDROCK_BOOL_ARGS, false)
 
         setContent {
@@ -38,7 +40,12 @@ class BedRockActivity : ComponentActivity() {
                 NAV_EXERCISES -> NavigationExercises(mgroupId = strArgs)
                 NAV_DF_ROUTINES -> NavigationDfRoutines()
                 NAV_MY_ROUTINES -> NavigationMyRoutines()
-                NAV_STRETCH -> NavigationStretch()
+
+                NAV_DAY_DETAIL -> {
+                    if (strArgs != null) NavigationDayDetail(routineId = strArgs, dayId = strArgs2)
+                    else finish()
+                }
+
                 NAV_FAVORITES -> NavigationFavorites()
                 NAV_RM_ADD -> NavigationRmAdd()
                 NAV_RM_DETAIL -> strArgs?.let { NavigationRmDetail(exerciseId = strArgs) } ?: run { finish() }

@@ -7,6 +7,7 @@ import com.mmfsin.noexcusescompose.domain.models.Routine
 data class MenuStates(
     val isLoading: Boolean = true,
 
+    val showUnpinRoutineDialog: Boolean = false,
     val showUnpinNoteDialog: Boolean = false,
 
     val muscularGroups: List<MuscularGroup> = emptyList(),

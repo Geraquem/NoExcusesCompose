@@ -2,18 +2,20 @@ package com.mmfsin.noexcusescompose.util
 
 /** BOTTOM NAV */
 const val BN_HOME_ID = "bottom_nav_home_id"
-const val BN_CALENDAR_ID = "bottom_nav_calendar_id"
+const val BN_STRETCH_ID = "bottom_nav_stretch_id"
 const val BN_RMS_ID = "bottom_nav_rms_id"
 const val BN_NOTES_ID = "bottom_nav_notes_id"
 
 /** BEDROCK ARGS */
 const val BEDROCK_NAV_GRAPH = "bedrock_nav_graph"
 const val BEDROCK_STR_ARGS = "bedrock_str_args"
+const val BEDROCK_STR_ARGS_2 = "bedrock_str_args2"
 const val BEDROCK_BOOL_ARGS = "bedrock_bool_args"
 
 const val NAV_EXERCISES = "nav_exercises"
 const val NAV_DF_ROUTINES = "nav_df_routines"
 const val NAV_MY_ROUTINES = "nav_my_routines"
+const val NAV_DAY_DETAIL = "nav_day_detail"
 const val NAV_STRETCH = "nav_stretch"
 const val NAV_FAVORITES = "nav_favorite_exercises"
 const val NAV_NOTE_DETAIL = "nav_note_detail"

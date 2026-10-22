@@ -29,13 +29,13 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 
 @Preview
 @Composable
-fun UnpinNoteDialogPV() {
-    UnpinNoteDialog("Notita 1", {}, {})
+fun UnpinDialogPV() {
+    UnpinDialog("Notita 1", {}, {})
 }
 
 @Composable
-fun UnpinNoteDialog(
-    noteTitle: String,
+fun UnpinDialog(
+    name: String,
     cancel: () -> Unit,
     accept: () -> Unit,
 ) {
@@ -61,8 +61,8 @@ fun UnpinNoteDialog(
 
             SpacerMedium()
 
-            Column(Modifier.fillMaxWidth().padding(horizontal = 12.dp)) {
-                MediumText(text = stringResource(R.string.notes_unpin_question, noteTitle))
+            Column(Modifier.fillMaxWidth().padding(horizontal = 12.dp).padding(bottom = 4.dp)) {
+                MediumText(text = stringResource(R.string.menu_unpin, name))
                 SpacerSmall()
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Spacer(Modifier.weight(1f))

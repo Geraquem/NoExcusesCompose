@@ -427,12 +427,6 @@ fun DayBox(
             )
             MediumText(text = day.name)
         }
-
-        Icon(
-            painterResource(R.drawable.ic_arrow_right), null,
-            tint = GrayHard,
-            modifier = Modifier.size(12.dp)
-        )
     }
 }
 

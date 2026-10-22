@@ -33,7 +33,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.domain.models.Note
 import com.mmfsin.noexcusescompose.domain.models.getExampleRoutines
-import com.mmfsin.noexcusescompose.presentation.core.components.ButtonCustom
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
 import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerCustom
@@ -45,18 +44,17 @@ import com.mmfsin.noexcusescompose.presentation.core.theme.BlueMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.GreenHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.OrangeHard
-import com.mmfsin.noexcusescompose.presentation.core.theme.PurpleDark
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
-import com.mmfsin.noexcusescompose.presentation.menu.components.UnpinNoteDialog
+import com.mmfsin.noexcusescompose.presentation.menu.components.UnpinDialog
 import com.mmfsin.noexcusescompose.presentation.myroutines.routines.RoutineBox
 import com.mmfsin.noexcusescompose.presentation.notes.NoteBox
+import com.mmfsin.noexcusescompose.util.NAV_DAY_DETAIL
 import com.mmfsin.noexcusescompose.util.NAV_DF_ROUTINES
 import com.mmfsin.noexcusescompose.util.NAV_EXERCISES
 import com.mmfsin.noexcusescompose.util.NAV_FAVORITES
 import com.mmfsin.noexcusescompose.util.NAV_MY_ROUTINES
 import com.mmfsin.noexcusescompose.util.NAV_NOTE_DETAIL
-import com.mmfsin.noexcusescompose.util.NAV_STRETCH
 import com.mmfsin.noexcusescompose.util.openBedRockActivity
 
 @Preview
@@ -74,7 +72,8 @@ fun MenuScreenPV() {
             ),
         ),
         {}, {}, {}, {},
-        {}, {}, {}, {},
+        { _, _ -> }, {}, {}, {},
+        {}, {}
     )
 }
 
@@ -88,8 +87,11 @@ fun MenuScreen(viewModel: MenuViewModel = hiltViewModel()) {
         goToExercises = { context.openBedRockActivity(NAV_EXERCISES, it) },
         goToDfRoutines = { context.openBedRockActivity(NAV_DF_ROUTINES) },
         goToMyRoutines = { context.openBedRockActivity(NAV_MY_ROUTINES) },
-        goToStretch = { context.openBedRockActivity(NAV_STRETCH) },
         goToFavorites = { context.openBedRockActivity(NAV_FAVORITES) },
+
+        openDayDetail = { rId, dId -> context.openBedRockActivity(NAV_DAY_DETAIL, rId, dId) },
+        showUnpinRoutineDialog = { viewModel.showUnpinRoutineDialog(it) },
+        unpinRoutine = { viewModel.unpinRoutine(it) },
 
         openNoteDetail = { context.openBedRockActivity(NAV_NOTE_DETAIL, it) },
         showUnpinNoteDialog = { viewModel.showUnpinNoteDialog(it) },
@@ -103,8 +105,11 @@ fun MenuContent(
     goToExercises: (String?) -> Unit,
     goToDfRoutines: () -> Unit,
     goToMyRoutines: () -> Unit,
-    goToStretch: () -> Unit,
     goToFavorites: () -> Unit,
+
+    openDayDetail: (String, String?) -> Unit,
+    showUnpinRoutineDialog: (Boolean) -> Unit,
+    unpinRoutine: (String) -> Unit,
 
     openNoteDetail: (String) -> Unit,
     showUnpinNoteDialog: (Boolean) -> Unit,
@@ -133,9 +138,9 @@ fun MenuContent(
                 RoutineBox(
                     routine = routine,
                     editRoutine = {},
-                    goToDayDetail = { dayId -> },
+                    goToDayDetail = { dayId -> openDayDetail(routine.id, dayId) },
                     onDayLongClick = {},
-                    updatePushpin = { },
+                    updatePushpin = { showUnpinRoutineDialog(true) },
                     showPinnedDate = true
                 )
             }
@@ -169,14 +174,6 @@ fun MenuContent(
                     description = R.string.menu_my_routines_description,
                     onClick = { goToMyRoutines() }
                 )
-
-                SpacerSmall()
-
-                ButtonCustom(
-                    onClick = {},
-                    text = R.string.menu_my_routines_new_routine,
-                    modifier = Modifier.fillMaxWidth()
-                )
             }
 
             Column {
@@ -203,15 +200,6 @@ fun MenuContent(
             }
 
             MenuBox(
-                icon = R.drawable.ic_stretching,
-                iconColor = PurpleDark,
-                title = R.string.menu_stretch_title,
-                titleColor = PurpleDark,
-                description = R.string.menu_stretch_description,
-                onClick = { goToStretch() }
-            )
-
-            MenuBox(
                 icon = R.drawable.ic_fav_on,
                 iconColor = OrangeHard,
                 title = R.string.menu_favs_title,
@@ -224,10 +212,20 @@ fun MenuContent(
         }
     }
 
+    if (uiStates.showUnpinRoutineDialog) {
+        uiStates.actualRoutine?.let { routine ->
+            UnpinDialog(
+                name = routine.name,
+                cancel = { showUnpinRoutineDialog(false) },
+                accept = { unpinRoutine(routine.id) }
+            )
+        }
+    }
+
     if (uiStates.showUnpinNoteDialog) {
         uiStates.actualNote?.let { note ->
-            UnpinNoteDialog(
-                noteTitle = note.title,
+            UnpinDialog(
+                name = note.title,
                 cancel = { showUnpinNoteDialog(false) },
                 accept = { unpinNote(note.id) }
             )

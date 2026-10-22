@@ -13,21 +13,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import com.mmfsin.noexcusescompose.presentation.core.bedrock.BedRockActivity
-import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.Date
 import java.util.Locale
 
 fun <T1 : Any, T2 : Any, R : Any> checkNotNulls(p1: T1?, p2: T2?, block: (T1, T2) -> R): R? {
     return if (p1 != null && p2 != null) block(p1, p2) else null
 }
 
-fun Context.openBedRockActivity(navGraph: String, strArgs: String? = null, boolArgs: Boolean? = null) {
+fun Context.openBedRockActivity(
+    navGraph: String,
+    strArgs: String? = null,
+    strArgs2: String? = null,
+    boolArgs: Boolean? = null
+) {
     val intent = Intent(this, BedRockActivity::class.java)
     intent.putExtra(BEDROCK_NAV_GRAPH, navGraph)
     strArgs?.let { intent.putExtra(BEDROCK_STR_ARGS, strArgs) }
+    strArgs2?.let { intent.putExtra(BEDROCK_STR_ARGS_2, strArgs2) }
     boolArgs?.let { intent.putExtra(BEDROCK_BOOL_ARGS, boolArgs) }
     startActivity(intent)
 }

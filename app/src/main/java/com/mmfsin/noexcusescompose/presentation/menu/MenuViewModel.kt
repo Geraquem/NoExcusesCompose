@@ -5,6 +5,7 @@ import com.mmfsin.noexcusescompose.domain.usecases.GetMuscularGroupsUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetPinnedNoteUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetPinnedRoutineUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.UpdatePinnedNoteUseCase
+import com.mmfsin.noexcusescompose.domain.usecases.UpdatePinnedRoutineUseCase
 import com.mmfsin.noexcusescompose.presentation.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -16,6 +17,7 @@ class MenuViewModel @Inject constructor(
     private val getMuscularGroupsUseCase: GetMuscularGroupsUseCase,
     private val getPinnedRoutineUseCase: GetPinnedRoutineUseCase,
     private val getPinnedNoteUseCase: GetPinnedNoteUseCase,
+    private val updatePinnedRoutineUseCase: UpdatePinnedRoutineUseCase,
     private val updatePinnedNoteUseCase: UpdatePinnedNoteUseCase,
 ) : BaseViewModel<MenuStates>(MenuStates()) {
 
@@ -55,12 +57,21 @@ class MenuViewModel @Inject constructor(
         }
     }
 
+    fun showUnpinRoutineDialog(value: Boolean) = _uiState.update { it.copy(showUnpinRoutineDialog = value) }
     fun showUnpinNoteDialog(value: Boolean) = _uiState.update { it.copy(showUnpinNoteDialog = value) }
+
+    fun unpinRoutine(routineId: String) {
+        executeUseCase(
+            { updatePinnedRoutineUseCase(routineId) },
+            { showUnpinRoutineDialog(false) },
+            {},
+        )
+    }
 
     fun unpinNote(noteId: String) {
         executeUseCase(
             { updatePinnedNoteUseCase(noteId) },
-            { _uiState.update { it.copy(showUnpinNoteDialog = false) } },
+            { showUnpinNoteDialog(false) },
             {},
         )
     }

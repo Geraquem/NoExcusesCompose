@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.mmfsin.noexcusescompose.presentation.exercises.create.CreateExerciseScreen
 import com.mmfsin.noexcusescompose.presentation.exercises.detail.ExerciseDetailScreen
 import com.mmfsin.noexcusescompose.presentation.exercises.exercises.ExercisesScreen
 import com.mmfsin.noexcusescompose.presentation.exercises.favorites.FavoritesScreen
@@ -40,12 +41,14 @@ fun NavigationFavorites() {
                 }
             )
         }
-
         composable<Exercises> {
             ExercisesScreen(
                 goBack = { navController.popBackStack() },
                 goToExerciseDetail = { exerciseId ->
                     navController.navigate(ExerciseDetail(exerciseId))
+                },
+                goToCreateExercise = { mGroupId ->
+                    navController.navigate(CreateExercise(mGroupId))
                 }
             )
         }
@@ -53,6 +56,11 @@ fun NavigationFavorites() {
         composable<ExerciseDetail> {
             ExerciseDetailScreen(
                 goBack = { navController.popBackStack() }
+            )
+        }
+        composable<CreateExercise> {
+            CreateExerciseScreen(
+                goBack = { navController.popBackStack() },
             )
         }
     }

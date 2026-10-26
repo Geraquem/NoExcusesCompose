@@ -53,6 +53,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.domain.models.Day
 import com.mmfsin.noexcusescompose.domain.models.Routine
+import com.mmfsin.noexcusescompose.domain.models.getExampleRoutines
 import com.mmfsin.noexcusescompose.presentation.core.components.CustomToolbar
 import com.mmfsin.noexcusescompose.presentation.core.components.ErrorDialog
 import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
@@ -84,7 +85,7 @@ fun MyRoutinesPV() {
     MyRoutinesContent(
         uiStates = MyRoutinesStates(
             isLoading = false,
-            myRoutines = emptyList(),
+            myRoutines = getExampleRoutines(),
         ),
         {}, {}, { _, _ -> }, {},
         { _, _ -> }, {}, {}, {},
@@ -469,7 +470,8 @@ fun EmptyRoutines(createRoutine: () -> Unit) {
         OutlinedButtonCustom(
             onClick = { createRoutine() },
             text = R.string.my_routines_create,
-            color = Black
+            color = Black,
+            modifier = Modifier.fillMaxWidth()
         )
         Spacer(Modifier.weight(1f))
     }

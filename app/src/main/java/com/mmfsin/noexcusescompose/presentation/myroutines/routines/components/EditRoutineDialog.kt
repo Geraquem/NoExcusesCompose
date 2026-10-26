@@ -1,6 +1,7 @@
 package com.mmfsin.noexcusescompose.presentation.myroutines.routines.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -88,7 +89,8 @@ fun EditRoutineDialog(
                     value = name,
                     onValueChange = { name = it },
                     label = R.string.my_routines_create_name,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
+                        .border(1.dp, GrayMedium, RoundedCornerShape(8.dp)),
                     maxLength = 50,
                     hint = R.string.my_routines_create_name_hint,
                     lengthVisibility = true,
@@ -101,7 +103,8 @@ fun EditRoutineDialog(
                     value = description,
                     onValueChange = { description = it },
                     label = R.string.my_routines_create_description,
-                    modifier = Modifier.fillMaxWidth().height(140.dp),
+                    modifier = Modifier.fillMaxWidth().height(140.dp)
+                        .border(1.dp, GrayMedium, RoundedCornerShape(8.dp)),
                     singleLine = false,
                     imeAction = ImeAction.None,
                     maxLength = 450,

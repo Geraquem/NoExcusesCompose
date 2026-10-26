@@ -284,7 +284,6 @@ fun EmptyRms(createRm: () -> Unit) {
 
         SpacerLarge()
 
-
         MediumText(
             text = R.string.rms_empty_title,
             gravity = TextAlign.Center,

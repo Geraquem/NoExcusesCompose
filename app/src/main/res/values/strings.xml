@@ -63,6 +63,9 @@
     <string name="exercise_detail_group">Grupo:</string>
     <string name="exercise_detail_fav_on">Favorito</string>
     <string name="exercise_detail_fav_off">No es favorito</string>
+    <string name="exercise_create_add_image">Añade una imagen</string>
+    <string name="exercise_create_error">El nombre del ejercicio no puede estar vacío.</string>
+    <string name="exercise_create">Crear ejercicio</string>
 
     <!-- MY ROUTINES -->
     <string name="my_routines_empty_title">Tus entrenamientos</string>
@@ -124,7 +127,8 @@
 
     <!-- FAVORITES -->
     <string name="favs_title">Favoritos</string>
-    <string name="favs_empty">No has marcado ningún ejercicio como favorito</string>
+    <string name="favs_empty_title">Tus ejercicios favoritos</string>
+    <string name="favs_empty_subtitle">Marca un ejercicio como favorito y accede rápidamente a él.</string>
     <string name="favs_see_exercises">Ver ejercicios</string>
 
     <!-- STRETCHING -->

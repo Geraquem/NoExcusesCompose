@@ -3,24 +3,37 @@ package com.mmfsin.noexcusescompose.presentation.exercises.favorites
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mmfsin.noexcusescompose.R
-import com.mmfsin.noexcusescompose.domain.models.getExercisesExamples
 import com.mmfsin.noexcusescompose.presentation.core.components.CustomToolbar
 import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
+import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerLarge
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
+import com.mmfsin.noexcusescompose.presentation.core.theme.BlueLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.GrayHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
+import com.mmfsin.noexcusescompose.presentation.core.theme.OrangeLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 import com.mmfsin.noexcusescompose.presentation.exercises.exercises.ExercisesList
 
 @Preview
@@ -29,8 +42,8 @@ fun FavoritesScreenPV() {
     FavoritesContent(
         uiStates = FavoritesStates(
             isLoading = false,
-            //            favorites = emptyList()
-            favorites = getExercisesExamples()
+            favorites = emptyList()
+            //            favorites = getExercisesExamples()
         ),
         {}, {}, {}
     )
@@ -91,13 +104,37 @@ fun FavoritesContent(
 
 @Composable
 fun FavsEmpty() {
-    Box(
-        modifier = Modifier.fillMaxSize().padding(horizontal = 42.dp),
-        contentAlignment = Alignment.Center
+    Column(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 42.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+        Spacer(Modifier.weight(1f))
+
+        Box(
+            modifier = Modifier.size(64.dp).background(OrangeLight, RoundedCornerShape(8.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                painterResource(R.drawable.ic_fav_on), null,
+                modifier = Modifier.size(24.dp),
+                tint = GrayHard
+            )
+        }
+
+        SpacerLarge()
+
         MediumText(
-            text = R.string.favs_empty,
+            text = R.string.favs_empty_title,
+            gravity = TextAlign.Center,
+            fontFamily = montserrat_bold
+        )
+        SpacerSmall()
+        SmallText(
+            text = R.string.favs_empty_subtitle,
             gravity = TextAlign.Center,
         )
+
+        Spacer(Modifier.weight(1f))
     }
 }

@@ -1,15 +1,16 @@
 package com.mmfsin.noexcusescompose.data.mappers
 
 import com.mmfsin.noexcusescompose.data.models.DayDTO
+import com.mmfsin.noexcusescompose.data.models.ExerciseDTO
 import com.mmfsin.noexcusescompose.data.models.ExerciseRtnDTO
 import com.mmfsin.noexcusescompose.data.models.MyRoutineDTO
 import com.mmfsin.noexcusescompose.data.models.NoteDTO
 import com.mmfsin.noexcusescompose.data.models.RmDTO
 import com.mmfsin.noexcusescompose.data.models.SerieDTO
+import com.mmfsin.noexcusescompose.domain.models.Exercise
 import com.mmfsin.noexcusescompose.domain.models.ExerciseRtn
 import com.mmfsin.noexcusescompose.domain.models.RoutineColor.Companion.getRandomRoutineColorId
 import com.mmfsin.noexcusescompose.domain.models.Serie
-import org.checkerframework.checker.units.qual.kg
 import java.util.UUID
 
 fun createNoteDTO(
@@ -73,4 +74,17 @@ fun createRmDTO(exerciseId: String, date: Long, kgs: Double) = RmDTO(
     exerciseId = exerciseId,
     date = date,
     kgs = kgs
+)
+
+fun Exercise.createExerciseDTO() = ExerciseDTO(
+    id = id,
+    category = category,
+    imageURL = imageURL,
+    gifURL = imageURL,
+    name = name,
+    order = 99,
+    description = description,
+    muscles = involvedMuscles,
+    isFav = isFav,
+    createdByUser = true,
 )

@@ -1,5 +1,7 @@
 package com.mmfsin.noexcusescompose.util
 
+const val CREATE_EXERCISE = "create_exercise"
+
 /** BOTTOM NAV */
 const val BN_HOME_ID = "bottom_nav_home_id"
 const val BN_STRETCH_ID = "bottom_nav_stretch_id"

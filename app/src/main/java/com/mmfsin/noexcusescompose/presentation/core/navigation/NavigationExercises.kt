@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.mmfsin.noexcusescompose.presentation.exercises.create.CreateExerciseScreen
 import com.mmfsin.noexcusescompose.presentation.exercises.detail.ExerciseDetailScreen
 import com.mmfsin.noexcusescompose.presentation.exercises.exercises.ExercisesScreen
 import com.mmfsin.noexcusescompose.presentation.exercises.mgroups.MGroupsScreen
@@ -41,12 +42,20 @@ fun NavigationExercises(mgroupId: String?) {
                 },
                 goToExerciseDetail = { exerciseId ->
                     navController.navigate(ExerciseDetail(exerciseId))
+                },
+                goToCreateExercise = { mgroupId ->
+                    navController.navigate(CreateExercise(mgroupId))
                 }
             )
         }
         composable<ExerciseDetail> {
             ExerciseDetailScreen(
                 goBack = { navController.popBackStack() }
+            )
+        }
+        composable<CreateExercise> {
+            CreateExerciseScreen(
+                goBack = { navController.popBackStack() },
             )
         }
     }

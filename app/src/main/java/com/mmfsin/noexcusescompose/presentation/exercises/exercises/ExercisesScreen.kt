@@ -27,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,16 +42,14 @@ import com.mmfsin.noexcusescompose.presentation.core.components.CustomToolbar
 import com.mmfsin.noexcusescompose.presentation.core.components.ErrorDialog
 import com.mmfsin.noexcusescompose.presentation.core.components.ImageGif
 import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
-import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
-import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
-import com.mmfsin.noexcusescompose.presentation.core.theme.Black
+import com.mmfsin.noexcusescompose.presentation.core.theme.GrayHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
-import com.mmfsin.noexcusescompose.presentation.core.theme.YellowHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.YellowLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_regular
+import com.mmfsin.noexcusescompose.util.CREATE_EXERCISE
 
 @Preview
 @Composable
@@ -60,7 +59,7 @@ fun ExercisesScreenPV() {
             isLoading = true,
             exercises = getExercisesExamples()
         ),
-        {}, {}
+        {}, {}, {}
     )
 }
 
@@ -68,7 +67,8 @@ fun ExercisesScreenPV() {
 fun ExercisesScreen(
     viewModel: ExercisesViewModel = hiltViewModel(),
     goBack: () -> Unit,
-    goToExerciseDetail: (String) -> Unit
+    goToExerciseDetail: (String) -> Unit,
+    goToCreateExercise: (String) -> Unit
 ) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -76,6 +76,7 @@ fun ExercisesScreen(
         uiStates = uiStates,
         goBack = { goBack() },
         goToExerciseDetail = { goToExerciseDetail(it) },
+        goToCreateExercise = { goToCreateExercise(uiStates.mGroupId) },
     )
 }
 
@@ -84,6 +85,7 @@ fun ExercisesContent(
     uiStates: ExercisesStates,
     goBack: () -> Unit,
     goToExerciseDetail: (String) -> Unit,
+    goToCreateExercise: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -102,7 +104,10 @@ fun ExercisesContent(
             else {
                 ExercisesList(
                     exercises = uiStates.exercises,
-                    onExerciseClick = { id -> goToExerciseDetail(id) }
+                    onExerciseClick = { id ->
+                        if (id == CREATE_EXERCISE) goToCreateExercise()
+                        else goToExerciseDetail(id)
+                    }
                 )
             }
         }
@@ -156,24 +161,38 @@ fun ExerciseBox(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ImageGif(
-                    url = exercise.gifURL,
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(1f)
-                )
+                ) {
+                    ImageGif(
+                        url = exercise.gifURL,
+                        modifier = Modifier.fillMaxSize()
+                    )
+
+                    if (exercise.id == CREATE_EXERCISE) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_add),
+                            contentDescription = null,
+                            modifier = Modifier.size(42.dp).align(Alignment.Center),
+                            tint = GrayHard
+                        )
+                    }
+                }
 
                 SpacerSmall()
 
                 Box(
                     modifier = Modifier.fillMaxWidth()
                         .height(80.dp)
-                        .background(if(exercise.isFav) YellowLight else GrayLight)
+                        .background(if (exercise.isFav) YellowLight else GrayLight)
                         .padding(8.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = exercise.name,
+                        text = if (exercise.id == CREATE_EXERCISE) stringResource(R.string.exercise_create)
+                        else exercise.name,
                         style = MaterialTheme.typography.bodyLarge,
                         textAlign = TextAlign.Center,
                         fontFamily = montserrat_regular,

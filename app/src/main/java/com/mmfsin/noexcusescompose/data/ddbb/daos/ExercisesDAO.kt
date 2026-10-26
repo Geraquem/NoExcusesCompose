@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.mmfsin.noexcusescompose.data.models.ExerciseDTO
-import com.mmfsin.noexcusescompose.domain.models.Exercise
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -13,6 +12,9 @@ interface ExercisesDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertExercises(exercises: List<ExerciseDTO>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertExercise(exercise: ExerciseDTO)
 
     @Query("SELECT * FROM table_exercises")
     suspend fun getAllExercises(): List<ExerciseDTO>

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -46,11 +47,14 @@ import com.mmfsin.noexcusescompose.presentation.core.components.ErrorDialog
 import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
 import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
+import com.mmfsin.noexcusescompose.presentation.core.theme.GreenLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
+import com.mmfsin.noexcusescompose.presentation.dfroutines.routines.component.AddDfRoutineDialog
 import com.mmfsin.noexcusescompose.presentation.myroutines.routines.DayBox
 
 @Preview
@@ -59,9 +63,10 @@ fun DfRoutinesPV() {
     DfRoutinesContent(
         uiStates = DfRoutinesStates(
             isLoading = false,
+            routineAdded = true,
             routines = getExampleRoutines()
         ),
-        {}, {}, { _, _ -> }
+        {}, {}, { _, _ -> }, {}, {}
     )
 }
 
@@ -78,6 +83,8 @@ fun DfRoutinesScreen(
         goBack = { goBack() },
         getDays = { viewModel.getDays(it) },
         goToDayDetail = { routineId, dayId -> goToDayDetail(routineId, dayId) },
+        updateRoutineToAdd = { viewModel.updateRoutineToAdd(it) },
+        addRoutine = { viewModel.addRoutine() },
     )
 }
 
@@ -87,6 +94,8 @@ fun DfRoutinesContent(
     goBack: () -> Unit,
     getDays: (String) -> Unit,
     goToDayDetail: (String, String) -> Unit,
+    updateRoutineToAdd: (Routine?) -> Unit,
+    addRoutine: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -96,44 +105,54 @@ fun DfRoutinesContent(
             )
         }
     ) { innerPadding ->
-        Column(
+        Box(
             Modifier.fillMaxSize()
                 .background(GrayMedium)
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp)
-                .padding(bottom = 12.dp)
         ) {
-            CompositionLocalProvider(
-                LocalOverscrollFactory provides null
-            ) {
-                LazyColumn(
-                    state = rememberLazyListState(),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    contentPadding = PaddingValues(vertical = 16.dp)
+            Column(Modifier.fillMaxWidth()) {
+                CompositionLocalProvider(
+                    LocalOverscrollFactory provides null
                 ) {
-                    items(
-                        items = uiStates.routines,
-                        key = { routine -> routine.id }
-                    ) { routine ->
-                        DfRoutineBox(
-                            routine = routine,
-                            getDays = { getDays(routine.id) },
-                            goToDayDetail = { dayId -> goToDayDetail(routine.id, dayId) },
-                            addRoutine = {}
-                        )
+                    LazyColumn(
+                        state = rememberLazyListState(),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        contentPadding = PaddingValues(vertical = 16.dp)
+                    ) {
+                        items(
+                            items = uiStates.routines,
+                            key = { routine -> routine.id }
+                        ) { routine ->
+                            DfRoutineBox(
+                                routine = routine,
+                                getDays = { getDays(routine.id) },
+                                goToDayDetail = { dayId -> goToDayDetail(routine.id, dayId) },
+                                addRoutine = { updateRoutineToAdd(routine) }
+                            )
+                        }
                     }
+                }
+            }
+
+            AnimatedVisibility(
+                visible = uiStates.routineAdded,
+                modifier = Modifier.align(Alignment.BottomCenter)
+            ) {
+                Column {
+                    RoutineAdded()
+                    SpacerMedium()
                 }
             }
         }
 
-        /** ADD ROUTINE */
-        //        if (uiStates.dayToDelete != null) {
-        //            DeleteDayDialog(
-        //                dayName = uiStates.dayToDelete.name,
-        //                cancel = { updateDayToDelete(null) },
-        //                delete = { deleteDay() }
-        //            )
-        //        }
+        if (uiStates.routineToAdd != null) {
+            AddDfRoutineDialog(
+                name = uiStates.routineToAdd.name,
+                cancel = { updateRoutineToAdd(null) },
+                accept = { addRoutine() }
+            )
+        }
 
         if (uiStates.sww) ErrorDialog { goBack() }
         if (uiStates.isLoading) LoadingLottie()
@@ -220,6 +239,24 @@ fun DfRoutineBox(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun RoutineAdded() {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = GreenLight),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 18.dp)
+        ) {
+            MediumText(text = R.string.df_routine_added)
+            Spacer(Modifier.weight(1f))
+            Icon(painterResource(R.drawable.ic_check), null)
         }
     }
 }

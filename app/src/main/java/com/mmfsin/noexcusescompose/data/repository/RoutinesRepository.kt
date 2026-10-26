@@ -15,6 +15,7 @@ import com.mmfsin.noexcusescompose.data.mappers.toExerciseRtnList
 import com.mmfsin.noexcusescompose.data.mappers.toRoutine
 import com.mmfsin.noexcusescompose.data.mappers.toSerieDTO
 import com.mmfsin.noexcusescompose.data.models.DayDTO
+import com.mmfsin.noexcusescompose.data.models.ExerciseRtnDTO
 import com.mmfsin.noexcusescompose.data.models.ExerciseRtnWithSeries
 import com.mmfsin.noexcusescompose.data.models.MyRoutineDTO
 import com.mmfsin.noexcusescompose.domain.interfaces.IRoutinesRepository
@@ -28,6 +29,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
+import java.util.UUID
 import javax.inject.Inject
 
 class RoutinesRepository @Inject constructor(
@@ -106,6 +108,41 @@ class RoutinesRepository @Inject constructor(
             if (list.isNotEmpty()) routinesDAO.insertExercisesRtn(list.map { it.exerciseRtn })
             list.toExerciseRtnList().sortedBy { e -> e.order }
         }
+    }
+
+    override suspend fun convertDfToMyRoutine(routineId: String) {
+        val newRoutineId = UUID.randomUUID().toString()
+
+        val routine = routinesDAO.getDfRoutineById(routineId) ?: return
+
+        val newRoutine = routine.copy(
+            id = newRoutineId,
+            createdByUser = true
+        )
+
+
+        val days = routinesDAO.getDaysFromRoutine(routineId).first()
+        val newDays = days.map { day ->
+            day.copy(
+                id = UUID.randomUUID().toString(),
+                routineId = newRoutineId
+            )
+        }
+
+        val newExercises = days.zip(newDays).flatMap { (oldDay, newDay) ->
+            routinesDAO.getDfDayExercises(oldDay.id).map { exercise ->
+                exercise.copy(
+                    id = UUID.randomUUID().toString(),
+                    dayId = newDay.id
+                )
+            }
+        }
+
+        routinesDAO.convertDfRoutineToMyRoutine(
+            routine = newRoutine,
+            days = newDays,
+            exercises = newExercises
+        )
     }
 
     override suspend fun createRoutine(name: String, description: String?) {

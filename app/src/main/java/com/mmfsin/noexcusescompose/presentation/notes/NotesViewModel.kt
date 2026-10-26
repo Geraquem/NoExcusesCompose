@@ -1,6 +1,8 @@
 package com.mmfsin.noexcusescompose.presentation.notes
 
 import androidx.lifecycle.viewModelScope
+import com.mmfsin.noexcusescompose.domain.models.Note
+import com.mmfsin.noexcusescompose.domain.usecases.DeleteNoteUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetNotesUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.UpdatePinnedNoteUseCase
 import com.mmfsin.noexcusescompose.presentation.core.base.BaseViewModel
@@ -13,6 +15,7 @@ import javax.inject.Inject
 class NotesViewModel @Inject constructor(
     private val getNotesUseCase: GetNotesUseCase,
     private val updatePinnedNoteUseCase: UpdatePinnedNoteUseCase,
+    private val deleteNoteUseCase: DeleteNoteUseCase,
 ) : BaseViewModel<NotesStates>(NotesStates()) {
 
     init {
@@ -22,7 +25,12 @@ class NotesViewModel @Inject constructor(
     fun getNotes() {
         viewModelScope.launch {
             getNotesUseCase().collect { notes ->
-                _uiState.update { it.copy(notes = notes) }
+                _uiState.update {
+                    it.copy(
+                        notes = notes,
+                        isLoading = false
+                    )
+                }
             }
         }
     }
@@ -32,6 +40,16 @@ class NotesViewModel @Inject constructor(
             { updatePinnedNoteUseCase(noteId) },
             { println("Pinned Note updated") },
             {},
+        )
+    }
+
+    fun updateNoteToDelete(note: Note?) = _uiState.update { it.copy(noteToDelete = note) }
+
+    fun deleteNote(noteId: String) {
+        executeUseCase(
+            { deleteNoteUseCase(noteId) },
+            { updateNoteToDelete(null) },
+            {}
         )
     }
 }

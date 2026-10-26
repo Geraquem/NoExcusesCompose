@@ -155,7 +155,6 @@ fun MyRoutinesContent(
                 .background(GrayMedium)
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp)
-                .padding(bottom = 12.dp)
         ) {
             if (uiStates.myRoutines.isEmpty()) {
                 EmptyRoutines(
@@ -413,7 +412,8 @@ fun DayBox(
         ) {
             MediumText(
                 text = "$position",
-                fontFamily = alphazet
+                fontFamily = alphazet,
+                fontWeight = FontWeight.SemiBold
             )
         }
 

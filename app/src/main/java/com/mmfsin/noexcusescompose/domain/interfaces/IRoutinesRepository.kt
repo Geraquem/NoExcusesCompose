@@ -10,6 +10,8 @@ interface IRoutinesRepository {
     suspend fun getDfRoutineDays(routineId: String)
     suspend fun getDfDayExercises(routineId: String, dayId: String): List<ExerciseRtn>
 
+    suspend fun convertDfToMyRoutine(routineId: String)
+
     suspend fun createRoutine(name: String, description: String?)
     suspend fun editRoutine(routine: Routine)
     fun getMyRoutines(): Flow<List<Routine>>

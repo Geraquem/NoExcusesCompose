@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -26,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,6 +48,7 @@ import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
 import com.mmfsin.noexcusescompose.presentation.core.theme.Black
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
+import com.mmfsin.noexcusescompose.presentation.core.theme.OrangeHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 import com.mmfsin.noexcusescompose.presentation.rms.rms.components.DeleteRmDialog
@@ -60,7 +63,7 @@ fun RmsPV() {
     RmsContent(
         uiStates = RmsStates(
             isLoading = false,
-            rms = getRmsExamples()
+            rms = emptyList()
         ),
         {}, {}, {}, {}
     )
@@ -150,7 +153,6 @@ fun RmBox(
     goToRmDetail: (String) -> Unit,
     updateRmToDelete: (Rm) -> Unit
 ) {
-
     Card(
         modifier = Modifier.fillMaxWidth()
             .combinedClickable(
@@ -163,7 +165,7 @@ fun RmBox(
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
     ) {
         Row(
-            Modifier.fillMaxWidth().padding(12.dp),
+            Modifier.fillMaxWidth().padding(12.dp).padding(bottom = 4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             ImageGif(
@@ -174,14 +176,21 @@ fun RmBox(
             SpacerSmall(horizontal = true)
 
             Column() {
-                SmallText(
-                    text = rm.exercise.category.replaceFirstChar { it.uppercase() },
-                    modifier = Modifier.fillMaxWidth().background(
-                        color = getMuscularGroupColor(rm.exercise.category),
-                        shape = RoundedCornerShape(8.dp)
-                    ),
-                    gravity = TextAlign.Center
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    SmallText(
+                        text = rm.exercise.category.replaceFirstChar { it.uppercase() },
+                        modifier = Modifier.weight(1f).background(
+                            color = getMuscularGroupColor(rm.exercise.category),
+                            shape = RoundedCornerShape(8.dp)
+                        ),
+                        gravity = TextAlign.Center
+                    )
+                    SpacerSmall(horizontal = true)
+                    Icon(
+                        painterResource(R.drawable.ic_graph), null,
+                        modifier = Modifier.size(16.dp)
+                    )
+                }
                 SpacerMini()
 
                 MediumText(
@@ -191,36 +200,58 @@ fun RmBox(
 
                 SpacerSmall()
 
-                val kgs = rm.data.map { it.kgs }
+                Row(Modifier.fillMaxWidth()) {
+                    Column(Modifier.weight(1f)) {
+                        val last = rm.data.first()
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    SmallText(text = R.string.rms_last_kgs)
-                    SpacerSmall(horizontal = true)
-                    MediumText(
-                        text = "${kgs.last().deletePointZero()}",
-                        fontFamily = montserrat_bold
-                    )
-                    SpacerMini(horizontal = true)
-                    MediumText(
-                        text = R.string.rms_kgs,
-                        fontFamily = montserrat_bold
-                    )
-                }
+                        SpacerMini()
 
-                SpacerMini()
+                        SmallText(text = R.string.rms_last_kgs)
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    SmallText(text = R.string.rms_max_kgs)
-                    SpacerSmall(horizontal = true)
-                    MediumText(
-                        text = "${kgs.max().deletePointZero()}",
-                        fontFamily = montserrat_bold
-                    )
-                    SpacerMini(horizontal = true)
-                    MediumText(
-                        text = R.string.rms_kgs,
-                        fontFamily = montserrat_bold
-                    )
+                        Row {
+                            MediumText(
+                                text = "${last.kgs.deletePointZero()}",
+                                fontFamily = montserrat_bold
+                            )
+                            SpacerMini(horizontal = true)
+                            MediumText(
+                                text = R.string.rms_kgs,
+                                fontFamily = montserrat_bold
+                            )
+                        }
+
+                        SmallText(
+                            text = "${last.date}",
+                        )
+                    }
+
+                    Column(Modifier.weight(1f)) {
+                        val rm = rm.data.maxBy { it.kgs }
+                        SpacerMini()
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            SmallText(text = R.string.rms_max_kgs)
+                            SpacerMini(horizontal = true)
+                            Icon(
+                                painterResource(R.drawable.ic_fav_on), null,
+                                modifier = Modifier.size(12.dp), tint = OrangeHard
+                            )
+                        }
+                        Row {
+                            MediumText(
+                                text = "${rm.kgs.deletePointZero()}",
+                                fontFamily = montserrat_bold
+                            )
+                            SpacerMini(horizontal = true)
+                            MediumText(
+                                text = R.string.rms_kgs,
+                                fontFamily = montserrat_bold
+                            )
+                        }
+
+                        SmallText(
+                            text = "${rm.date}",
+                        )
+                    }
                 }
             }
         }

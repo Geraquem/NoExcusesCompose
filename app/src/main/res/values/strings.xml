@@ -25,9 +25,9 @@
     <string name="menu_unpin">¿Quieres desfijar %s?</string>
     <string name="menu_none_routine_pinned_description">Solo tienes que pulsar el icono</string>
     <string name="menu_default_routines_title">Rutinas</string>
-    <string name="menu_default_routines_description">Ponte en forma con los planes de entrenamiento creados para ganar masa muscular, definir o simplemente mantener la línea.</string>
-    <string name="menu_my_routines_title">Mis entrenamientos</string>
-    <string name="menu_my_routines_description">Crea tus propias rutinas de entrenamiento.Divide la rutina en días para ser más eficiente y llevar tu entrenamiento al siguiente nivel.</string>
+    <string name="menu_default_routines_description">Entrenamientos ya creados sobre los que orientarte.</string>
+    <string name="menu_my_routines_title">Mis rutinas</string>
+    <string name="menu_my_routines_description">Crea y gestiona tus propias rutinas de entrenamiento.</string>
     <string name="menu_my_routines_new_routine">Crear nueva rutina</string>
     <string name="menu_my_routines_calendar">Calendario</string>
     <string name="menu_my_routines_calendar_description">Cuando registres una rutina aparecerá en el calendario el día que hayas entrenado y las rutinas realizadas. Organízate y lleva un registro de todo tu trabajo y de tus planes de entrenamientos.</string>
@@ -36,7 +36,7 @@
     <string name="menu_my_routines_calendar_saved">Tienes registradas %s sesiones</string>
     <string name="menu_my_actual_routine">Actualmente estás haciendo:</string>
     <string name="menu_exercises_title">Ejercicios</string>
-    <string name="menu_exercises_description">Echa un vistazo más detallado a todos los ejercicios.</string>
+    <string name="menu_exercises_description">Explora todos los ejercicios.</string>
     <string name="menu_stretch_title">Estiramientos</string>
     <string name="menu_stretch_description">La práctica regular de estiramientos antes y después del ejercicio es fundamental para maximizar el rendimiento, prevenir lesiones, y mejorar la flexibilidad y la recuperación muscular.</string>
     <string name="menu_favs_title">Ejercicios favoritos</string>
@@ -117,6 +117,9 @@
     <!-- DEFAULT ROUTINES -->
     <string name="df_routine_top_title">Rutinas predefinidas</string>
     <string name="df_routine_exercises_reps">%s reps</string>
+    <string name="df_routine_add_title">¿Quieres añadir %s a la lista de tus rutinas?</string>
+    <string name="df_routine_add_subtitle">Podrás editarla a tu gusto y añadirla a la página principal.</string>
+    <string name="df_routine_added">Rutina añadida correctamente</string>
 
     <!-- FAVORITES -->
     <string name="favs_title">Favoritos</string>
@@ -132,10 +135,14 @@
     <string name="stretching_total_one">1 estiramiento</string>
 
     <!-- NOTES -->
-    <string name="notes_empty">No tienes ninguna nota</string>
-    <string name="notes_create">Crear nota</string>
+    <string name="notes_empty_title">Tu espacio, tus ideas</string>
+    <string name="notes_empty_description">Crea notas para apuntar todo aquello que creas que sea necesario digno de no olvidar.</string>
+    <string name="notes_create_firts">Crear tu primera nota</string>
+    <string name="notes_create">Añadir nota</string>
     <string name="notes_unpin_cancel">Cancelar</string>
     <string name="notes_unpin_accept">Aceptar</string>
+    <string name="notes_last_update">Última modificación %s</string>
+    <string name="notes_delete">¿Quieres eliminar %s de tu lista de notas?</string>
 
     <!-- RMs -->
     <string name="rms_empty">No tienen ninguna RM registrada</string>
@@ -144,8 +151,8 @@
     <string name="rms_date">Fecha</string>
     <string name="rms_select_weight">Peso</string>
     <string name="rms_kgs">Kg</string>
-    <string name="rms_last_kgs">Último peso:</string>
-    <string name="rms_max_kgs">Peso máximo:</string>
+    <string name="rms_last_kgs">Último peso</string>
+    <string name="rms_max_kgs">RM</string>
 
     <string name="rms_delete_rm">¿Quieres eliminar todas las rm asociadas a %s?</string>
     <string name="rms_delete_rm_data">¿Quieres eliminar esta rm?</string>

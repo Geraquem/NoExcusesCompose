@@ -114,6 +114,9 @@ fun RmDetailContent(
         topBar = {
             CustomToolbar(
                 goBack = { goBack() },
+                showIconRight = true,
+                iconRight = R.drawable.ic_eye,
+                iconRightClick = { uiStates.rm?.let { toExerciseDetail(it.exercise.id) } }
             )
         }
     ) { innerPadding ->
@@ -131,23 +134,10 @@ fun RmDetailContent(
                 ) {
                     item {
                         Box(Modifier.fillMaxWidth()) {
-                            Icon(
-                                painterResource(R.drawable.ic_eye), null,
-                                tint = GrayHard,
-                                modifier = Modifier.size(36.dp)
-                                    .align(Alignment.TopEnd)
-                                    .clip(CircleShape)
-                                    .clickable(onClick = { toExerciseDetail(rm.exercise.id) })
-                                    .padding(top = 4.dp)
-                                    .padding(end = 4.dp)
-                                    .background(GrayMedium, CircleShape)
-                                    .padding(4.dp)
-                            )
-
                             Column(Modifier.fillMaxWidth()) {
                                 ImageGif(
                                     url = rm.exercise.gifURL,
-                                    modifier = Modifier.size(150.dp).align(Alignment.CenterHorizontally)
+                                    modifier = Modifier.size(200.dp).align(Alignment.CenterHorizontally)
                                 )
 
                                 SpacerSmall()

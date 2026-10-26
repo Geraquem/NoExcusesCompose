@@ -16,4 +16,6 @@ interface INotesRepository {
 
     fun updatePinnedNote(noteId: String)
     fun getPinnedNote(): Flow<Note?>
+
+    fun deleteNote(noteId: String)
 }

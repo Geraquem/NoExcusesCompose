@@ -39,4 +39,6 @@ class NotesRepository @Inject constructor(
     override fun getPinnedNote(): Flow<Note?> {
         return notesDAO.getPinnedNote().map { it?.toNote() }
     }
+
+    override fun deleteNote(noteId: String) = notesDAO.deleteNote(noteId)
 }

@@ -9,6 +9,7 @@ import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationDfRout
 import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationExercises
 import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationFavorites
 import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationMyRoutines
+import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationNoteDetail
 import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationRmAdd
 import com.mmfsin.noexcusescompose.presentation.core.navigation.NavigationRmDetail
 import com.mmfsin.noexcusescompose.util.BEDROCK_BOOL_ARGS
@@ -20,6 +21,7 @@ import com.mmfsin.noexcusescompose.util.NAV_DF_ROUTINES
 import com.mmfsin.noexcusescompose.util.NAV_EXERCISES
 import com.mmfsin.noexcusescompose.util.NAV_FAVORITES
 import com.mmfsin.noexcusescompose.util.NAV_MY_ROUTINES
+import com.mmfsin.noexcusescompose.util.NAV_NOTE_DETAIL
 import com.mmfsin.noexcusescompose.util.NAV_RM_ADD
 import com.mmfsin.noexcusescompose.util.NAV_RM_DETAIL
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,6 +51,7 @@ class BedRockActivity : ComponentActivity() {
                 NAV_FAVORITES -> NavigationFavorites()
                 NAV_RM_ADD -> NavigationRmAdd()
                 NAV_RM_DETAIL -> strArgs?.let { NavigationRmDetail(exerciseId = strArgs) } ?: run { finish() }
+                NAV_NOTE_DETAIL -> NavigationNoteDetail(noteId = strArgs)
                 else -> finish()
             }
         }

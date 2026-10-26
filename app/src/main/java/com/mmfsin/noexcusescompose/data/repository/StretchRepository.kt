@@ -39,4 +39,6 @@ class StretchRepository @Inject constructor(
 
         return stretchDAO.getStretchingData().toStretchList()
     }
+
+
 }

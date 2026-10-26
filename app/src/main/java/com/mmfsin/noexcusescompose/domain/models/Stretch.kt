@@ -2,7 +2,6 @@ package com.mmfsin.noexcusescompose.domain.models
 
 data class Stretch(
     val mGroup: String,
-    val iconUrl: String,
     val stretching: List<Stretching>
 )
 
@@ -16,7 +15,6 @@ open class Stretching(
 fun getExampleStretchData() = listOf(
     Stretch(
         mGroup = "pecho",
-        iconUrl = "",
         stretching = listOf(
             Stretching(
                 name = "Nombre del estiramiento",
@@ -34,7 +32,6 @@ fun getExampleStretchData() = listOf(
     ),
     Stretch(
         mGroup = "espalda",
-        iconUrl = "",
         stretching = listOf(
             Stretching(
                 name = "Nombre del estiramiento",

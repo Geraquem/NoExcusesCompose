@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -100,7 +101,9 @@ fun EditRoutineDialog(
                     value = description,
                     onValueChange = { description = it },
                     label = R.string.my_routines_create_description,
-                    modifier = Modifier.fillMaxWidth().height(100.dp),
+                    modifier = Modifier.fillMaxWidth().height(140.dp),
+                    singleLine = false,
+                    imeAction = ImeAction.None,
                     maxLength = 450,
                     maxLines = 10,
                     hint = R.string.my_routines_create_description_hint,

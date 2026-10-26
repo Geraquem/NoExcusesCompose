@@ -12,6 +12,8 @@ import com.mmfsin.noexcusescompose.data.models.ExerciseRtnWithSeries
 import com.mmfsin.noexcusescompose.data.models.MyRoutineDTO
 import com.mmfsin.noexcusescompose.data.models.RoutineWithDays
 import com.mmfsin.noexcusescompose.data.models.SerieDTO
+import com.mmfsin.noexcusescompose.presentation.core.navigation.Exercises
+import com.mmfsin.noexcusescompose.presentation.core.navigation.ExercisesRtn
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -25,8 +27,22 @@ interface RoutinesDAO {
     @Query("SELECT * FROM table_routines WHERE createdByUser = 0")
     fun getDfRoutines(): Flow<List<RoutineWithDays>>
 
+    @Query("SELECT * FROM table_routines WHERE id = :routineId")
+    fun getDfRoutineById(routineId: String): MyRoutineDTO?
+
     @Query("SELECT * FROM table_exercises_rtn WHERE dayId = :dayId")
     fun getDfDayExercises(dayId: String): List<ExerciseRtnDTO>
+
+    @Transaction
+    suspend fun convertDfRoutineToMyRoutine(
+        routine: MyRoutineDTO,
+        days: List<DayDTO>,
+        exercises: List<ExerciseRtnDTO>
+    ) {
+        insertMyRoutine(routine)
+        insertDays(days)
+        insertExercisesRtn(exercises)
+    }
 
     /******************* ROUTINES *******************/
 

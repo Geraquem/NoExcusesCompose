@@ -217,7 +217,10 @@ fun AddRmDialogDialog(
             confirmButton = {
                 TextButton(
                     onClick = {
-                        datePickerState.selectedDateMillis?.let { millis -> date = millis }
+                        datePickerState.selectedDateMillis?.let { millis ->
+                            date = millis
+                            dateText = formatDate(millis).orEmpty()
+                        }
                         showPicker = false
                     }
                 ) {

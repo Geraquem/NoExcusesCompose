@@ -65,7 +65,8 @@
     <string name="exercise_detail_fav_off">No es favorito</string>
 
     <!-- MY ROUTINES -->
-    <string name="my_routines_empty">No tienes ninguna rutina creada.</string>
+    <string name="my_routines_empty_title">Tus entrenamientos</string>
+    <string name="my_routines_empty_subtitle">Crea, edita y organiza tus días de entrenamiento y sus ejercicios.</string>
     <string name="my_routines_top_text_title">Mis planes de entrenamiento</string>
     <string name="my_routines_top_text_subtitle">Organiza tus días y entrena a tu ritmo</string>
     <string name="my_routines_toolbar">Mis rutinas</string>
@@ -145,7 +146,8 @@
     <string name="notes_delete">¿Quieres eliminar %s de tu lista de notas?</string>
 
     <!-- RMs -->
-    <string name="rms_empty">No tienen ninguna RM registrada</string>
+    <string name="rms_empty_title">Tus RMs</string>
+    <string name="rms_empty_subtitle">Registra tus pesos y visualiza tu progreso.</string>
     <string name="rms_create">Registrar RM</string>
     <string name="rms_add_title">Añadir rm</string>
     <string name="rms_date">Fecha</string>

@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -36,20 +37,24 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.domain.models.MuscularGroupType.Companion.getMuscularGroupColor
 import com.mmfsin.noexcusescompose.domain.models.Rm
-import com.mmfsin.noexcusescompose.domain.models.getRmsExamples
 import com.mmfsin.noexcusescompose.presentation.core.components.ImageGif
 import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
 import com.mmfsin.noexcusescompose.presentation.core.components.OutlinedButtonCustom
 import com.mmfsin.noexcusescompose.presentation.core.components.OutlinedButtonCustomIcon
 import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerLarge
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
 import com.mmfsin.noexcusescompose.presentation.core.theme.Black
+import com.mmfsin.noexcusescompose.presentation.core.theme.BlueLight
+import com.mmfsin.noexcusescompose.presentation.core.theme.GrayHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.OrangeHard
+import com.mmfsin.noexcusescompose.presentation.core.theme.RedLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
+import com.mmfsin.noexcusescompose.presentation.core.theme.YellowLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 import com.mmfsin.noexcusescompose.presentation.rms.rms.components.DeleteRmDialog
 import com.mmfsin.noexcusescompose.util.NAV_RM_ADD
@@ -265,15 +270,37 @@ fun EmptyRms(createRm: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.weight(1f))
+
+        Box(
+            modifier = Modifier.size(64.dp).background(RedLight, RoundedCornerShape(8.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                painterResource(R.drawable.ic_graph), null,
+                modifier = Modifier.size(24.dp),
+                tint = GrayHard
+            )
+        }
+
+        SpacerLarge()
+
+
         MediumText(
-            text = R.string.rms_empty,
+            text = R.string.rms_empty_title,
+            gravity = TextAlign.Center,
+            fontFamily = montserrat_bold
+        )
+        SpacerSmall()
+        SmallText(
+            text = R.string.rms_empty_subtitle,
             gravity = TextAlign.Center,
         )
         SpacerMedium()
         OutlinedButtonCustom(
             onClick = { createRm() },
             text = R.string.rms_create,
-            color = Black
+            color = Black,
+            modifier = Modifier.fillMaxWidth()
         )
         Spacer(Modifier.weight(1f))
     }

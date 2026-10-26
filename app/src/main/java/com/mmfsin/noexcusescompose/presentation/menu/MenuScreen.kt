@@ -39,12 +39,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.domain.models.MuscularGroup
-import com.mmfsin.noexcusescompose.domain.models.Note
-import com.mmfsin.noexcusescompose.domain.models.getExampleRoutines
 import com.mmfsin.noexcusescompose.domain.models.getMuscularGroupsExamples
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
 import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
-import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerCustom
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
 import com.mmfsin.noexcusescompose.presentation.core.theme.BlueLight
@@ -70,15 +68,7 @@ import com.mmfsin.noexcusescompose.util.openBedRockActivity
 fun MenuScreenPV() {
     MenuContent(
         uiStates = MenuStates(
-            actualRoutine = getExampleRoutines().first(),
             muscularGroups = getMuscularGroupsExamples(),
-            actualNote = Note(
-                id = "",
-                title = "Notita 1",
-                description = "Description notita",
-                date = "12 de agosto de 1245",
-                pinned = true
-            ),
         ),
         {}, {}, {}, {},
         { _, _ -> }, {}, {}, {},
@@ -132,11 +122,11 @@ fun MenuContent(
                 .background(GrayMedium),
             state = rememberLazyListState(),
             verticalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(vertical = 12.dp)
+            contentPadding = PaddingValues(bottom = 12.dp)
         ) {
 
             item {
-                Column(Modifier.padding(horizontal = 16.dp)) {
+                Column(Modifier.padding(horizontal = 12.dp)) {
                     uiStates.actualRoutine?.let { routine ->
                         SmallText(
                             text = R.string.menu_my_actual_routine,
@@ -167,9 +157,9 @@ fun MenuContent(
                 }
             }
             item {
-                Row() {
+                Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp)) {
                     Card(
-                        modifier = Modifier.weight(1f).height(200.dp).padding(start = 16.dp),
+                        modifier = Modifier.weight(1f).height(200.dp),
                         colors = CardDefaults.cardColors(containerColor = White),
                         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp),
                         onClick = { goToDfRoutines() }
@@ -206,7 +196,7 @@ fun MenuContent(
                     SpacerSmall(horizontal = true)
 
                     Card(
-                        modifier = Modifier.weight(1.25f).height(200.dp).padding(end = 16.dp),
+                        modifier = Modifier.weight(1.25f).height(200.dp),
                         colors = CardDefaults.cardColors(containerColor = White),
                         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp),
                         onClick = { goToMyRoutines() }
@@ -244,7 +234,7 @@ fun MenuContent(
             item {
                 Column {
                     Card(
-                        modifier = Modifier.fillMaxWidth().height(100.dp).padding(horizontal = 16.dp),
+                        modifier = Modifier.fillMaxWidth().height(100.dp).padding(horizontal = 12.dp),
                         colors = CardDefaults.cardColors(containerColor = White),
                         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp),
                         onClick = { goToExercises(null) }
@@ -303,7 +293,8 @@ fun MenuContent(
                             uiStates.muscularGroups.forEachIndexed { i, mGroup ->
                                 item {
                                     MuscularGroupBox(
-                                        position = i,
+                                        isFirst = i == 0,
+                                        isLast = i == (uiStates.muscularGroups.size - 1),
                                         mGroup = mGroup,
                                         onClick = { goToExercises(mGroup.id) }
                                     )
@@ -316,7 +307,7 @@ fun MenuContent(
 
             item {
                 Card(
-                    modifier = Modifier.fillMaxWidth().height(100.dp).padding(horizontal = 16.dp),
+                    modifier = Modifier.fillMaxWidth().height(100.dp).padding(horizontal = 12.dp),
                     colors = CardDefaults.cardColors(containerColor = White),
                     elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp),
                     onClick = { goToFavorites() }
@@ -423,12 +414,13 @@ fun MenuBox(
 
 @Composable
 fun MuscularGroupBox(
-    position: Int,
+    isFirst: Boolean,
+    isLast: Boolean,
     mGroup: MuscularGroup,
     onClick: () -> Unit
 ) {
     Row {
-        if (position == 0) SpacerMedium(horizontal = true)
+        if (isFirst) SpacerCustom(space = 12.dp, horizontal = true)
         Column(
             modifier = Modifier.background(White, RoundedCornerShape(12.dp))
                 .clip(RoundedCornerShape(12.dp))
@@ -444,5 +436,6 @@ fun MuscularGroupBox(
             MediumText(text = mGroup.name)
             SpacerMini()
         }
+        if (isLast) SpacerCustom(space = 12.dp, horizontal = true)
     }
 }

@@ -53,7 +53,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.domain.models.Day
 import com.mmfsin.noexcusescompose.domain.models.Routine
-import com.mmfsin.noexcusescompose.domain.models.getExampleRoutines
 import com.mmfsin.noexcusescompose.presentation.core.components.CustomToolbar
 import com.mmfsin.noexcusescompose.presentation.core.components.ErrorDialog
 import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
@@ -66,10 +65,12 @@ import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMini
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
 import com.mmfsin.noexcusescompose.presentation.core.theme.Black
+import com.mmfsin.noexcusescompose.presentation.core.theme.BlueLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.White
+import com.mmfsin.noexcusescompose.presentation.core.theme.YellowLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.alphazet
 import com.mmfsin.noexcusescompose.presentation.core.theme.montserrat_bold
 import com.mmfsin.noexcusescompose.presentation.myroutines.routines.components.CreateRoutineDialog
@@ -83,7 +84,7 @@ fun MyRoutinesPV() {
     MyRoutinesContent(
         uiStates = MyRoutinesStates(
             isLoading = false,
-            myRoutines = getExampleRoutines(),
+            myRoutines = emptyList(),
         ),
         {}, {}, { _, _ -> }, {},
         { _, _ -> }, {}, {}, {},
@@ -436,12 +437,35 @@ fun EmptyRoutines(createRoutine: () -> Unit) {
         modifier = Modifier.fillMaxWidth().padding(horizontal = 42.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+        Spacer(Modifier.weight(1f))
+
+        Box(
+            modifier = Modifier.size(64.dp).background(BlueLight, RoundedCornerShape(8.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                painterResource(R.drawable.ic_calendar), null,
+                modifier = Modifier.size(24.dp),
+                tint = GrayHard
+            )
+        }
+
         SpacerLarge()
-        SmallText(
-            text = R.string.my_routines_empty,
+
+        MediumText(
+            text = R.string.my_routines_empty_title,
             gravity = TextAlign.Center,
+            fontFamily = montserrat_bold
         )
         SpacerSmall()
+        SmallText(
+            text = R.string.my_routines_empty_subtitle,
+            gravity = TextAlign.Center,
+        )
+
+        SpacerMedium()
+
         OutlinedButtonCustom(
             onClick = { createRoutine() },
             text = R.string.my_routines_create,

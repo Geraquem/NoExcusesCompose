@@ -233,7 +233,7 @@ fun EmptyNotes(createNote: () -> Unit) {
 
         OutlinedButtonCustom(
             onClick = { createNote() },
-            text = R.string.notes_create_firts,
+            text = R.string.notes_create,
             color = Black,
             modifier = Modifier.fillMaxWidth()
         )

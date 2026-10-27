@@ -66,6 +66,8 @@
     <string name="exercise_create_add_image">Añade una imagen</string>
     <string name="exercise_create_error">El nombre del ejercicio no puede estar vacío.</string>
     <string name="exercise_create">Crear ejercicio</string>
+    <string name="exercise_edit">Editar ejercicio</string>
+    <string name="exercise_delete">Eliminar ejercicio</string>
 
     <!-- MY ROUTINES -->
     <string name="my_routines_empty_title">Tus entrenamientos</string>

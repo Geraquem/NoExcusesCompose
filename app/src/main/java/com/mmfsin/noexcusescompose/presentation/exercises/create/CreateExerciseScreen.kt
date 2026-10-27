@@ -115,7 +115,6 @@ fun CreateExerciseContent(
         CompositionLocalProvider(
             LocalOverscrollFactory provides null
         ) {
-
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
                     .background(GrayMedium)

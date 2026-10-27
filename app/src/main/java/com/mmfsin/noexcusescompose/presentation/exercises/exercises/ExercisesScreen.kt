@@ -2,6 +2,8 @@ package com.mmfsin.noexcusescompose.presentation.exercises.exercises
 
 import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -68,7 +71,7 @@ fun ExercisesScreen(
     viewModel: ExercisesViewModel = hiltViewModel(),
     goBack: () -> Unit,
     goToExerciseDetail: (String) -> Unit,
-    goToCreateExercise: (String) -> Unit
+    goToCreateExercise: (String) -> Unit,
 ) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -118,7 +121,7 @@ fun ExercisesContent(
 @Composable
 fun ExercisesList(
     exercises: List<Exercise>,
-    onExerciseClick: (String) -> Unit
+    onExerciseClick: (String) -> Unit,
 ) {
     CompositionLocalProvider(
         LocalOverscrollFactory provides null
@@ -136,7 +139,12 @@ fun ExercisesList(
             items(
                 items = exercises,
                 key = { e -> e.id }
-            ) { exercise -> ExerciseBox(exercise, onClick = { onExerciseClick(exercise.id) }) }
+            ) { exercise ->
+                ExerciseBox(
+                    exercise,
+                    onClick = { onExerciseClick(exercise.id) },
+                )
+            }
         }
     }
 }
@@ -174,6 +182,13 @@ fun ExerciseBox(
                     if (exercise.id == CREATE_EXERCISE) {
                         Icon(
                             painter = painterResource(R.drawable.ic_add),
+                            contentDescription = null,
+                            modifier = Modifier.size(42.dp).align(Alignment.Center),
+                            tint = GrayHard
+                        )
+                    } else if (exercise.imageURL.isBlank()) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_no_image),
                             contentDescription = null,
                             modifier = Modifier.size(42.dp).align(Alignment.Center),
                             tint = GrayHard

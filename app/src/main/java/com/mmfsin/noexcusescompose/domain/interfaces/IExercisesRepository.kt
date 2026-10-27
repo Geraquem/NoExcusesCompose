@@ -11,4 +11,5 @@ interface IExercisesRepository {
     fun getFavExercises(): Flow<List<Exercise>>
 
     suspend fun createExercise(exercise: Exercise)
+    suspend fun deleteExercise(exerciseId: String)
 }

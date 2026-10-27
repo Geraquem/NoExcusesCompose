@@ -31,7 +31,8 @@ fun RmsExercisesScreenPV() {
             isLoading = false,
             exercises = getExercisesExamples()
         ),
-        {}, {}, {}, { _, _, _ -> }
+        {}, {}, {}, { _, _, _ -> },
+        {},
     )
 }
 
@@ -39,7 +40,8 @@ fun RmsExercisesScreenPV() {
 fun RmsExercisesScreen(
     viewModel: RmsExercisesViewModel = hiltViewModel(),
     goBack: () -> Unit,
-    goToExerciseDetail: (String) -> Unit
+    goToExerciseDetail: (String) -> Unit,
+    goToCreateExercise: (String) -> Unit,
 ) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -49,6 +51,7 @@ fun RmsExercisesScreen(
         onExerciseClick = { viewModel.onExerciseClick(it) },
         goToExerciseDetail = { goToExerciseDetail(it) },
         addRm = { exerciseId, date, weight -> viewModel.addRm(exerciseId, date, weight) },
+        goToCreateExercise = {},
     )
 }
 
@@ -59,6 +62,7 @@ fun RmsExercisesContent(
     onExerciseClick: (String?) -> Unit,
     goToExerciseDetail: (String) -> Unit,
     addRm: (String, Long, Double) -> Unit,
+    goToCreateExercise: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -77,7 +81,7 @@ fun RmsExercisesContent(
             else {
                 ExercisesList(
                     exercises = uiStates.exercises,
-                    onExerciseClick = { id -> onExerciseClick(id) }
+                    onExerciseClick = { id -> onExerciseClick(id) },
                 )
             }
         }

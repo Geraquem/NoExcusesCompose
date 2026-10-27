@@ -36,7 +36,7 @@ fun getExercisesExamples() = listOf(
         description = "Descripciónnnnn",
         involvedMuscles = "Involved musclesss",
         isFav = false,
-        createdByUser = false
+        createdByUser = true
     ),
     Exercise(
         id = "2",

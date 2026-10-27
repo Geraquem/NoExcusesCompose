@@ -29,7 +29,6 @@ import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
 import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerLarge
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
-import com.mmfsin.noexcusescompose.presentation.core.theme.BlueLight
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.OrangeLight
@@ -94,7 +93,7 @@ fun FavoritesContent(
 
             ExercisesList(
                 exercises = uiStates.favorites,
-                onExerciseClick = { id -> goToDetail(id) }
+                onExerciseClick = { id -> goToDetail(id) },
             )
 
             if (uiStates.isLoading) LoadingLottie()

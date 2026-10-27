@@ -11,6 +11,7 @@ import com.mmfsin.noexcusescompose.presentation.dfroutines.days.DfDayScreen
 import com.mmfsin.noexcusescompose.presentation.exercises.detail.ExerciseDetailScreen
 import com.mmfsin.noexcusescompose.presentation.myroutines.days.DayScreen
 import com.mmfsin.noexcusescompose.presentation.dfroutines.routines.DfRoutinesScreen
+import com.mmfsin.noexcusescompose.presentation.exercises.create.edit.EditExerciseScreen
 
 @Composable
 fun NavigationDfRoutines() {
@@ -45,7 +46,16 @@ fun NavigationDfRoutines() {
 
         composable<ExerciseDetail> {
             ExerciseDetailScreen(
-                goBack = { navController.popBackStack() }
+                goBack = { navController.popBackStack() },
+                goToEditExercise = { exerciseId ->
+                    navController.navigate(EditExercise(exerciseId))
+                }
+            )
+        }
+
+        composable<EditExercise> {
+            EditExerciseScreen(
+                goBack = { navController.popBackStack() },
             )
         }
     }

@@ -75,7 +75,7 @@ fun ExercisesRtnContent(
             else {
                 ExercisesList(
                     exercises = uiStates.exercises,
-                    onExerciseClick = { id -> onExerciseClick(id) }
+                    onExerciseClick = { id -> onExerciseClick(id) },
                 )
             }
         }

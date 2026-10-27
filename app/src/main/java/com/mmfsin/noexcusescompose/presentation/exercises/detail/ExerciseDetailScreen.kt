@@ -56,14 +56,15 @@ fun ExerciseDetailScreenPV() {
             exerciseFav = true,
             exercise = getExercisesExamples().first()
         ),
-        {}, { }
+        {}, {}, {}
     )
 }
 
 @Composable
 fun ExerciseDetailScreen(
     viewModel: ExerciseDetailViewModel = hiltViewModel(),
-    goBack: () -> Unit
+    goBack: () -> Unit,
+    goToEditExercise: (String) -> Unit
 ) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -71,6 +72,7 @@ fun ExerciseDetailScreen(
         uiStates = uiStates,
         goBack = { goBack() },
         selectFav = { viewModel.selectFavExercise(it) },
+        goToEditExercise = { goToEditExercise(uiStates.exerciseId) },
     )
 }
 
@@ -79,10 +81,16 @@ fun ExerciseDetailContent(
     uiStates: ExerciseDetailStates,
     goBack: () -> Unit,
     selectFav: (Boolean) -> Unit,
+    goToEditExercise: () -> Unit,
 ) {
     Scaffold(
         topBar = {
-            CustomToolbar(goBack = { goBack() })
+            CustomToolbar(
+                goBack = { goBack() },
+                showIconRight = uiStates.exercise?.createdByUser == true,
+                iconRight = R.drawable.ic_settings,
+                iconRightClick = { goToEditExercise() }
+            )
         }
     ) { innerPadding ->
         CompositionLocalProvider(

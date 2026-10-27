@@ -60,4 +60,6 @@ class ExercisesRepository @Inject constructor(
         val exerciseDTO = exercise.createExerciseDTO()
         exercisesDAO.insertExercise(exerciseDTO)
     }
+
+    override suspend fun deleteExercise(exerciseId: String) = exercisesDAO.deleteExercise(exerciseId)
 }

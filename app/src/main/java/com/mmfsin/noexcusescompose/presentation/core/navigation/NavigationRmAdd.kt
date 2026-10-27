@@ -7,8 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.mmfsin.noexcusescompose.presentation.exercises.create.CreateExerciseScreen
+import com.mmfsin.noexcusescompose.presentation.exercises.create.edit.EditExerciseScreen
 import com.mmfsin.noexcusescompose.presentation.exercises.detail.ExerciseDetailScreen
-import com.mmfsin.noexcusescompose.presentation.exercises.exercises.ExercisesScreen
 import com.mmfsin.noexcusescompose.presentation.exercises.mgroups.MGroupsScreen
 import com.mmfsin.noexcusescompose.presentation.rms.exercises.RmsExercisesScreen
 
@@ -42,13 +43,30 @@ fun NavigationRmAdd() {
                 },
                 goToExerciseDetail = { exerciseId ->
                     navController.navigate(ExerciseDetail(exerciseId))
+                },
+                goToCreateExercise = { mgroupId ->
+                    navController.navigate(CreateExercise(mgroupId))
                 }
             )
         }
 
         composable<ExerciseDetail> {
             ExerciseDetailScreen(
-                goBack = { navController.popBackStack() }
+                goBack = { navController.popBackStack() },
+                goToEditExercise = { exerciseId ->
+                    navController.navigate(EditExercise(exerciseId))
+                }
+            )
+        }
+
+        composable<CreateExercise> {
+            CreateExerciseScreen(
+                goBack = { navController.popBackStack() },
+            )
+        }
+        composable<EditExercise> {
+            EditExerciseScreen(
+                goBack = { navController.popBackStack() },
             )
         }
     }

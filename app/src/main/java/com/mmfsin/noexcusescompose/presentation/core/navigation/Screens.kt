@@ -14,6 +14,9 @@ data class ExerciseDetail(val exerciseId: String)
 @Serializable
 data class CreateExercise(val mGroupId: String)
 
+@Serializable
+data class EditExercise(val exerciseId: String)
+
 /************* DEFAULT ROUTINES ****************/
 
 @Serializable

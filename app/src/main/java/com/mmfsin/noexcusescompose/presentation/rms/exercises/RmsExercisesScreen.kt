@@ -87,7 +87,7 @@ fun RmsExercisesContent(
                     exercises = uiStates.exercises,
                     onExerciseClick = { id ->
                         if (id == CREATE_EXERCISE) goToCreateExercise()
-                        else goToExerciseDetail(id)
+                        else onExerciseClick(id)
                     },
                     onExerciseLongClick = { goToEditExercise(it) }
                 )

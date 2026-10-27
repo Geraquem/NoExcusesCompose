@@ -166,7 +166,7 @@ fun ExerciseBox(
             indication = null,
             interactionSource = remember { MutableInteractionSource() },
             onClick = { onClick(exercise.id) },
-            onLongClick = { if (exercise.id == CREATE_EXERCISE) onLongClick(exercise.id) }
+            onLongClick = { if (exercise.createdByUser) onLongClick(exercise.id) }
         ),
         colors = CardDefaults.cardColors(
             containerColor = White

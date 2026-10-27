@@ -1,0 +1,21 @@
+package com.mmfsin.noexcuses.domain.interfaces
+
+import com.mmfsin.noexcuses.domain.models.Note
+import kotlinx.coroutines.flow.Flow
+
+interface INotesRepository {
+    suspend fun saveNote(
+        noteId: String?,
+        title: String,
+        text: String,
+        pinned: Boolean
+    )
+
+    fun getNotes(): Flow<List<Note>>
+    fun getNoteById(noteId: String): Note?
+
+    fun updatePinnedNote(noteId: String)
+    fun getPinnedNote(): Flow<Note?>
+
+    fun deleteNote(noteId: String)
+}

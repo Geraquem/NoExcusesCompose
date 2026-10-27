@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mmfsin.noexcusescompose"
+    namespace = "com.mmfsin.noexcuses"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -17,11 +17,11 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.mmfsin.noexcusescompose"
+        applicationId = "com.mmfsin.noexcuses"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 10
+        versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -90,6 +90,9 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
 
+    /** Realm DDBB -> for migration */
+    implementation("io.realm.kotlin:library-base:3.0.0")
+
     /** DataStore */
     implementation(libs.androidx.datastore.preferences)
 
@@ -104,6 +107,7 @@ dependencies {
 
     /** Charts */
     implementation(libs.vico.compose)
+
 
     /** Testing */
     testImplementation(libs.junit)

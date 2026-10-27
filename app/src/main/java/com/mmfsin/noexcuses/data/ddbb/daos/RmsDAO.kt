@@ -1,0 +1,28 @@
+package com.mmfsin.noexcuses.data.ddbb.daos
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.mmfsin.noexcuses.data.models.RmDTO
+import com.mmfsin.noexcuses.data.models.RmWithExercise
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface RmsDAO {
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertRM(data: RmDTO)
+
+    @Query("SELECT * FROM table_rms")
+    fun getRms(): Flow<List<RmWithExercise>>
+
+    @Query("SELECT * FROM table_rms WHERE exerciseId = :exerciseId")
+    fun getRmByExerciseId(exerciseId: String): Flow<List<RmWithExercise>>
+
+    @Query("DELETE FROM table_rms WHERE exerciseId = :exerciseId")
+    fun deleteRm(exerciseId: String)
+
+    @Query("DELETE FROM table_rms WHERE id = :rmId")
+    fun deleteRmData(rmId: String)
+}

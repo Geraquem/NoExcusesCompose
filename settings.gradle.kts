@@ -22,6 +22,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "No excuses compose"
+rootProject.name = "No excuses"
 include(":app")
  

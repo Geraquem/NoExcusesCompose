@@ -1,0 +1,50 @@
+package com.mmfsin.noexcuses.domain.models
+
+data class Stretch(
+    val mGroup: String,
+    val stretching: List<Stretching>
+)
+
+open class Stretching(
+    var name: String,
+    var imageURL: String?,
+    var description: String,
+    var order: Long
+)
+
+fun getExampleStretchData() = listOf(
+    Stretch(
+        mGroup = "pecho",
+        stretching = listOf(
+            Stretching(
+                name = "Nombre del estiramiento",
+                imageURL = "",
+                description = "Desc pecho 1",
+                order = 1
+            ),
+            Stretching(
+                name = "Nombre del estiramiento",
+                imageURL = "",
+                description = "Desc pecho 2",
+                order = 2
+            ),
+        )
+    ),
+    Stretch(
+        mGroup = "espalda",
+        stretching = listOf(
+            Stretching(
+                name = "Nombre del estiramiento",
+                imageURL = "",
+                description = "Desc Espalda 1",
+                order = 1
+            ),
+            Stretching(
+                name = "Nombre del estiramiento",
+                imageURL = "",
+                description = "Desc Espalda 2",
+                order = 2
+            ),
+        )
+    ),
+)

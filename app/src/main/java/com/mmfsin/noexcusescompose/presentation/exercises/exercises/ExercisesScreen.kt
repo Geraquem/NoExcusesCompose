@@ -171,11 +171,6 @@ fun ExerciseBox(
                         .fillMaxWidth()
                         .aspectRatio(1f)
                 ) {
-                    ImageGif(
-                        url = exercise.gifURL,
-                        modifier = Modifier.fillMaxSize()
-                    )
-
                     if (exercise.id == CREATE_EXERCISE) {
                         Icon(
                             painter = painterResource(R.drawable.ic_add),
@@ -183,13 +178,20 @@ fun ExerciseBox(
                             modifier = Modifier.size(42.dp).align(Alignment.Center),
                             tint = GrayHard
                         )
-                    } else if (exercise.imageURL.isBlank() || exercise.gifURL?.isBlank() == true) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_no_image),
-                            contentDescription = null,
-                            modifier = Modifier.size(42.dp).align(Alignment.Center),
-                            tint = GrayHard
-                        )
+                    } else {
+                        if (exercise.gifURL?.isBlank() == true) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_no_image),
+                                contentDescription = null,
+                                modifier = Modifier.size(42.dp).align(Alignment.Center),
+                                tint = GrayHard
+                            )
+                        } else {
+                            ImageGif(
+                                url = exercise.gifURL,
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
                     }
                 }
 

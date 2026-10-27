@@ -171,6 +171,20 @@ interface RoutinesDAO {
     @Query("DELETE FROM table_exercises_rtn WHERE id = :exerciseRtnId")
     suspend fun deleteExerciseRtn(exerciseRtnId: String)
 
+    @Query("DELETE FROM table_exercises_rtn WHERE exerciseId = :exerciseId")
+    suspend fun deleteAllExercisesRtnByExerciseId(exerciseId: String)
+
+    @Query("DELETE FROM table_exercises WHERE id = :exerciseId")
+    suspend fun deleteExercise(exerciseId: String)
+
+    @Transaction
+    suspend fun deleteExerciseAndExercisesRtn(
+        exerciseId: String,
+    ) {
+        deleteAllExercisesRtnByExerciseId(exerciseId)
+        deleteExercise(exerciseId)
+    }
+
     @Update
     suspend fun updateExerciseRtn(exercise: ExerciseRtnDTO)
 

@@ -33,7 +33,8 @@ class MenuViewModel @Inject constructor(
             { muscularGroups ->
                 _uiState.update {
                     it.copy(
-                        muscularGroups = muscularGroups
+                        muscularGroups = muscularGroups,
+                        isLoading = false
                     )
                 }
             },

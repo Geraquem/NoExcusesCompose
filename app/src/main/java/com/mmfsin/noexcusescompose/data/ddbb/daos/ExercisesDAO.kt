@@ -30,7 +30,4 @@ interface ExercisesDAO {
 
     @Query("SELECT * FROM table_exercises WHERE isFav = 1")
     fun getFavExercises(): Flow<List<ExerciseDTO>>
-
-    @Query("DELETE FROM table_exercises WHERE id = :exerciseId")
-    suspend fun deleteExercise(exerciseId: String)
 }

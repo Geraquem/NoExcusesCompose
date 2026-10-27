@@ -27,8 +27,10 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,6 +42,7 @@ import coil3.compose.AsyncImage
 import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.domain.models.MuscularGroup
 import com.mmfsin.noexcusescompose.domain.models.getMuscularGroupsExamples
+import com.mmfsin.noexcusescompose.presentation.core.components.LoadingFullScreen
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
 import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerCustom
@@ -68,6 +71,7 @@ import com.mmfsin.noexcusescompose.util.openBedRockActivity
 fun MenuScreenPV() {
     MenuContent(
         uiStates = MenuStates(
+            isLoading = false,
             muscularGroups = getMuscularGroupsExamples(),
         ),
         {}, {}, {}, {},
@@ -244,12 +248,12 @@ fun MenuContent(
                             modifier = Modifier.fillMaxSize()
                                 .clip(RoundedCornerShape(12.dp))
                         ) {
-                            //                            AsyncImage(
-                            //                                model = "https://i.pinimg.com/1200x/81/19/d3/8119d30283db4d8e9b74327ea200fd75.jpg",
-                            //                                contentDescription = null,
-                            //                                modifier = Modifier.fillMaxSize().alpha(0.8f),
-                            //                                contentScale = ContentScale.Crop
-                            //                            )
+                            AsyncImage(
+                                model = "https://i.pinimg.com/1200x/81/19/d3/8119d30283db4d8e9b74327ea200fd75.jpg",
+                                contentDescription = null,
+                                modifier = Modifier.fillMaxSize().alpha(0.8f),
+                                contentScale = ContentScale.Crop
+                            )
 
                             Row(Modifier.padding(12.dp)) {
                                 Column(Modifier.weight(1f)) {
@@ -373,6 +377,8 @@ fun MenuContent(
             )
         }
     }
+
+    if (uiStates.isLoading) LoadingFullScreen()
 }
 
 @Composable

@@ -3,6 +3,7 @@ package com.mmfsin.noexcusescompose.data.repository
 import com.google.firebase.database.FirebaseDatabase
 import com.mmfsin.noexcusescompose.data.ddbb.SharedPrefs
 import com.mmfsin.noexcusescompose.data.ddbb.daos.ExercisesDAO
+import com.mmfsin.noexcusescompose.data.ddbb.daos.RoutinesDAO
 import com.mmfsin.noexcusescompose.data.mappers.createExerciseDTO
 import com.mmfsin.noexcusescompose.data.mappers.toExercise
 import com.mmfsin.noexcusescompose.data.mappers.toExerciseList
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class ExercisesRepository @Inject constructor(
     val prefs: SharedPrefs,
     val exercisesDAO: ExercisesDAO,
+    val routinesDAO: RoutinesDAO,
 ) : IExercisesRepository {
 
     override suspend fun getExercisesByMuscularGroup(mGroupId: String): Flow<List<Exercise>> {
@@ -61,5 +63,7 @@ class ExercisesRepository @Inject constructor(
         exercisesDAO.insertExercise(exerciseDTO)
     }
 
-    override suspend fun deleteExercise(exerciseId: String) = exercisesDAO.deleteExercise(exerciseId)
+    override suspend fun deleteExercise(exerciseId: String) {
+        routinesDAO.deleteExerciseAndExercisesRtn(exerciseId)
+    }
 }

@@ -2,6 +2,7 @@ package com.mmfsin.noexcusescompose.presentation.rms.exercises
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.mmfsin.noexcusescompose.domain.models.buttonCreateExercise
 import com.mmfsin.noexcusescompose.domain.usecases.AddRmUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetExercisesByMGroupUseCase
 import com.mmfsin.noexcusescompose.presentation.core.base.BaseViewModel
@@ -26,10 +27,11 @@ class RmsExercisesViewModel @Inject constructor(
     fun getExercises(mGroupId: String) {
         viewModelScope.launch {
             getExercisesByMGroupUseCase(mGroupId).collect { exercises ->
+                val exercisesWithButton = exercises + buttonCreateExercise()
                 _uiState.update {
                     it.copy(
                         mGroupId = mGroupId,
-                        exercises = exercises
+                        exercises = exercisesWithButton
                     )
                 }
             }

@@ -22,6 +22,7 @@ import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.exercises.exercises.ExercisesList
 import com.mmfsin.noexcusescompose.presentation.rms.exercises.components.AddRmDialogDialog
+import com.mmfsin.noexcusescompose.util.CREATE_EXERCISE
 
 @Preview
 @Composable
@@ -51,7 +52,7 @@ fun RmsExercisesScreen(
         onExerciseClick = { viewModel.onExerciseClick(it) },
         goToExerciseDetail = { goToExerciseDetail(it) },
         addRm = { exerciseId, date, weight -> viewModel.addRm(exerciseId, date, weight) },
-        goToCreateExercise = {},
+        goToCreateExercise = { goToCreateExercise(uiStates.mGroupId) },
     )
 }
 
@@ -81,7 +82,10 @@ fun RmsExercisesContent(
             else {
                 ExercisesList(
                     exercises = uiStates.exercises,
-                    onExerciseClick = { id -> onExerciseClick(id) },
+                    onExerciseClick = { id ->
+                        if (id == CREATE_EXERCISE) goToCreateExercise()
+                        else goToExerciseDetail(id)
+                    },
                 )
             }
         }

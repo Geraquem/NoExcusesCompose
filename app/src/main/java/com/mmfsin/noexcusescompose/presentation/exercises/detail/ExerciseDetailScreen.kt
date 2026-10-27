@@ -171,48 +171,52 @@ fun ExerciseDetailContent(
                         )
                     }
 
-                    SpacerMedium()
+                    if (e.description.isNotBlank()) {
+                        SpacerMedium()
 
-                    MediumText(
-                        text = R.string.exercise_detail_description,
-                        fontFamily = montserrat_bold
-                    )
+                        MediumText(
+                            text = R.string.exercise_detail_description,
+                            fontFamily = montserrat_bold
+                        )
 
-                    SpacerMini()
+                        SpacerMini()
 
-                    SmallText(text = e.description)
+                        SmallText(text = e.description)
+                    }
 
-                    SpacerMedium()
+                    if (e.involvedMuscles.isNotBlank()) {
+                        SpacerMedium()
 
-                    MediumText(
-                        text = R.string.exercise_detail_involved_muscles,
-                        fontFamily = montserrat_bold
-                    )
+                        MediumText(
+                            text = R.string.exercise_detail_involved_muscles,
+                            fontFamily = montserrat_bold
+                        )
 
-                    SpacerMini()
+                        SpacerMini()
 
-                    SmallText(text = e.involvedMuscles)
+                        SmallText(text = e.involvedMuscles)
 
-                    SpacerLarge()
+                        SpacerLarge()
 
+                    }
                 }
             }
+            if (uiStates.exercise == null) LoadingLottie(bgColor = White)
         }
-        if (uiStates.exercise == null) LoadingLottie(bgColor = White)
     }
-}
 
-@Composable
-fun TitleDetail(title: Int) {
-    Box(
-        modifier = Modifier
-            .background(GrayLight, RoundedCornerShape(8.dp))
-            .padding(vertical = 4.dp, horizontal = 12.dp)
-    ) {
-        SpacerSmall(horizontal = true)
-        MediumText(
-            text = title,
-            fontWeight = FontWeight.SemiBold
-        )
+    @Composable
+    fun TitleDetail(title: Int) {
+        Box(
+            modifier = Modifier
+                .background(GrayLight, RoundedCornerShape(8.dp))
+                .padding(vertical = 4.dp, horizontal = 12.dp)
+        ) {
+            SpacerSmall(horizontal = true)
+            MediumText(
+                text = title,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
     }
 }

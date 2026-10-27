@@ -128,6 +128,7 @@ fun MenuContent(
             item {
                 Column(Modifier.padding(horizontal = 12.dp)) {
                     uiStates.actualRoutine?.let { routine ->
+                        SpacerSmall()
                         SmallText(
                             text = R.string.menu_my_actual_routine,
                             modifier = Modifier.padding(start = 6.dp)

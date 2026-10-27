@@ -22,6 +22,7 @@ import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.exercises.exercises.ExercisesList
 import com.mmfsin.noexcusescompose.presentation.myroutines.exercises.add.AddExerciseRtnDialog
+import com.mmfsin.noexcusescompose.util.CREATE_EXERCISE
 
 @Preview
 @Composable
@@ -31,7 +32,7 @@ fun ExercisesRtnScreenPV() {
             isLoading = false,
             exercises = getExercisesExamples()
         ),
-        {}, {}, {},
+        {}, {}, {}, {}
     )
 }
 
@@ -39,7 +40,8 @@ fun ExercisesRtnScreenPV() {
 fun ExercisesRtnScreen(
     viewModel: ExercisesRtnViewModel = hiltViewModel(),
     goBack: () -> Unit,
-    goToExerciseDetail: (String) -> Unit
+    goToExerciseDetail: (String) -> Unit,
+    goToCreateExercise: (String) -> Unit,
 ) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -48,6 +50,7 @@ fun ExercisesRtnScreen(
         goBack = { goBack() },
         onExerciseClick = { viewModel.onExerciseClick(it) },
         goToExerciseDetail = { goToExerciseDetail(it) },
+        goToCreateExercise = { goToCreateExercise(uiStates.mGroupId) },
     )
 }
 
@@ -57,6 +60,7 @@ fun ExercisesRtnContent(
     goBack: () -> Unit,
     onExerciseClick: (String?) -> Unit,
     goToExerciseDetail: (String) -> Unit,
+    goToCreateExercise: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -75,7 +79,10 @@ fun ExercisesRtnContent(
             else {
                 ExercisesList(
                     exercises = uiStates.exercises,
-                    onExerciseClick = { id -> onExerciseClick(id) },
+                    onExerciseClick = { id ->
+                        if (id == CREATE_EXERCISE) goToCreateExercise()
+                        else goToExerciseDetail(id)
+                    },
                 )
             }
         }

@@ -320,7 +320,7 @@ fun RoutineBox(
                             )
 
                             routine.description?.let { d ->
-                                MediumText(text = d)
+                                SmallText(text = d)
                             }
                         }
                     }

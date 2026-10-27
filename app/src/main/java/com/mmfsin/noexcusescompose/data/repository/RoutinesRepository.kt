@@ -18,6 +18,7 @@ import com.mmfsin.noexcusescompose.data.mappers.toSerieDTO
 import com.mmfsin.noexcusescompose.data.models.DayDTO
 import com.mmfsin.noexcusescompose.data.models.ExerciseRtnWithSeries
 import com.mmfsin.noexcusescompose.data.models.MyRoutineDTO
+import com.mmfsin.noexcusescompose.data.models.SerieDTO
 import com.mmfsin.noexcusescompose.domain.interfaces.IRoutinesRepository
 import com.mmfsin.noexcusescompose.domain.models.Day
 import com.mmfsin.noexcusescompose.domain.models.ExerciseRtn
@@ -135,10 +136,18 @@ class RoutinesRepository @Inject constructor(
         }
 
         // 5. Asegurar que los ejercicios de cada día estén descargados
+        val newSeries = mutableListOf<SerieDTO>()
         val newExercises = days.zip(newDays).flatMap { (oldDay, newDay) ->
             getDfDayExercises(routineId, oldDay.id).map { exercise ->
+                val newExerciseId = UUID.randomUUID().toString()
+                newSeries.addAll(
+                    createSeriesFromNotes(
+                        exercise.notes,
+                        newExerciseId
+                    )
+                )
                 exercise.copy(
-                    id = UUID.randomUUID().toString(),
+                    id = newExerciseId,
                     dayId = newDay.id
                 )
             }
@@ -148,8 +157,26 @@ class RoutinesRepository @Inject constructor(
         routinesDAO.convertDfRoutineToMyRoutine(
             routine = newRoutine,
             days = newDays.toDayDTOList(),
-            exercises = newExercises.toExerciseRtnList()
+            exercises = newExercises.toExerciseRtnList(),
+            series = newSeries
         )
+    }
+
+    private fun createSeriesFromNotes(
+        notes: String?,
+        exerciseRtnId: String
+    ): List<SerieDTO> {
+        return notes
+            ?.split(",")
+            ?.mapNotNull { it.trim().toIntOrNull() }
+            ?.mapIndexed { index, reps ->
+                SerieDTO(
+                    id = UUID.randomUUID().toString(),
+                    exerciseRtnId = exerciseRtnId,
+                    reps = reps,
+                    order = index
+                )
+            } ?: emptyList()
     }
 
     override suspend fun createRoutine(name: String, description: String?) {

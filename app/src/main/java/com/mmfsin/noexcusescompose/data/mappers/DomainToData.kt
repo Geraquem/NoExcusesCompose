@@ -104,7 +104,7 @@ fun ExerciseRtn.toExerciseRtnDTO() = ExerciseRtnDTO(
     dayId = dayId,
     exerciseId = exerciseId,
     rest = rest,
-    notes = notes,
+    notes = null,
     superSerie = superSerie,
     order = order
 )

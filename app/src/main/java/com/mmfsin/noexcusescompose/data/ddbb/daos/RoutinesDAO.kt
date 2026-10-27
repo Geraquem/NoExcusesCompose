@@ -37,11 +37,13 @@ interface RoutinesDAO {
     suspend fun convertDfRoutineToMyRoutine(
         routine: MyRoutineDTO,
         days: List<DayDTO>,
-        exercises: List<ExerciseRtnDTO>
+        exercises: List<ExerciseRtnDTO>,
+        series: List<SerieDTO>,
     ) {
         insertMyRoutine(routine)
         insertDays(days)
         insertExercisesRtn(exercises)
+        insertSeries(series)
     }
 
     /******************* ROUTINES *******************/

@@ -22,6 +22,30 @@ class ExercisesRepository @Inject constructor(
     val routinesDAO: RoutinesDAO,
 ) : IExercisesRepository {
 
+    override suspend fun getAllExercises() {
+        if (prefs.getExercisesFromServer()) {
+            val snapshot = FirebaseDatabase
+                .getInstance()
+                .getReference(EXERCISES)
+                .get()
+                .await()
+
+            val firebaseExercises = snapshot.children
+                .flatMap { categorySnapshot ->
+                    categorySnapshot.children.mapNotNull { exerciseSnapshot ->
+                        exerciseSnapshot.getValue(ExerciseDTO::class.java)
+                    }
+                }
+
+            if (firebaseExercises.isNotEmpty()) {
+                prefs.updateExercisesFromServer(false)
+                exercisesDAO.insertExercises(firebaseExercises)
+
+                println("------------------------------ all exercises from server -> ${firebaseExercises.size} exercises")
+            }
+        }
+    }
+
     override suspend fun getExercisesByMuscularGroup(mGroupId: String): Flow<List<Exercise>> {
         if (prefs.getExercisesFromServer()) {
             val snapshot = FirebaseDatabase

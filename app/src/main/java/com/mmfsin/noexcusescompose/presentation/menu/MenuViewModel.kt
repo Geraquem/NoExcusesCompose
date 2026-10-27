@@ -1,6 +1,7 @@
 package com.mmfsin.noexcusescompose.presentation.menu
 
 import androidx.lifecycle.viewModelScope
+import com.mmfsin.noexcusescompose.domain.usecases.GetAllExercisesUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetMuscularGroupsUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetPinnedNoteUseCase
 import com.mmfsin.noexcusescompose.domain.usecases.GetPinnedRoutineUseCase
@@ -19,12 +20,14 @@ class MenuViewModel @Inject constructor(
     private val getPinnedNoteUseCase: GetPinnedNoteUseCase,
     private val updatePinnedRoutineUseCase: UpdatePinnedRoutineUseCase,
     private val updatePinnedNoteUseCase: UpdatePinnedNoteUseCase,
+    private val getAllExercisesUseCase: GetAllExercisesUseCase,
 ) : BaseViewModel<MenuStates>(MenuStates()) {
 
     init {
         getMuscularGroups()
         getPinnedRoutine()
         getPinnedNote()
+        getAllExercises()
     }
 
     fun getMuscularGroups() {
@@ -56,6 +59,14 @@ class MenuViewModel @Inject constructor(
                 _uiState.update { it.copy(actualNote = note) }
             }
         }
+    }
+
+    fun getAllExercises() {
+        executeUseCase(
+            { getAllExercisesUseCase() },
+            {},
+            {}
+        )
     }
 
     fun showUnpinRoutineDialog(value: Boolean) = _uiState.update { it.copy(showUnpinRoutineDialog = value) }

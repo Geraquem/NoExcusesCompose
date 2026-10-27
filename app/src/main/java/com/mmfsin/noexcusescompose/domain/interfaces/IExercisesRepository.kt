@@ -4,6 +4,8 @@ import com.mmfsin.noexcusescompose.domain.models.Exercise
 import kotlinx.coroutines.flow.Flow
 
 interface IExercisesRepository {
+    suspend fun getAllExercises()
+
     suspend fun getExercisesByMuscularGroup(mGroupId: String): Flow<List<Exercise>>
     fun getExerciseById(id: String): Flow<Exercise?>
 

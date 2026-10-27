@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface IRoutinesRepository {
     suspend fun getDfRoutines(): Flow<List<Routine>>
-    suspend fun getDfRoutineDays(routineId: String)
+    suspend fun getDfRoutineDays(routineId: String): List<Day>
     suspend fun getDfDayExercises(routineId: String, dayId: String): List<ExerciseRtn>
 
     suspend fun convertDfToMyRoutine(routineId: String)

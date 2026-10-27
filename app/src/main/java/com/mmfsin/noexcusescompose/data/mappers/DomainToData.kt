@@ -7,6 +7,7 @@ import com.mmfsin.noexcusescompose.data.models.MyRoutineDTO
 import com.mmfsin.noexcusescompose.data.models.NoteDTO
 import com.mmfsin.noexcusescompose.data.models.RmDTO
 import com.mmfsin.noexcusescompose.data.models.SerieDTO
+import com.mmfsin.noexcusescompose.domain.models.Day
 import com.mmfsin.noexcusescompose.domain.models.Exercise
 import com.mmfsin.noexcusescompose.domain.models.ExerciseRtn
 import com.mmfsin.noexcusescompose.domain.models.RoutineColor.Companion.getRandomRoutineColorId
@@ -88,3 +89,24 @@ fun Exercise.createExerciseDTO() = ExerciseDTO(
     isFav = isFav,
     createdByUser = true,
 )
+
+fun Day.toDayDTO() = DayDTO(
+    id = id,
+    routineId = routineId,
+    name = name,
+    order = order
+)
+
+fun List<Day>.toDayDTOList() = this.map { it.toDayDTO() }
+
+fun ExerciseRtn.toExerciseRtnDTO() = ExerciseRtnDTO(
+    id = id,
+    dayId = dayId,
+    exerciseId = exerciseId,
+    rest = rest,
+    notes = notes,
+    superSerie = superSerie,
+    order = order
+)
+
+fun List<ExerciseRtn>.toExerciseRtnList() = this.map { it.toExerciseRtnDTO() }

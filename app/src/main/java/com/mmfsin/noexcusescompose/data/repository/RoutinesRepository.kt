@@ -9,13 +9,13 @@ import com.mmfsin.noexcusescompose.data.mappers.createDayDTO
 import com.mmfsin.noexcusescompose.data.mappers.createDfExerciseRtnDTO
 import com.mmfsin.noexcusescompose.data.mappers.createRoutineDTO
 import com.mmfsin.noexcusescompose.data.mappers.toDay
+import com.mmfsin.noexcusescompose.data.mappers.toDayDTOList
 import com.mmfsin.noexcusescompose.data.mappers.toDayList
 import com.mmfsin.noexcusescompose.data.mappers.toExerciseRtnDTO
 import com.mmfsin.noexcusescompose.data.mappers.toExerciseRtnList
 import com.mmfsin.noexcusescompose.data.mappers.toRoutine
 import com.mmfsin.noexcusescompose.data.mappers.toSerieDTO
 import com.mmfsin.noexcusescompose.data.models.DayDTO
-import com.mmfsin.noexcusescompose.data.models.ExerciseRtnDTO
 import com.mmfsin.noexcusescompose.data.models.ExerciseRtnWithSeries
 import com.mmfsin.noexcusescompose.data.models.MyRoutineDTO
 import com.mmfsin.noexcusescompose.domain.interfaces.IRoutinesRepository
@@ -58,9 +58,10 @@ class RoutinesRepository @Inject constructor(
         }
     }
 
-    override suspend fun getDfRoutineDays(routineId: String) {
-        val days = routinesDAO.getDaysFromRoutine(routineId)
-        if (days.first().isEmpty()) {
+    override suspend fun getDfRoutineDays(routineId: String): List<Day> {
+        val days = routinesDAO.getDaysFromRoutine(routineId).first()
+        return if (days.isNotEmpty()) days.toDayList()
+        else {
             val snapshot = Firebase.firestore.collection(DEFAULT_ROUTINES)
                 .document(routineId).collection(DAYS).get().await()
 
@@ -69,6 +70,7 @@ class RoutinesRepository @Inject constructor(
             }
 
             if (days.isNotEmpty()) routinesDAO.insertDays(days)
+            days.toDayList()
         }
     }
 
@@ -111,17 +113,20 @@ class RoutinesRepository @Inject constructor(
     }
 
     override suspend fun convertDfToMyRoutine(routineId: String) {
-        val newRoutineId = UUID.randomUUID().toString()
-
+        // 1. Obtener la rutina original
         val routine = routinesDAO.getDfRoutineById(routineId) ?: return
 
+        // 2. Asegurar que los días estén en Room
+        val days = getDfRoutineDays(routineId)
+
+        // 3. Crear una copia de la rutina
+        val newRoutineId = UUID.randomUUID().toString()
         val newRoutine = routine.copy(
             id = newRoutineId,
             createdByUser = true
         )
 
-
-        val days = routinesDAO.getDaysFromRoutine(routineId).first()
+        // 4. Crear copias de los días con ids nuevos
         val newDays = days.map { day ->
             day.copy(
                 id = UUID.randomUUID().toString(),
@@ -129,8 +134,9 @@ class RoutinesRepository @Inject constructor(
             )
         }
 
+        // 5. Asegurar que los ejercicios de cada día estén descargados
         val newExercises = days.zip(newDays).flatMap { (oldDay, newDay) ->
-            routinesDAO.getDfDayExercises(oldDay.id).map { exercise ->
+            getDfDayExercises(routineId, oldDay.id).map { exercise ->
                 exercise.copy(
                     id = UUID.randomUUID().toString(),
                     dayId = newDay.id
@@ -138,10 +144,11 @@ class RoutinesRepository @Inject constructor(
             }
         }
 
+        // 6. Insertar la copia completa en Room
         routinesDAO.convertDfRoutineToMyRoutine(
             routine = newRoutine,
-            days = newDays,
-            exercises = newExercises
+            days = newDays.toDayDTOList(),
+            exercises = newExercises.toExerciseRtnList()
         )
     }
 

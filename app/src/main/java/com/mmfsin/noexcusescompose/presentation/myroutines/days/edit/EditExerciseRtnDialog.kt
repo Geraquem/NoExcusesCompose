@@ -311,7 +311,6 @@ fun EditExerciseRtnContent(
                                 modifier = Modifier.weight(1f),
                                 text = R.string.my_routines_exercises_edit,
                                 color = BlueLight,
-                                textColor = White
                             )
                         }
                     }

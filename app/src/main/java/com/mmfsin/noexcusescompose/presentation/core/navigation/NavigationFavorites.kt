@@ -51,15 +51,15 @@ fun NavigationFavorites() {
                 goToCreateExercise = { mgroupId ->
                     navController.navigate(CreateExercise(mgroupId))
                 },
+                goToEditExercise = { exerciseId ->
+                    navController.navigate(EditExercise(exerciseId))
+                }
             )
         }
 
         composable<ExerciseDetail> {
             ExerciseDetailScreen(
                 goBack = { navController.popBackStack() },
-                goToEditExercise = { exerciseId ->
-                    navController.navigate(EditExercise(exerciseId))
-                }
             )
         }
 

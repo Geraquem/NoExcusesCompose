@@ -2,7 +2,6 @@ package com.mmfsin.noexcusescompose.presentation.exercises.detail
 
 import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,7 +22,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,7 +54,7 @@ fun ExerciseDetailScreenPV() {
             exerciseFav = true,
             exercise = getExercisesExamples().first()
         ),
-        {}, {}, {}
+        {}, {}
     )
 }
 
@@ -64,7 +62,6 @@ fun ExerciseDetailScreenPV() {
 fun ExerciseDetailScreen(
     viewModel: ExerciseDetailViewModel = hiltViewModel(),
     goBack: () -> Unit,
-    goToEditExercise: (String) -> Unit
 ) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -72,7 +69,6 @@ fun ExerciseDetailScreen(
         uiStates = uiStates,
         goBack = { goBack() },
         selectFav = { viewModel.selectFavExercise(it) },
-        goToEditExercise = { goToEditExercise(uiStates.exerciseId) },
     )
 }
 
@@ -81,17 +77,9 @@ fun ExerciseDetailContent(
     uiStates: ExerciseDetailStates,
     goBack: () -> Unit,
     selectFav: (Boolean) -> Unit,
-    goToEditExercise: () -> Unit,
 ) {
     Scaffold(
-        topBar = {
-            CustomToolbar(
-                goBack = { goBack() },
-                showIconRight = uiStates.exercise?.createdByUser == true,
-                iconRight = R.drawable.ic_settings,
-                iconRightClick = { goToEditExercise() }
-            )
-        }
+        topBar = { CustomToolbar(goBack = { goBack() }) }
     ) { innerPadding ->
         CompositionLocalProvider(
             LocalOverscrollFactory provides null
@@ -202,21 +190,6 @@ fun ExerciseDetailContent(
                 }
             }
             if (uiStates.exercise == null) LoadingLottie(bgColor = White)
-        }
-    }
-
-    @Composable
-    fun TitleDetail(title: Int) {
-        Box(
-            modifier = Modifier
-                .background(GrayLight, RoundedCornerShape(8.dp))
-                .padding(vertical = 4.dp, horizontal = 12.dp)
-        ) {
-            SpacerSmall(horizontal = true)
-            MediumText(
-                text = title,
-                fontWeight = FontWeight.SemiBold
-            )
         }
     }
 }

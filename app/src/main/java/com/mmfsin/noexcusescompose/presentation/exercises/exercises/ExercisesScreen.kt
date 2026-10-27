@@ -2,6 +2,8 @@ package com.mmfsin.noexcusescompose.presentation.exercises.exercises
 
 import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -59,7 +62,7 @@ fun ExercisesScreenPV() {
             isLoading = true,
             exercises = getExercisesExamples()
         ),
-        {}, {}, {}
+        {}, {}, {}, {}
     )
 }
 
@@ -69,6 +72,7 @@ fun ExercisesScreen(
     goBack: () -> Unit,
     goToExerciseDetail: (String) -> Unit,
     goToCreateExercise: (String) -> Unit,
+    goToEditExercise: (String) -> Unit,
 ) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -77,6 +81,7 @@ fun ExercisesScreen(
         goBack = { goBack() },
         goToExerciseDetail = { goToExerciseDetail(it) },
         goToCreateExercise = { goToCreateExercise(uiStates.mGroupId) },
+        goToEditExercise = { goToEditExercise(it) },
     )
 }
 
@@ -86,6 +91,7 @@ fun ExercisesContent(
     goBack: () -> Unit,
     goToExerciseDetail: (String) -> Unit,
     goToCreateExercise: () -> Unit,
+    goToEditExercise: (String) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -107,7 +113,8 @@ fun ExercisesContent(
                     onExerciseClick = { id ->
                         if (id == CREATE_EXERCISE) goToCreateExercise()
                         else goToExerciseDetail(id)
-                    }
+                    },
+                    onExerciseLongClick = { goToEditExercise(it) }
                 )
             }
         }
@@ -119,6 +126,7 @@ fun ExercisesContent(
 fun ExercisesList(
     exercises: List<Exercise>,
     onExerciseClick: (String) -> Unit,
+    onExerciseLongClick: (String) -> Unit,
 ) {
     CompositionLocalProvider(
         LocalOverscrollFactory provides null
@@ -140,6 +148,7 @@ fun ExercisesList(
                 ExerciseBox(
                     exercise,
                     onClick = { onExerciseClick(exercise.id) },
+                    onLongClick = { onExerciseLongClick(exercise.id) }
                 )
             }
         }
@@ -149,11 +158,16 @@ fun ExercisesList(
 @Composable
 fun ExerciseBox(
     exercise: Exercise,
-    onClick: (String) -> Unit
+    onClick: (String) -> Unit,
+    onLongClick: (String) -> Unit
 ) {
     Card(
-        onClick = { onClick(exercise.id) },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().combinedClickable(
+            indication = null,
+            interactionSource = remember { MutableInteractionSource() },
+            onClick = { onClick(exercise.id) },
+            onLongClick = { if (exercise.id == CREATE_EXERCISE) onLongClick(exercise.id) }
+        ),
         colors = CardDefaults.cardColors(
             containerColor = White
         ),

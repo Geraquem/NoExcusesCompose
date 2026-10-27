@@ -32,7 +32,8 @@ fun ExercisesRtnScreenPV() {
             isLoading = false,
             exercises = getExercisesExamples()
         ),
-        {}, {}, {}, {}
+        {}, {}, {}, {},
+        {}
     )
 }
 
@@ -42,6 +43,7 @@ fun ExercisesRtnScreen(
     goBack: () -> Unit,
     goToExerciseDetail: (String) -> Unit,
     goToCreateExercise: (String) -> Unit,
+    goToEditExercise: (String) -> Unit,
 ) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -51,6 +53,7 @@ fun ExercisesRtnScreen(
         onExerciseClick = { viewModel.onExerciseClick(it) },
         goToExerciseDetail = { goToExerciseDetail(it) },
         goToCreateExercise = { goToCreateExercise(uiStates.mGroupId) },
+        goToEditExercise = { goToEditExercise(it) },
     )
 }
 
@@ -61,6 +64,7 @@ fun ExercisesRtnContent(
     onExerciseClick: (String?) -> Unit,
     goToExerciseDetail: (String) -> Unit,
     goToCreateExercise: () -> Unit,
+    goToEditExercise: (String) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -83,6 +87,7 @@ fun ExercisesRtnContent(
                         if (id == CREATE_EXERCISE) goToCreateExercise()
                         else goToExerciseDetail(id)
                     },
+                    onExerciseLongClick = { goToEditExercise(it) }
                 )
             }
         }

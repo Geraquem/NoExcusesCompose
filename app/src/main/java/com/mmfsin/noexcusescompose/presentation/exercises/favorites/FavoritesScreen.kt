@@ -26,9 +26,12 @@ import com.mmfsin.noexcusescompose.R
 import com.mmfsin.noexcusescompose.presentation.core.components.CustomToolbar
 import com.mmfsin.noexcusescompose.presentation.core.components.LoadingLottie
 import com.mmfsin.noexcusescompose.presentation.core.components.MediumText
+import com.mmfsin.noexcusescompose.presentation.core.components.OutlinedButtonCustom
 import com.mmfsin.noexcusescompose.presentation.core.components.SmallText
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerLarge
+import com.mmfsin.noexcusescompose.presentation.core.components.SpacerMedium
 import com.mmfsin.noexcusescompose.presentation.core.components.SpacerSmall
+import com.mmfsin.noexcusescompose.presentation.core.theme.Black
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayHard
 import com.mmfsin.noexcusescompose.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcusescompose.presentation.core.theme.OrangeLight
@@ -89,20 +92,26 @@ fun FavoritesContent(
                 .padding(innerPadding)
         ) {
 
-            if (uiStates.favorites.isEmpty()) FavsEmpty()
+            if (uiStates.favorites.isEmpty()) {
+                FavsEmpty(
+                    goToMuscularGroups = { goToMuscularGroups() }
+                )
+            } else {
+                ExercisesList(
+                    exercises = uiStates.favorites,
+                    onExerciseClick = { id -> goToDetail(id) },
+                    onExerciseLongClick = {}
+                )
 
-            ExercisesList(
-                exercises = uiStates.favorites,
-                onExerciseClick = { id -> goToDetail(id) },
-            )
-
-            if (uiStates.isLoading) LoadingLottie()
+            }
         }
     }
+
+    if (uiStates.isLoading) LoadingLottie()
 }
 
 @Composable
-fun FavsEmpty() {
+fun FavsEmpty(goToMuscularGroups: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 42.dp),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -132,6 +141,15 @@ fun FavsEmpty() {
         SmallText(
             text = R.string.favs_empty_subtitle,
             gravity = TextAlign.Center,
+        )
+
+        SpacerMedium()
+
+        OutlinedButtonCustom(
+            onClick = { goToMuscularGroups() },
+            text = R.string.favs_see_exercises,
+            color = Black,
+            modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(Modifier.weight(1f))

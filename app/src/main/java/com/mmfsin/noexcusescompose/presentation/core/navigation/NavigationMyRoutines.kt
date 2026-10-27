@@ -71,6 +71,9 @@ fun NavigationMyRoutines() {
                 },
                 goToCreateExercise = { mgroupId ->
                     navController.navigate(CreateExercise(mgroupId))
+                },
+                goToEditExercise = { exerciseId ->
+                    navController.navigate(EditExercise(exerciseId))
                 }
             )
         }
@@ -78,9 +81,7 @@ fun NavigationMyRoutines() {
         composable<ExerciseDetail> {
             ExerciseDetailScreen(
                 goBack = { navController.popBackStack() },
-                goToEditExercise = { exerciseId ->
-                    navController.navigate(EditExercise(exerciseId))
-                }
+
             )
         }
 

@@ -47,15 +47,6 @@ fun NavigationDfRoutines() {
         composable<ExerciseDetail> {
             ExerciseDetailScreen(
                 goBack = { navController.popBackStack() },
-                goToEditExercise = { exerciseId ->
-                    navController.navigate(EditExercise(exerciseId))
-                }
-            )
-        }
-
-        composable<EditExercise> {
-            EditExerciseScreen(
-                goBack = { navController.popBackStack() },
             )
         }
     }

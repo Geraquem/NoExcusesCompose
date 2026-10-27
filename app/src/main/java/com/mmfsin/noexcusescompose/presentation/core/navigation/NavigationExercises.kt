@@ -35,6 +35,7 @@ fun NavigationExercises(mgroupId: String?) {
                 }
             )
         }
+
         composable<Exercises> {
             ExercisesScreen(
                 goBack = {
@@ -47,21 +48,24 @@ fun NavigationExercises(mgroupId: String?) {
                 goToCreateExercise = { mgroupId ->
                     navController.navigate(CreateExercise(mgroupId))
                 },
-            )
-        }
-        composable<ExerciseDetail> {
-            ExerciseDetailScreen(
-                goBack = { navController.popBackStack() },
                 goToEditExercise = { exerciseId ->
                     navController.navigate(EditExercise(exerciseId))
                 }
             )
         }
+
+        composable<ExerciseDetail> {
+            ExerciseDetailScreen(
+                goBack = { navController.popBackStack() },
+            )
+        }
+
         composable<CreateExercise> {
             CreateExerciseScreen(
                 goBack = { navController.popBackStack() },
             )
         }
+
         composable<EditExercise> {
             EditExerciseScreen(
                 goBack = { navController.popBackStack() },

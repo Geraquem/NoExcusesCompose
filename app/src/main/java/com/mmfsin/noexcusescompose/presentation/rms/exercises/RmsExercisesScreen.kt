@@ -33,7 +33,7 @@ fun RmsExercisesScreenPV() {
             exercises = getExercisesExamples()
         ),
         {}, {}, {}, { _, _, _ -> },
-        {},
+        {}, {}
     )
 }
 
@@ -43,6 +43,7 @@ fun RmsExercisesScreen(
     goBack: () -> Unit,
     goToExerciseDetail: (String) -> Unit,
     goToCreateExercise: (String) -> Unit,
+    goToEditExercise: (String) -> Unit,
 ) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -53,6 +54,7 @@ fun RmsExercisesScreen(
         goToExerciseDetail = { goToExerciseDetail(it) },
         addRm = { exerciseId, date, weight -> viewModel.addRm(exerciseId, date, weight) },
         goToCreateExercise = { goToCreateExercise(uiStates.mGroupId) },
+        goToEditExercise = { goToEditExercise(it) },
     )
 }
 
@@ -64,6 +66,7 @@ fun RmsExercisesContent(
     goToExerciseDetail: (String) -> Unit,
     addRm: (String, Long, Double) -> Unit,
     goToCreateExercise: () -> Unit,
+    goToEditExercise: (String) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -86,6 +89,7 @@ fun RmsExercisesContent(
                         if (id == CREATE_EXERCISE) goToCreateExercise()
                         else goToExerciseDetail(id)
                     },
+                    onExerciseLongClick = { goToEditExercise(it) }
                 )
             }
         }

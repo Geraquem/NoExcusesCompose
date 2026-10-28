@@ -4,6 +4,7 @@ import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -44,11 +45,11 @@ import com.mmfsin.noexcuses.presentation.core.theme.GrayMedium
 import com.mmfsin.noexcuses.presentation.core.theme.White
 import com.mmfsin.noexcuses.presentation.core.theme.montserrat_bold
 import com.mmfsin.noexcuses.presentation.menu.components.UnpinDialog
-import com.mmfsin.noexcuses.presentation.myroutines.routines.RoutineBox
 import com.mmfsin.noexcuses.presentation.menu.items.DfRoutinesItem
 import com.mmfsin.noexcuses.presentation.menu.items.ExercisesItem
 import com.mmfsin.noexcuses.presentation.menu.items.FavoritesItem
 import com.mmfsin.noexcuses.presentation.menu.items.MyRoutinesItem
+import com.mmfsin.noexcuses.presentation.myroutines.routines.RoutineBox
 import com.mmfsin.noexcuses.presentation.notes.NoteBox
 import com.mmfsin.noexcuses.util.NAV_DAY_DETAIL
 import com.mmfsin.noexcuses.util.NAV_DF_ROUTINES
@@ -275,19 +276,23 @@ fun MuscularGroupBox(
 ) {
     Row {
         if (isFirst) SpacerCustom(space = 12.dp, horizontal = true)
-        Column(
+        Box(
             modifier = Modifier.background(White, RoundedCornerShape(12.dp))
                 .clip(RoundedCornerShape(12.dp))
                 .clickable(onClick = { onClick() }),
-            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImage(
-                model = mGroup.manImageURL,
+                model = mGroup.shortImageURL,
                 contentDescription = mGroup.name,
                 modifier = Modifier.size(120.dp)
             )
             SpacerMini()
-            MediumText(text = mGroup.name)
+            MediumText(
+                text = mGroup.name.replaceFirstChar { it.uppercase() },
+                fontFamily = montserrat_bold,
+                color = White,
+                modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 6.dp)
+            )
             SpacerMini()
         }
         if (isLast) SpacerCustom(space = 12.dp, horizontal = true)

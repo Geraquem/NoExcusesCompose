@@ -63,7 +63,7 @@ fun MyRoutinesItem(
             AsyncImage(
                 model = bgImage,
                 contentDescription = null,
-                modifier = Modifier.fillMaxSize().alpha(0.8f),
+                modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
 
@@ -73,10 +73,8 @@ fun MyRoutinesItem(
                     .background(
                         brush = Brush.horizontalGradient(
                             colors = listOf(
-                                Color(0xFFE0ECFF).copy(alpha = 0.90f),
-                                Color(0xFFE4EEFD).copy(alpha = 0.80f),
-                                Color(0xFFEDF4FF).copy(alpha = 0.70f),
-                                Color(0xFFF5F9FD).copy(alpha = 0.50f),
+                                Color(0xFFFFFFFF).copy(alpha = 0.80f),
+                                Color(0xFFFFFFFF).copy(alpha = 0.60f),
                                 Color.Transparent
                             ),
                             startX = 0f,

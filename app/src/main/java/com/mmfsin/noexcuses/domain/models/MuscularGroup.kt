@@ -19,6 +19,8 @@ data class MuscularGroup(
     var name: String,
     var manImageURL: String,
     var womanImageURL: String,
+    var longImageURL: String,
+    var shortImageURL: String,
 )
 
 enum class MuscularGroupType(
@@ -47,18 +49,18 @@ enum class MuscularGroupType(
 
 fun getMuscularGroupsExamples() = listOf(
     MuscularGroup(
-        id = "1", name = "Hombro", manImageURL = "", womanImageURL = ""
+        id = "1", name = "Hombro", manImageURL = "", womanImageURL = "", longImageURL = "", shortImageURL = ""
     ),
     MuscularGroup(
-        id = "2", name = "Bíceps", manImageURL = "", womanImageURL = ""
+        id = "2", name = "Bíceps", manImageURL = "", womanImageURL = "", longImageURL = "", shortImageURL = ""
     ),
     MuscularGroup(
-        id = "3", name = "Pecho", manImageURL = "", womanImageURL = ""
+        id = "3", name = "Pecho", manImageURL = "", womanImageURL = "", longImageURL = "", shortImageURL = ""
     ),
     MuscularGroup(
-        id = "4", name = "Pierna", manImageURL = "", womanImageURL = ""
+        id = "4", name = "Pierna", manImageURL = "", womanImageURL = "", longImageURL = "", shortImageURL = ""
     ),
     MuscularGroup(
-        id = "5", name = "Tríceps", manImageURL = "", womanImageURL = ""
+        id = "5", name = "Tríceps", manImageURL = "", womanImageURL = "", longImageURL = "", shortImageURL = ""
     ),
 )

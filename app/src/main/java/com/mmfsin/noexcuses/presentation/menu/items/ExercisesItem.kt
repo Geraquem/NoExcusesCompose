@@ -55,7 +55,7 @@ fun ExercisesItem(
             AsyncImage(
                 model = bgImage,
                 contentDescription = null,
-                modifier = Modifier.fillMaxSize().alpha(0.8f),
+                modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
 
@@ -66,10 +66,7 @@ fun ExercisesItem(
                         brush = Brush.horizontalGradient(
                             colors = listOf(
                                 Color(0xFF474747).copy(alpha = 0.90f),
-                                Color(0xFF525252).copy(alpha = 0.85f),
-                                Color(0xFF6C6C6C).copy(alpha = 0.80f),
-                                Color(0xFF868686).copy(alpha = 0.75f),
-                                Color(0xFFB6B6B6).copy(alpha = 0.70f),
+                                Color(0xFF525252).copy(alpha = 0.65f),
                                 Color.Transparent
                             ),
                             startX = 0f,

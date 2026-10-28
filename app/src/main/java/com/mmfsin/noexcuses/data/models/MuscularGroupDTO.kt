@@ -13,5 +13,7 @@ data class MuscularGroupDTO(
     var name: String = "",
     var manImageURL: String = "",
     var womanImageURL: String = "",
+    var longImageURL: String = "",
+    var shortImageURL: String = "",
     var order: Long = 0,
 )

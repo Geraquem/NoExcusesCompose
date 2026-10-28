@@ -6,38 +6,37 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.mmfsin.noexcuses.domain.models.MuscularGroup
-import com.mmfsin.noexcuses.domain.models.MuscularGroupType.Companion.getMuscularGroupColor
 import com.mmfsin.noexcuses.domain.models.getMuscularGroupsExamples
 import com.mmfsin.noexcuses.presentation.core.components.CustomToolbar
 import com.mmfsin.noexcuses.presentation.core.components.ErrorDialog
 import com.mmfsin.noexcuses.presentation.core.components.MediumText
-import com.mmfsin.noexcuses.presentation.core.components.SpacerSmall
-import com.mmfsin.noexcuses.presentation.core.theme.Black
 import com.mmfsin.noexcuses.presentation.core.theme.GrayMedium
+import com.mmfsin.noexcuses.presentation.core.theme.White
 import com.mmfsin.noexcuses.presentation.core.theme.montserrat_bold
 
 @Preview
@@ -84,7 +83,7 @@ fun MGroupsContent(
             Modifier.fillMaxSize()
                 .background(GrayMedium)
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 12.dp)
         ) {
             MuscularGroupList(
                 muscularGroups = uiStates.muscularGroups,
@@ -135,35 +134,41 @@ fun MuscularGroupBox(
     ) {
         Box(
             Modifier.height(100.dp).clickable(onClick = { onClick(muscularGroup.id) }),
-            contentAlignment = Alignment.Center
         ) {
             AsyncImage(
-                model = muscularGroup.manImageURL,
+                model = muscularGroup.longImageURL,
                 contentDescription = muscularGroup.name,
+                modifier = Modifier.fillMaxSize().alpha(0.8f),
+                contentScale = ContentScale.Crop
             )
 
-            Row(
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .background(
+                        brush = Brush.horizontalGradient(
+                            colors = listOf(
+                                Color(0xFF474747).copy(alpha = 0.90f),
+                                Color(0xFF525252).copy(alpha = 0.85f),
+                                Color(0xFFACACAC).copy(alpha = 0.20f),
+                                Color.Transparent
+                            ),
+                            startX = 0f,
+                            endX = 850f
+                        )
+                    )
+            )
+
+            MediumText(
+                text = muscularGroup.name,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 24.dp, horizontal = 12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    Modifier.size(14.dp).background(
-                        getMuscularGroupColor(muscularGroup.id),
-                        shape = CircleShape
-                    )
-                )
-
-                SpacerSmall(horizontal = true)
-
-                MediumText(
-                    text = muscularGroup.name,
-                    color = Black,
-                    allCaps = true,
-                    fontFamily = montserrat_bold
-                )
-            }
+                    .padding(12.dp),
+                color = White,
+                allCaps = true,
+                fontSize = 26.sp,
+                fontFamily = montserrat_bold
+            )
         }
     }
 }

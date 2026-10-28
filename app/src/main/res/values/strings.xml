@@ -153,7 +153,7 @@
 
     <!-- RMs -->
     <string name="rms_empty_title">Tus RMs</string>
-    <string name="rms_empty_subtitle">Registra tus pesos y visualiza tu progreso.</string>
+    <string name="rms_empty_subtitle">Registra tus pesos máximos y visualiza tu progreso.</string>
     <string name="rms_create">Registrar RM</string>
     <string name="rms_add_title">Añadir rm</string>
     <string name="rms_date">Fecha</string>

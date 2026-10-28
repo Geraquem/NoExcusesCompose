@@ -55,7 +55,7 @@ fun DfRoutinesItem(
             AsyncImage(
                 model = bgImage,
                 contentDescription = null,
-                modifier = Modifier.fillMaxSize().alpha(0.7f),
+                modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
 
@@ -65,8 +65,8 @@ fun DfRoutinesItem(
                     .background(
                         brush = Brush.horizontalGradient(
                             colors = listOf(
-                                Color(0xFFF6FDF5).copy(alpha = 0.80f),
-                                Color(0xFFF6FDF5).copy(alpha = 0.50f),
+                                Color(0xFFFFFFFF).copy(alpha = 0.80f),
+                                Color(0xFFFFFFFF).copy(alpha = 0.65f),
                                 Color.Transparent
                             ),
                             startX = 0f,

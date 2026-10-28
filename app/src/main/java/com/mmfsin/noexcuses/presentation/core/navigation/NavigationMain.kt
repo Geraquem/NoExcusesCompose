@@ -38,8 +38,8 @@ fun NavigationMain() {
     val bottomNavItems = listOf(
         BottomNavItem(id = BN_HOME_ID, name = stringResource(R.string.bottom_nav_home), icon = painterResource(R.drawable.ic_home)),
         BottomNavItem(id = BN_STRETCH_ID, name = stringResource(R.string.bottom_nav_stretch), icon = painterResource(R.drawable.ic_stretching)),
-        BottomNavItem(id = BN_RMS_ID, name = stringResource(R.string.bottom_nav_maximum), icon = painterResource(R.drawable.ic_maximum)),
-        BottomNavItem(id = BN_NOTES_ID, name = stringResource(R.string.bottom_nav_notes), icon = painterResource(R.drawable.ic_notes)),
+        BottomNavItem(id = BN_RMS_ID, name = stringResource(R.string.bottom_nav_maximum), icon = painterResource(R.drawable.ic_dumbbell)),
+        BottomNavItem(id = BN_NOTES_ID, name = stringResource(R.string.bottom_nav_notes), icon = painterResource(R.drawable.ic_drawer_note)),
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()

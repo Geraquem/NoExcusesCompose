@@ -55,7 +55,7 @@ fun FavoritesItem(
             AsyncImage(
                 model = bgImage,
                 contentDescription = null,
-                modifier = Modifier.fillMaxSize().alpha(0.8f),
+                modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
 

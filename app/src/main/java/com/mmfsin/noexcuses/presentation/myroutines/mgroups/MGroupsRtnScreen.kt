@@ -68,7 +68,7 @@ fun MGroupsRtnContent(
             Modifier.fillMaxSize()
                 .background(GrayMedium)
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 12.dp)
         ) {
             MuscularGroupList(
                 muscularGroups = uiStates.muscularGroups,

@@ -41,7 +41,9 @@ fun MuscularGroupDTO.toMuscularGroup() = MuscularGroup(
     id = id,
     name = name,
     manImageURL = manImageURL,
-    womanImageURL = womanImageURL
+    womanImageURL = womanImageURL,
+    longImageURL = longImageURL,
+    shortImageURL = shortImageURL
 )
 
 fun List<MuscularGroupDTO>.toMuscularGroupList() = this.map { it.toMuscularGroup() }

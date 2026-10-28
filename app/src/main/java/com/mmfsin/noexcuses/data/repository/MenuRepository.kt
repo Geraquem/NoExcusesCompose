@@ -2,22 +2,46 @@ package com.mmfsin.noexcuses.data.repository
 
 import com.google.firebase.database.FirebaseDatabase
 import com.mmfsin.noexcuses.data.ddbb.SharedPrefs
+import com.mmfsin.noexcuses.data.ddbb.daos.MenuDAO
 import com.mmfsin.noexcuses.data.ddbb.daos.MuscularGroupsDAO
+import com.mmfsin.noexcuses.data.mappers.toMenuImages
 import com.mmfsin.noexcuses.data.mappers.toMuscularGroupList
+import com.mmfsin.noexcuses.data.models.MenuImagesDTO
 import com.mmfsin.noexcuses.data.models.MuscularGroupDTO
 import com.mmfsin.noexcuses.domain.interfaces.IMenuRepository
+import com.mmfsin.noexcuses.domain.models.MenuImages
 import com.mmfsin.noexcuses.domain.models.MuscularGroup
+import com.mmfsin.noexcuses.util.MENU_IMAGES
 import com.mmfsin.noexcuses.util.MUSCULAR_GROUPS
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class MenuRepository @Inject constructor(
     val prefs: SharedPrefs,
+    val menuDAO: MenuDAO,
     val muscularGroupsDAO: MuscularGroupsDAO,
 ) : IMenuRepository {
 
     override suspend fun checkVersion() {
         //        getDataFromFirebase(getSavedVersion())
+    }
+
+    override suspend fun getMenuImages(): MenuImages? {
+        if (prefs.getMenuImages()) {
+            val snapshot = FirebaseDatabase
+                .getInstance()
+                .getReference(MENU_IMAGES)
+                .get()
+                .await()
+
+            val result = snapshot.getValue(MenuImagesDTO::class.java)
+            result?.let {
+                prefs.updateMenuImages(false)
+                menuDAO.insertMenuImages(it)
+            }
+            return result?.toMenuImages()
+
+        } else return menuDAO.getMenuImages()?.toMenuImages()
     }
 
     override suspend fun getMuscularGroups(): List<MuscularGroup> {

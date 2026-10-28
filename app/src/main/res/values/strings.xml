@@ -39,8 +39,8 @@
     <string name="menu_exercises_description">Explora todos los ejercicios.</string>
     <string name="menu_stretch_title">Estiramientos</string>
     <string name="menu_stretch_description">La práctica regular de estiramientos antes y después del ejercicio es fundamental para maximizar el rendimiento, prevenir lesiones, y mejorar la flexibilidad y la recuperación muscular.</string>
-    <string name="menu_favs_title">Ejercicios favoritos</string>
-    <string name="menu_favs_description">Para marcar un ejercicio como favorito, accede al ejercicio que más te guste y dale a la estrellita que aparece al lado del nombre del ejercicio.</string>
+    <string name="menu_favs_title">Favoritos</string>
+    <string name="menu_favs_description">Accede rápidamente a tus ejercicios preferidos.</string>
     <string name="menu_notes_title">Notas</string>
     <string name="menu_notes_description">Está bien confiar en la memoria de uno mismo, pero siempre es mejor dejarlo por escrito.</string>
 

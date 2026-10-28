@@ -2,6 +2,7 @@ package com.mmfsin.noexcuses.presentation.menu
 
 import androidx.lifecycle.viewModelScope
 import com.mmfsin.noexcuses.domain.usecases.GetAllExercisesUseCase
+import com.mmfsin.noexcuses.domain.usecases.GetMenuImagesUseCase
 import com.mmfsin.noexcuses.domain.usecases.GetMuscularGroupsUseCase
 import com.mmfsin.noexcuses.domain.usecases.GetPinnedNoteUseCase
 import com.mmfsin.noexcuses.domain.usecases.GetPinnedRoutineUseCase
@@ -15,6 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MenuViewModel @Inject constructor(
+    private val getMenuImagesUseCase: GetMenuImagesUseCase,
     private val getMuscularGroupsUseCase: GetMuscularGroupsUseCase,
     private val getPinnedRoutineUseCase: GetPinnedRoutineUseCase,
     private val getPinnedNoteUseCase: GetPinnedNoteUseCase,
@@ -24,10 +26,30 @@ class MenuViewModel @Inject constructor(
 ) : BaseViewModel<MenuStates>(MenuStates()) {
 
     init {
+        getMenuImages()
         getMuscularGroups()
         getPinnedRoutine()
         getPinnedNote()
         getAllExercises()
+    }
+
+    fun getMenuImages() {
+        executeUseCase(
+            { getMenuImagesUseCase() },
+            { images ->
+                images?.let { i ->
+                    _uiState.update {
+                        it.copy(
+                            imageMyRoutines = i.myRoutinesImageUrl,
+                            imageDfRoutines = i.dfRoutinesImageUrl,
+                            imageExercises = i.exercisesImageUrl,
+                            imageFavorites = i.favoritesImageUrl
+                        )
+                    }
+                }
+            },
+            {},
+        )
     }
 
     fun getMuscularGroups() {

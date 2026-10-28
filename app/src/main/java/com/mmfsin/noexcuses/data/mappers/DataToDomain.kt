@@ -4,6 +4,7 @@ import com.mmfsin.noexcuses.data.models.DayDTO
 import com.mmfsin.noexcuses.data.models.ExerciseDTO
 import com.mmfsin.noexcuses.data.models.ExerciseRtnDTO
 import com.mmfsin.noexcuses.data.models.ExerciseRtnWithSeries
+import com.mmfsin.noexcuses.data.models.MenuImagesDTO
 import com.mmfsin.noexcuses.data.models.MuscularGroupDTO
 import com.mmfsin.noexcuses.data.models.MyRoutineDTO
 import com.mmfsin.noexcuses.data.models.NoteDTO
@@ -14,6 +15,7 @@ import com.mmfsin.noexcuses.data.models.StretchDTO
 import com.mmfsin.noexcuses.domain.models.Day
 import com.mmfsin.noexcuses.domain.models.Exercise
 import com.mmfsin.noexcuses.domain.models.ExerciseRtn
+import com.mmfsin.noexcuses.domain.models.MenuImages
 import com.mmfsin.noexcuses.domain.models.MuscularGroup
 import com.mmfsin.noexcuses.domain.models.Note
 import com.mmfsin.noexcuses.domain.models.RmData
@@ -23,6 +25,13 @@ import com.mmfsin.noexcuses.domain.models.Serie
 import com.mmfsin.noexcuses.domain.models.Stretch
 import com.mmfsin.noexcuses.domain.models.Stretching
 import com.mmfsin.noexcuses.util.formatDate
+
+fun MenuImagesDTO.toMenuImages() = MenuImages(
+    myRoutinesImageUrl = myRoutinesImageUrl ?: "",
+    dfRoutinesImageUrl = dfRoutinesImageUrl ?: "",
+    exercisesImageUrl = exercisesImageUrl ?: "",
+    favoritesImageUrl = favoritesImageUrl ?: "",
+)
 
 /*********************************************************************************************************/
 /******************************************  MUSCULAR GROUPS  ********************************************/

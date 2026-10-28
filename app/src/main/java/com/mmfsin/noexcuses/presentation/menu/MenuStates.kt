@@ -10,6 +10,11 @@ data class MenuStates(
     val showUnpinRoutineDialog: Boolean = false,
     val showUnpinNoteDialog: Boolean = false,
 
+    val imageMyRoutines: String = "",
+    val imageDfRoutines: String = "",
+    val imageExercises: String = "",
+    val imageFavorites: String = "",
+
     val muscularGroups: List<MuscularGroup> = emptyList(),
 
     val actualRoutine: Routine? = null,

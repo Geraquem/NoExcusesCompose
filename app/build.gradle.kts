@@ -90,9 +90,6 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
 
-    /** Realm DDBB -> for migration */
-    implementation("io.realm.kotlin:library-base:3.0.0")
-
     /** DataStore */
     implementation(libs.androidx.datastore.preferences)
 

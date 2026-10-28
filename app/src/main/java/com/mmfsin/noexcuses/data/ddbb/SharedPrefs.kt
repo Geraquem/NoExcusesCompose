@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.mmfsin.noexcuses.util.SP_DF_ROUTINES_SERVER
 import com.mmfsin.noexcuses.util.SP_EXERCISES_SERVER
+import com.mmfsin.noexcuses.util.SP_MENU_IMAGES
 import com.mmfsin.noexcuses.util.SP_MUSCULAR_GROUPS_SERVER
 import com.mmfsin.noexcuses.util.SP_STRETCH_SERVER
 import com.mmfsin.noexcuses.util.SP_VERSION_SAVED
@@ -15,6 +16,10 @@ class SharedPrefs @Inject constructor(
     /** VERSION */
     fun getVersionSaved(): Long = prefs.getLong(SP_VERSION_SAVED, -1)
     fun updateVersionSaved(value: Long) = prefs.edit { putLong(SP_VERSION_SAVED, value) }
+
+    /** MENU IMAGES */
+    fun getMenuImages(): Boolean = prefs.getBoolean(SP_MENU_IMAGES, true)
+    fun updateMenuImages(value: Boolean) = prefs.edit { putBoolean(SP_MENU_IMAGES, value) }
 
     /** DF ROUTINES SERVER */
     fun getDfRoutinesFromServer(): Boolean = prefs.getBoolean(SP_DF_ROUTINES_SERVER, true)
@@ -32,8 +37,9 @@ class SharedPrefs @Inject constructor(
     fun getStretchDataFromServer(): Boolean = prefs.getBoolean(SP_STRETCH_SERVER, true)
     fun updateStretchDataFromServer(value: Boolean) = prefs.edit { putBoolean(SP_STRETCH_SERVER, value) }
 
-    fun restartValues(){
+    fun restartValues() {
         prefs.edit {
+            putBoolean(SP_MENU_IMAGES, true)
             putBoolean(SP_DF_ROUTINES_SERVER, true)
             putBoolean(SP_MUSCULAR_GROUPS_SERVER, true)
             putBoolean(SP_EXERCISES_SERVER, true)

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.mmfsin.noexcuses.data.ddbb.RoomConfiguration
 import com.mmfsin.noexcuses.data.ddbb.daos.ExercisesDAO
+import com.mmfsin.noexcuses.data.ddbb.daos.MenuDAO
 import com.mmfsin.noexcuses.data.ddbb.daos.MuscularGroupsDAO
 import com.mmfsin.noexcuses.data.ddbb.daos.NotesDAO
 import com.mmfsin.noexcuses.data.ddbb.daos.RmsDAO
@@ -32,6 +33,9 @@ object RoomModule {
             DDBB_NAME
         ).fallbackToDestructiveMigration(true)
             .build()
+
+    @Provides
+    fun provideMenuDAO(db: RoomConfiguration): MenuDAO = db.menuDAO()
 
     @Provides
     fun provideMuscularGroupsDAO(db: RoomConfiguration): MuscularGroupsDAO = db.muscularGroupsDAO()

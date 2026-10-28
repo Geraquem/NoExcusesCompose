@@ -4,33 +4,25 @@ import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,15 +40,15 @@ import com.mmfsin.noexcuses.presentation.core.components.SmallText
 import com.mmfsin.noexcuses.presentation.core.components.SpacerCustom
 import com.mmfsin.noexcuses.presentation.core.components.SpacerMini
 import com.mmfsin.noexcuses.presentation.core.components.SpacerSmall
-import com.mmfsin.noexcuses.presentation.core.theme.BlueLight
-import com.mmfsin.noexcuses.presentation.core.theme.GrayLight
 import com.mmfsin.noexcuses.presentation.core.theme.GrayMedium
-import com.mmfsin.noexcuses.presentation.core.theme.GreenLight
-import com.mmfsin.noexcuses.presentation.core.theme.OrangeLight
 import com.mmfsin.noexcuses.presentation.core.theme.White
 import com.mmfsin.noexcuses.presentation.core.theme.montserrat_bold
 import com.mmfsin.noexcuses.presentation.menu.components.UnpinDialog
 import com.mmfsin.noexcuses.presentation.myroutines.routines.RoutineBox
+import com.mmfsin.noexcuses.presentation.menu.items.DfRoutinesItem
+import com.mmfsin.noexcuses.presentation.menu.items.ExercisesItem
+import com.mmfsin.noexcuses.presentation.menu.items.FavoritesItem
+import com.mmfsin.noexcuses.presentation.menu.items.MyRoutinesItem
 import com.mmfsin.noexcuses.presentation.notes.NoteBox
 import com.mmfsin.noexcuses.util.NAV_DAY_DETAIL
 import com.mmfsin.noexcuses.util.NAV_DF_ROUTINES
@@ -118,6 +110,7 @@ fun MenuContent(
     showUnpinNoteDialog: (Boolean) -> Unit,
     unpinNote: (String) -> Unit,
 ) {
+
     CompositionLocalProvider(
         LocalOverscrollFactory provides null
     ) {
@@ -162,132 +155,25 @@ fun MenuContent(
                 }
             }
             item {
-                Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp)) {
-                    Card(
-                        modifier = Modifier.weight(1f).height(200.dp),
-                        colors = CardDefaults.cardColors(containerColor = White),
-                        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp),
-                        onClick = { goToDfRoutines() }
-                    ) {
-                        Column(
-                            modifier = Modifier.fillMaxSize().padding(12.dp),
-                        ) {
-                            MediumText(
-                                text = R.string.menu_default_routines_title,
-                                modifier = Modifier.background(GreenLight, RoundedCornerShape(12.dp))
-                                    .padding(horizontal = 12.dp, vertical = 2.dp)
-                            )
-                            SpacerSmall()
-                            SmallText(text = R.string.menu_default_routines_description)
+                MyRoutinesItem(
+                    bgImage = uiStates.imageMyRoutines,
+                    onClick = { goToMyRoutines() }
+                )
+            }
 
-                            Spacer(Modifier.weight(1f))
-
-                            Box(
-                                Modifier.size(28.dp)
-                                    .background(
-                                        color = GrayLight,
-                                        shape = CircleShape
-                                    ).padding(4.dp)
-                                    .align(Alignment.End),
-                            ) {
-                                Icon(
-                                    painterResource(R.drawable.ic_arrow_right), null,
-                                    modifier = Modifier.size(18.dp)
-                                )
-                            }
-                        }
-                    }
-
-                    SpacerSmall(horizontal = true)
-
-                    Card(
-                        modifier = Modifier.weight(1.25f).height(200.dp),
-                        colors = CardDefaults.cardColors(containerColor = White),
-                        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp),
-                        onClick = { goToMyRoutines() }
-                    ) {
-                        Column(modifier = Modifier.fillMaxSize().padding(12.dp)) {
-                            MediumText(
-                                text = R.string.menu_my_routines_title,
-                                modifier = Modifier.background(BlueLight, RoundedCornerShape(12.dp))
-                                    .padding(horizontal = 12.dp, vertical = 2.dp)
-                            )
-                            SpacerSmall()
-                            SmallText(text = R.string.menu_my_routines_description)
-
-                            Spacer(Modifier.weight(1f))
-
-                            Box(
-                                Modifier.size(28.dp)
-                                    .background(
-                                        color = GrayLight,
-                                        shape = CircleShape
-                                    ).padding(4.dp)
-                                    .align(Alignment.End),
-                            ) {
-                                Icon(
-                                    painterResource(R.drawable.ic_arrow_right), null,
-                                    modifier = Modifier.size(18.dp)
-                                )
-                            }
-                        }
-                    }
-
-                }
+            item {
+                DfRoutinesItem(
+                    bgImage = uiStates.imageDfRoutines,
+                    onClick = { goToDfRoutines() }
+                )
             }
 
             item {
                 Column {
-                    Card(
-                        modifier = Modifier.fillMaxWidth().height(100.dp).padding(horizontal = 12.dp),
-                        colors = CardDefaults.cardColors(containerColor = White),
-                        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp),
+                    ExercisesItem(
+                        bgImage = uiStates.imageExercises,
                         onClick = { goToExercises(null) }
-                    ) {
-                        Box(
-                            modifier = Modifier.fillMaxSize()
-                                .clip(RoundedCornerShape(12.dp))
-                        ) {
-                            AsyncImage(
-                                model = "https://i.pinimg.com/1200x/81/19/d3/8119d30283db4d8e9b74327ea200fd75.jpg",
-                                contentDescription = null,
-                                modifier = Modifier.fillMaxSize().alpha(0.8f),
-                                contentScale = ContentScale.Crop
-                            )
-
-                            Row(Modifier.padding(12.dp)) {
-                                Column(Modifier.weight(1f)) {
-                                    MediumText(
-                                        text = R.string.menu_exercises_title,
-                                        modifier = Modifier
-                                            .background(GrayMedium, RoundedCornerShape(12.dp))
-                                            .padding(horizontal = 12.dp, vertical = 2.dp)
-                                    )
-                                    SpacerMini()
-                                    SmallText(
-                                        text = R.string.menu_exercises_description,
-                                        color = White
-                                    )
-                                }
-
-                                SpacerSmall(horizontal = true)
-
-                                Box(
-                                    Modifier.size(28.dp)
-                                        .background(
-                                            color = GrayLight,
-                                            shape = CircleShape
-                                        ).padding(4.dp),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Icon(
-                                        painterResource(R.drawable.ic_arrow_right), null,
-                                        modifier = Modifier.size(18.dp)
-                                    )
-                                }
-                            }
-                        }
-                    }
+                    )
 
                     SpacerSmall()
 
@@ -311,49 +197,10 @@ fun MenuContent(
             }
 
             item {
-                Card(
-                    modifier = Modifier.fillMaxWidth().height(100.dp).padding(horizontal = 12.dp),
-                    colors = CardDefaults.cardColors(containerColor = White),
-                    elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp),
+                FavoritesItem(
+                    bgImage = uiStates.imageFavorites,
                     onClick = { goToFavorites() }
-                ) {
-                    Box(
-                        modifier = Modifier.fillMaxSize()
-                            .clip(RoundedCornerShape(12.dp))
-                    ) {
-                        //                        AsyncImage(
-                        //                            model = "https://i.pinimg.com/736x/91/f2/83/91f2839b0077b983a95e3963da5ef607.jpg",
-                        //                            contentDescription = null,
-                        //                            modifier = Modifier.fillMaxSize(),
-                        //                            contentScale = ContentScale.Crop
-                        //                        )
-
-                        Row(Modifier.padding(12.dp)) {
-                            MediumText(
-                                text = R.string.menu_favs_title,
-                                modifier = Modifier
-                                    .background(OrangeLight, RoundedCornerShape(12.dp))
-                                    .padding(horizontal = 12.dp, vertical = 2.dp)
-                            )
-
-                            Spacer(Modifier.weight(1f))
-
-                            Box(
-                                Modifier.size(28.dp)
-                                    .background(
-                                        color = GrayLight,
-                                        shape = CircleShape
-                                    ).padding(4.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
-                                    painterResource(R.drawable.ic_arrow_right), null,
-                                    modifier = Modifier.size(18.dp)
-                                )
-                            }
-                        }
-                    }
-                }
+                )
             }
         }
     }

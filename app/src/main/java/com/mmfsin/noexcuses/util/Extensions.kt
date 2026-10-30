@@ -2,6 +2,7 @@ package com.mmfsin.noexcuses.util
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -13,10 +14,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import com.mmfsin.noexcuses.presentation.core.bedrock.BedRockActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.File
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import java.util.UUID
 
 fun <T1 : Any, T2 : Any, R : Any> checkNotNulls(p1: T1?, p2: T2?, block: (T1, T2) -> R): R? {
     return if (p1 != null && p2 != null) block(p1, p2) else null
@@ -111,4 +116,32 @@ fun formatDate(date: Long?): String? {
             )
         )
         .replaceFirstChar { it.uppercase(Locale.forLanguageTag("es-ES")) }
+}
+
+suspend fun copyImageToInternalStorage(
+    context: Context,
+    uri: Uri
+): String = withContext(Dispatchers.IO) {
+
+    val imagesDir = File(context.filesDir, "exercise_images")
+    if (!imagesDir.exists()) { imagesDir.mkdirs() }
+
+    val extension = when (context.contentResolver.getType(uri)) {
+        "image/png" -> ".png"
+        "image/webp" -> ".webp"
+        "image/gif" -> ".gif"
+        else -> ".jpg"
+    }
+
+    val destination = File(
+        imagesDir,
+        "${UUID.randomUUID()}$extension"
+    )
+
+    context.contentResolver.openInputStream(uri).use { input ->
+        requireNotNull(input) { "No se ha podido abrir la imagen" }
+        destination.outputStream().use { output -> input.copyTo(output) }
+    }
+
+    destination.absolutePath
 }

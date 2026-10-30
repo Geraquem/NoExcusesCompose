@@ -59,6 +59,7 @@ import com.mmfsin.noexcuses.presentation.core.theme.RedMedium
 import com.mmfsin.noexcuses.presentation.core.theme.White
 import com.mmfsin.noexcuses.presentation.core.theme.YellowHard
 import com.mmfsin.noexcuses.presentation.core.theme.montserrat_bold
+import com.mmfsin.noexcuses.presentation.exercises.create.ImagePicker
 import com.mmfsin.noexcuses.presentation.exercises.create.edit.components.DeleteExerciseDialog
 
 @Preview
@@ -288,28 +289,4 @@ fun EditExerciseContent(
 
     if (uiStates.shouldGoBack) goBack()
     if (uiStates.sww) ErrorDialog { goBack() }
-}
-
-@Composable
-fun ImagePicker(
-    onImageSelected: (Uri) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri -> uri?.let { onImageSelected(it) } }
-
-    Box(Modifier.fillMaxWidth()) {
-        TextButton(
-            onClick = { launcher.launch("image/*") },
-            modifier = modifier.align(Alignment.CenterEnd)
-        ) {
-            SmallText(
-                text = R.string.exercise_create_add_image,
-                textDecoration = TextDecoration.Underline,
-                color = BlueMedium,
-                fontFamily = montserrat_bold
-            )
-        }
-    }
 }

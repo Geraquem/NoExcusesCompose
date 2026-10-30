@@ -1,5 +1,7 @@
 package com.mmfsin.noexcuses.presentation.exercises.create.edit
 
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.mmfsin.noexcuses.domain.models.Exercise
@@ -7,6 +9,7 @@ import com.mmfsin.noexcuses.domain.usecases.CreateExerciseUseCase
 import com.mmfsin.noexcuses.domain.usecases.DeleteExerciseUseCase
 import com.mmfsin.noexcuses.domain.usecases.GetExerciseByIdUseCase
 import com.mmfsin.noexcuses.presentation.core.base.BaseViewModel
+import com.mmfsin.noexcuses.util.copyImageToInternalStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -46,7 +49,16 @@ class EditExerciseViewModel @Inject constructor(
         }
     }
 
-    fun editImageUrl(value: String) = _uiState.update { it.copy(imageUrl = value) }
+    fun editImageUrl(uri: Uri, context: Context) {
+        viewModelScope.launch {
+            val path = copyImageToInternalStorage(
+                context = context,
+                uri = uri
+            )
+            _uiState.update { it.copy(imageUrl = path) }
+        }
+    }
+
     fun editName(value: String) = _uiState.update { it.copy(name = value) }
     fun editDescription(value: String) = _uiState.update { it.copy(description = value) }
     fun editInvolvedMuscles(value: String) = _uiState.update { it.copy(involvedMuscles = value) }

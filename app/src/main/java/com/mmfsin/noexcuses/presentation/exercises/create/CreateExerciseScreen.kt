@@ -30,6 +30,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextDecoration
@@ -78,11 +79,12 @@ fun CreateExerciseScreen(
     goBack: () -> Unit,
 ) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     CreateExerciseContent(
         uiStates = uiStates,
         goBack = { goBack() },
-        editImageUrl = { viewModel.editImageUrl(it) },
+        editImageUrl = { viewModel.editImageUrl(uri = it, context = context) },
         editName = { viewModel.editName(it) },
         editDescription = { viewModel.editDescription(it) },
         editInvolvedMuscles = { viewModel.editInvolvedMuscles(it) },
@@ -95,7 +97,7 @@ fun CreateExerciseScreen(
 fun CreateExerciseContent(
     uiStates: CreateExerciseStates,
     goBack: () -> Unit,
-    editImageUrl: (String) -> Unit,
+    editImageUrl: (Uri) -> Unit,
     editName: (String) -> Unit,
     editDescription: (String) -> Unit,
     editInvolvedMuscles: (String) -> Unit,
@@ -134,7 +136,7 @@ fun CreateExerciseContent(
                             SpacerMini()
                         }
 
-                        ImagePicker(onImageSelected = { editImageUrl(it.toString()) })
+                        ImagePicker(onImageSelected = { editImageUrl(it) })
                     }
                 }
 

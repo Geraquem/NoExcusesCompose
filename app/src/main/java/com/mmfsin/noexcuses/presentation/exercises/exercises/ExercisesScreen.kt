@@ -203,7 +203,7 @@ fun ExerciseBox(
                         } else {
                             ImageGif(
                                 url = exercise.gifURL,
-                                modifier = Modifier.fillMaxSize()
+                                modifier = Modifier.fillMaxSize().padding(vertical = 6.dp),
                             )
                         }
                     }

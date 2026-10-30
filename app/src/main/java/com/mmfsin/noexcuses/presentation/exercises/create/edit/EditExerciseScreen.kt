@@ -1,13 +1,10 @@
 package com.mmfsin.noexcuses.presentation.exercises.create.edit
 
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -30,6 +27,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextDecoration
@@ -50,7 +48,6 @@ import com.mmfsin.noexcuses.presentation.core.components.SpacerLarge
 import com.mmfsin.noexcuses.presentation.core.components.SpacerMini
 import com.mmfsin.noexcuses.presentation.core.components.SpacerSmall
 import com.mmfsin.noexcuses.presentation.core.theme.Black
-import com.mmfsin.noexcuses.presentation.core.theme.BlueMedium
 import com.mmfsin.noexcuses.presentation.core.theme.GrayHard
 import com.mmfsin.noexcuses.presentation.core.theme.GrayLight
 import com.mmfsin.noexcuses.presentation.core.theme.GrayMedium
@@ -82,11 +79,12 @@ fun EditExerciseScreen(
     goBack: () -> Unit,
 ) {
     val uiStates by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     EditExerciseContent(
         uiStates = uiStates,
         goBack = { goBack() },
-        editImageUrl = { viewModel.editImageUrl(it) },
+        editImageUrl = { viewModel.editImageUrl(it, context) },
         editName = { viewModel.editName(it) },
         editDescription = { viewModel.editDescription(it) },
         editInvolvedMuscles = { viewModel.editInvolvedMuscles(it) },
@@ -101,7 +99,7 @@ fun EditExerciseScreen(
 fun EditExerciseContent(
     uiStates: EditExerciseStates,
     goBack: () -> Unit,
-    editImageUrl: (String) -> Unit,
+    editImageUrl: (Uri) -> Unit,
     editName: (String) -> Unit,
     editDescription: (String) -> Unit,
     editInvolvedMuscles: (String) -> Unit,
@@ -143,7 +141,7 @@ fun EditExerciseContent(
                             SpacerMini()
                         }
 
-                        ImagePicker(onImageSelected = { editImageUrl(it.toString()) })
+                        ImagePicker(onImageSelected = { editImageUrl(it) })
                     }
                 }
 

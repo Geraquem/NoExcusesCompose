@@ -13,6 +13,9 @@ interface NotesDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNote(note: NoteDTO)
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertNotes(notes: List<NoteDTO>)
+
     @Query("SELECT * FROM table_notes")
     fun getNotes(): Flow<List<NoteDTO>>
 

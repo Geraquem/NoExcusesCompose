@@ -45,6 +45,7 @@ const val DS_PINNED_NOTE = "ds_pinned_note"
 /** SHARED PREFS */
 const val SHARED_PREFS_NAME = "betweenminds_shared_prefs"
 const val SP_VERSION_SAVED = "sp_version_saved"
+const val SP_MIGRATION_COMPLETE = "sp_migration_complete"
 const val SP_MENU_IMAGES = "sp_menu_images"
 const val SP_DF_ROUTINES_SERVER= "sp_df_routines_server"
 const val SP_MUSCULAR_GROUPS_SERVER = "sp_muscular_groups_server"

@@ -24,4 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "No excuses"
 include(":app")
- 
+include(":migration")

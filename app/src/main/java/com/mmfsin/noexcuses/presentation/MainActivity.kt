@@ -13,6 +13,18 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            try {
+//                val result = RealmMigrationManager.inspectBackup(applicationContext)
+//
+//                Log.d("REALM_MIGRATION", result.toString())
+//
+//            } catch (e: Exception) {
+//                Log.e("REALM_MIGRATION", "Error abriendo Realm", e)
+//            }
+//        }
+
         setContent { NoExcusesTheme { NavigationMain() } }
     }
 }

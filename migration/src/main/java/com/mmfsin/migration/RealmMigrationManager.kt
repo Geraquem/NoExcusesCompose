@@ -1,17 +1,27 @@
 package com.mmfsin.migration
 
 import android.content.Context
+import com.mmfsin.migration.mappers.toOldDay
 import com.mmfsin.migration.mappers.toOldNote
-import com.mmfsin.migration.models.convert.OldNote
+import com.mmfsin.migration.mappers.toOldRoutine
+import com.mmfsin.migration.models.convert.CompleteOldData
+import com.mmfsin.migration.models.realm.DayDTO
+import com.mmfsin.migration.models.realm.MyRoutineDTO
 import com.mmfsin.migration.models.realm.NoteDTO
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
 import java.io.File
 
 object RealmMigrationManager {
-    fun readInstalledNotes(context: Context): List<OldNote> {
+    fun readInstalledData(context: Context): CompleteOldData {
         val realmFile = File(context.filesDir, "default.realm")
-        if (!realmFile.isFile) return emptyList()
+        if (!realmFile.isFile) {
+            return CompleteOldData(
+                notes = emptyList(),
+                routines = emptyList(),
+                days = emptyList()
+            )
+        }
 
         val directory = File(context.cacheDir, "legacy-realm-read")
         if (!directory.exists() && !directory.mkdirs()) {
@@ -22,7 +32,9 @@ object RealmMigrationManager {
 
         val config = RealmConfiguration.Builder(
             schema = setOf(
-                NoteDTO::class
+                NoteDTO::class,
+                MyRoutineDTO::class,
+                DayDTO::class
             )
         ).directory(directory.absolutePath)
             .name(copiedRealmFile.name)
@@ -32,7 +44,11 @@ object RealmMigrationManager {
         val realm = Realm.open(config)
 
         return try {
-            realm.query(NoteDTO::class).find().map { noteDTO -> noteDTO.toOldNote() }
+            CompleteOldData(
+                notes = realm.query(NoteDTO::class).find().map { it.toOldNote() },
+                routines = realm.query(MyRoutineDTO::class).find().map { it.toOldRoutine() },
+                days = realm.query(DayDTO::class).find().map { it.toOldDay() }
+            )
         } finally {
             realm.close()
         }

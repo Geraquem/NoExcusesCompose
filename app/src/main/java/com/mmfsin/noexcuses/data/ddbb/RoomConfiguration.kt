@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.mmfsin.noexcuses.data.ddbb.daos.ExercisesDAO
 import com.mmfsin.noexcuses.data.ddbb.daos.MenuDAO
+import com.mmfsin.noexcuses.data.ddbb.daos.MigrationDAO
 import com.mmfsin.noexcuses.data.ddbb.daos.MuscularGroupsDAO
 import com.mmfsin.noexcuses.data.ddbb.daos.NotesDAO
 import com.mmfsin.noexcuses.data.ddbb.daos.RmsDAO
@@ -36,6 +37,7 @@ import com.mmfsin.noexcuses.data.models.StretchDTO
     version = 1
 )
 abstract class RoomConfiguration : RoomDatabase() {
+    abstract fun migrationDAO(): MigrationDAO
     abstract fun menuDAO(): MenuDAO
     abstract fun muscularGroupsDAO(): MuscularGroupsDAO
     abstract fun exercisesDAO(): ExercisesDAO

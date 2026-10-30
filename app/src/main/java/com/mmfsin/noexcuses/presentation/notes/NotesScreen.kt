@@ -176,7 +176,8 @@ fun NoteBox(
                 modifier = Modifier.weight(1f),
                 fontFamily = montserrat_bold
             )
-            Spacer(Modifier.weight(1f))
+
+            SpacerSmall(horizontal = true)
 
             val pushpin = if (note.pinned) R.drawable.ic_pushpin else R.drawable.ic_pushpin_off
             Image(

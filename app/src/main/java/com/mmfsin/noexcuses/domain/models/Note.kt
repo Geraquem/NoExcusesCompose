@@ -11,7 +11,7 @@ data class Note(
 fun getExampleNotes() = listOf(
     Note(
         id = "1",
-        title = "Nota 1",
+        title = "Nota 1ad s fdsad sa",
         description = "Description 1",
         date = "23 Agosto 2025",
         pinned = false

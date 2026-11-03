@@ -1,9 +1,11 @@
 package com.mmfsin.noexcuses.data.mappers
 
 import com.mmfsin.migration.models.convert.OldDay
+import com.mmfsin.migration.models.convert.OldExercise
 import com.mmfsin.migration.models.convert.OldNote
 import com.mmfsin.migration.models.convert.OldRoutine
 import com.mmfsin.noexcuses.data.models.DayDTO
+import com.mmfsin.noexcuses.data.models.ExerciseDTO
 import com.mmfsin.noexcuses.data.models.MyRoutineDTO
 import com.mmfsin.noexcuses.data.models.NoteDTO
 
@@ -13,6 +15,20 @@ fun OldNote.toNoteDTO() = NoteDTO(
     description = description,
     date = date,
     pinned = pinned
+)
+
+fun OldExercise.toExerciseDTO() = ExerciseDTO(
+    id = id,
+    category = category,
+    imageURL = imageURL,
+    gifURL = gifURL,
+    name = name,
+    order = order,
+    description = description,
+    muscles = muscles,
+    isFav = isFav,
+    muscleWikiURL = muscleWikiURL,
+    createdByUser = createdByUser,
 )
 
 fun OldRoutine.toRoutineDTO(i: Int) = MyRoutineDTO(

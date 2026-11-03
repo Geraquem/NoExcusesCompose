@@ -12,7 +12,6 @@ data class StretchDTO(
     var id: String = "",
     var order: Long = 0,
     var category: String = "",
-    var iconUrl: String = "",
     var imageURL: String = "",
     var name: String = "",
     var description: String = "",

@@ -1,9 +1,11 @@
 package com.mmfsin.migration.mappers
 
 import com.mmfsin.migration.models.convert.OldDay
+import com.mmfsin.migration.models.convert.OldExercise
 import com.mmfsin.migration.models.convert.OldNote
 import com.mmfsin.migration.models.convert.OldRoutine
 import com.mmfsin.migration.models.realm.DayDTO
+import com.mmfsin.migration.models.realm.ExerciseDTO
 import com.mmfsin.migration.models.realm.MyRoutineDTO
 import com.mmfsin.migration.models.realm.NoteDTO
 
@@ -14,6 +16,22 @@ fun NoteDTO.toOldNote() = OldNote(
     date = date,
     pinned = pinned
 )
+
+fun ExerciseDTO.toOldExercise() = OldExercise(
+    id = id,
+    category = category,
+    imageURL = imageURL,
+    gifURL = gifURL,
+    name = name,
+    order = order,
+    description = description,
+    muscles = muscles,
+    isFav = isFav,
+    muscleWikiURL = muscleWikiURL,
+    createdByUser = createdByUser,
+)
+
+fun List<ExerciseDTO>.toOldExerciseList() = this.map { it.toOldExercise() }
 
 fun MyRoutineDTO.toOldRoutine() = OldRoutine(
     id = id,

@@ -122,11 +122,11 @@ fun StretchBox(stretch: Stretch) {
                     .background(
                         getMuscularGroupColor(stretch.mGroup),
                         shape = RoundedCornerShape(25)
-                    )
-                    .padding(4.dp),
+                    ),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(painterResource(getMuscularGroupIcon(stretch.mGroup)), null)
+                Icon(painterResource(getMuscularGroupIcon(stretch.mGroup)), null,
+                    modifier = Modifier.size(30.dp))
             }
 
             SpacerSmall(horizontal = true)

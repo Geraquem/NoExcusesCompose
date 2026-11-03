@@ -6,9 +6,10 @@ import com.mmfsin.migration.models.convert.OldDay
 import com.mmfsin.migration.models.convert.OldRoutine
 import com.mmfsin.noexcuses.data.ddbb.SharedPrefs
 import com.mmfsin.noexcuses.data.ddbb.daos.MigrationDAO
+import com.mmfsin.noexcuses.data.mappers.toDayDTO
+import com.mmfsin.noexcuses.data.mappers.toExerciseDTO
 import com.mmfsin.noexcuses.data.mappers.toNoteDTO
 import com.mmfsin.noexcuses.data.mappers.toRoutineDTO
-import com.mmfsin.noexcuses.data.models.DayDTO
 import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
@@ -28,28 +29,29 @@ class RealmMigrator @Inject constructor(
 
         val oldData = RealmMigrationManager.readInstalledData(context)
 
+        /**** NOTES ****/
         if (oldData.notes.isNotEmpty()) {
             migrationDAO.insertNotes(oldData.notes.map { oldNote -> oldNote.toNoteDTO() })
         }
 
+        /**** EXERCISES ****/
+        if (oldData.exercises.isNotEmpty()) {
+            migrationDAO.insertExercises(oldData.exercises.map { oldExercise -> oldExercise.toExerciseDTO() })
+        }
+
+        /**** ROUTINES ****/
         val routines = oldData.routines
             .sortedWith(compareBy<OldRoutine> { it.title.lowercase() }.thenBy { it.id })
             .mapIndexed { index, oldRoutine -> oldRoutine.toRoutineDTO(index) }
 
+        /**** DAYS ****/
         val routineIds = routines.mapTo(mutableSetOf()) { it.id }
         val days = oldData.days
             .filter { it.routineId in routineIds }
             .groupBy { it.routineId }
             .flatMap { (routineId, routineDays) ->
                 routineDays.sortedWith(compareBy<OldDay> { it.title.lowercase() }.thenBy { it.id })
-                    .mapIndexed { index, oldDay ->
-                        DayDTO(
-                            id = oldDay.id,
-                            routineId = routineId,
-                            name = oldDay.title,
-                            order = index
-                        )
-                    }
+                    .mapIndexed { index, oldDay -> oldDay.toDayDTO(index) }
             }
 
         migrationDAO.migrate(

@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Transaction
 import com.mmfsin.noexcuses.data.models.DayDTO
+import com.mmfsin.noexcuses.data.models.ExerciseDTO
 import com.mmfsin.noexcuses.data.models.MyRoutineDTO
 import com.mmfsin.noexcuses.data.models.NoteDTO
 
@@ -13,6 +14,9 @@ interface MigrationDAO {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertNotes(notes: List<NoteDTO>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertExercises(exercises: List<ExerciseDTO>)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertRoutines(routines: List<MyRoutineDTO>)

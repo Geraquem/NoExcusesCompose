@@ -29,7 +29,7 @@ fun CustomToolbarPV() {
         SpacerSmall()
         CustomToolbar(
             true, {}, R.string.app_name, "",
-            true, R.drawable.ic_edit, {},
+            true, R.drawable.ic_fav_on, {},
         )
     }
 }
@@ -44,14 +44,6 @@ fun CustomMainToolbar(onRightIconClick: () -> Unit) {
                     allCaps = true,
                     fontFamily = montserrat_bold,
                 )
-
-                Spacer(Modifier.weight(1f))
-
-                IconButton(onClick = { onRightIconClick() }) {
-                    Icon(painterResource(R.drawable.ic_dots), null)
-                }
-
-                SpacerSmall(horizontal = true)
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(containerColor = White),
@@ -65,7 +57,7 @@ fun CustomToolbar(
     title: Int = R.string.empty,
     titleString: String? = null,
     showIconRight: Boolean = false,
-    iconRight: Int = R.drawable.ic_edit,
+    iconRight: Int = R.drawable.ic_save,
     iconRightClick: () -> Unit = {}
 ) {
     TopAppBar(

@@ -29,21 +29,21 @@ enum class MuscularGroupType(
     val title: Int,
     val icon: Int
 ) {
-    FOREARM("antebrazo", ForearmColor, R.string.mgroups_forearm, R.drawable.ic_dumbbell),
-    BICEPS("biceps", BicepsColor, R.string.mgroups_biceps, R.drawable.ic_dumbbell),
-    CARDIO("cardio", CardioColor, R.string.mgroups_cardio, R.drawable.ic_dumbbell),
-    CORE("core", CoreColor, R.string.mgroups_core, R.drawable.ic_dumbbell),
-    BACK("espalda", BackColor, R.string.mgroups_back, R.drawable.ic_dumbbell),
-    GLUTES("gluteos", GlutesColor, R.string.mgroups_glutes, R.drawable.ic_dumbbell),
-    SHOULDER("hombro", ShoulderColor, R.string.mgroups_shoulder, R.drawable.ic_dumbbell),
-    CHEST("pecho", ChestColor, R.string.mgroups_chest, R.drawable.ic_dumbbell),
-    LEGS("pierna", LegsColor, R.string.mgroups_legs, R.drawable.ic_dumbbell),
-    TRICEPS("triceps", TricepsColor, R.string.mgroups_triceps, R.drawable.ic_dumbbell);
+    FOREARM("antebrazo", ForearmColor, R.string.mgroups_forearm, R.drawable.ic_mg_forearm),
+    BICEPS("biceps", BicepsColor, R.string.mgroups_biceps, R.drawable.ic_mg_biceps),
+    CARDIO("cardio", CardioColor, R.string.mgroups_cardio, R.drawable.ic_mg_chest),
+    CORE("core", CoreColor, R.string.mgroups_core, R.drawable.ic_mg_core),
+    BACK("espalda", BackColor, R.string.mgroups_back, R.drawable.ic_mg_back),
+    GLUTES("gluteos", GlutesColor, R.string.mgroups_glutes, R.drawable.ic_mg_glutes),
+    SHOULDER("hombro", ShoulderColor, R.string.mgroups_shoulder, R.drawable.ic_mg_shoulder),
+    CHEST("pecho", ChestColor, R.string.mgroups_chest, R.drawable.ic_mg_chest),
+    LEGS("pierna", LegsColor, R.string.mgroups_legs, R.drawable.ic_mg_legs),
+    TRICEPS("triceps", TricepsColor, R.string.mgroups_triceps, R.drawable.ic_mg_triceps);
 
     companion object {
         fun getMuscularGroupColor(id: String): Color = entries.find { it.id == id }?.color ?: Transparent
         fun getMuscularGroupName(id: String): Int = entries.find { it.id == id }?.title ?: R.string.empty
-        fun getMuscularGroupIcon(id: String): Int = entries.find { it.id == id }?.icon ?: R.drawable.ic_dumbbell
+        fun getMuscularGroupIcon(id: String): Int = entries.find { it.id == id }?.icon ?: R.drawable.ic_mg_core
     }
 }
 

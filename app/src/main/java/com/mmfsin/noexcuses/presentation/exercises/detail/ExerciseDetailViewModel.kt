@@ -44,9 +44,7 @@ class ExerciseDetailViewModel @Inject constructor(
         val states = uiState.value
         executeUseCase(
             { updateFavExerciseUseCase(states.exerciseId, isFav) },
-            {
-                println("updated")
-            },
+            {},
             {},
         )
     }

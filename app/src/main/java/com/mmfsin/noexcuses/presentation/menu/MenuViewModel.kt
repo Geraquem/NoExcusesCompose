@@ -1,6 +1,7 @@
 package com.mmfsin.noexcuses.presentation.menu
 
 import androidx.lifecycle.viewModelScope
+import com.mmfsin.noexcuses.domain.usecases.CheckVersionUseCase
 import com.mmfsin.noexcuses.domain.usecases.GetAllExercisesUseCase
 import com.mmfsin.noexcuses.domain.usecases.GetMenuImagesUseCase
 import com.mmfsin.noexcuses.domain.usecases.GetMuscularGroupsUseCase
@@ -16,6 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MenuViewModel @Inject constructor(
+    private val checkVersionUseCase: CheckVersionUseCase,
     private val getMenuImagesUseCase: GetMenuImagesUseCase,
     private val getMuscularGroupsUseCase: GetMuscularGroupsUseCase,
     private val getPinnedRoutineUseCase: GetPinnedRoutineUseCase,
@@ -26,11 +28,20 @@ class MenuViewModel @Inject constructor(
 ) : BaseViewModel<MenuStates>(MenuStates()) {
 
     init {
+        checkVersion()
         getMenuImages()
         getMuscularGroups()
         getPinnedRoutine()
         getPinnedNote()
         getAllExercises()
+    }
+
+    private fun checkVersion() {
+        executeUseCase(
+            { checkVersionUseCase() },
+            {},
+            {}
+        )
     }
 
     fun getMenuImages() {

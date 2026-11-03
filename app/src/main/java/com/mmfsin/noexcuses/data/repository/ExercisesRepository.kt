@@ -40,8 +40,6 @@ class ExercisesRepository @Inject constructor(
             if (firebaseExercises.isNotEmpty()) {
                 prefs.updateExercisesFromServer(false)
                 exercisesDAO.insertExercises(firebaseExercises)
-
-                println("------------------------------ all exercises from server -> ${firebaseExercises.size} exercises")
             }
         }
     }

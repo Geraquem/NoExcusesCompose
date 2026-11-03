@@ -26,8 +26,6 @@ class StretchViewModel @Inject constructor(
                         stretchingExercises = data,
                     )
                 }
-                println("------------------------------------------------------------------------")
-                println(data)
             },
             {},
         )

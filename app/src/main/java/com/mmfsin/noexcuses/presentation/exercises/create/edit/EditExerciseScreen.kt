@@ -116,9 +116,6 @@ fun EditExerciseContent(
         CompositionLocalProvider(
             LocalOverscrollFactory provides null
         ) {
-            println("-------------------------------------------------------------------------------------------")
-            println("image: ${uiStates.imageUrl}")
-
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
                     .background(GrayMedium)

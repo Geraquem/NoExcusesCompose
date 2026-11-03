@@ -38,7 +38,7 @@ class NotesViewModel @Inject constructor(
     fun updatePushpin(noteId: String) {
         executeUseCase(
             { updatePinnedNoteUseCase(noteId) },
-            { println("Pinned Note updated") },
+            {},
             {},
         )
     }

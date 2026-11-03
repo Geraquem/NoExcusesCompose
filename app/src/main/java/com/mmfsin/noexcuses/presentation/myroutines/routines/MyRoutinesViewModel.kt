@@ -103,7 +103,7 @@ class MyRoutinesViewModel @Inject constructor(
     fun updatePushpin(routineId: String) {
         executeUseCase(
             { updatePinnedRoutineUseCase(routineId) },
-            { println("Pinned routine updated") },
+            {},
             {},
         )
     }

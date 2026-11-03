@@ -14,6 +14,7 @@ import com.mmfsin.noexcuses.domain.models.MuscularGroup
 import com.mmfsin.noexcuses.util.MENU_IMAGES
 import com.mmfsin.noexcuses.util.MUSCULAR_GROUPS
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withTimeoutOrNull
 import javax.inject.Inject
 
 class MenuRepository @Inject constructor(
@@ -23,7 +24,22 @@ class MenuRepository @Inject constructor(
 ) : IMenuRepository {
 
     override suspend fun checkVersion() {
-        //        getDataFromFirebase(getSavedVersion())
+        val snapshot = withTimeoutOrNull(5000) {
+            FirebaseDatabase
+                .getInstance()
+                .getReference()
+                .child("version")
+                .get()
+                .await()
+        } ?: return
+
+        val fbVersion = snapshot.getValue(Long::class.java)
+        fbVersion?.let {
+            if (prefs.getVersionSaved() != fbVersion) {
+                prefs.restartValues()
+                prefs.updateVersionSaved(fbVersion)
+            }
+        }
     }
 
     override suspend fun getMenuImages(): MenuImages? {

@@ -24,8 +24,7 @@ class RealmMigrator @Inject constructor(
     private val migrationDAO: MigrationDAO
 ) {
     suspend fun migrateIfNeeded() = withContext(Dispatchers.IO) {
-        //        if (prefs.getMigrationState()) {
-        if (false) {
+        if (prefs.getMigrationState()) {
             return@withContext
         }
 

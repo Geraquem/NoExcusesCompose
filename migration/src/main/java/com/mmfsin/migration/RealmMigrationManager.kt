@@ -2,7 +2,6 @@ package com.mmfsin.migration
 
 import android.content.Context
 import com.mmfsin.migration.mappers.toOldDay
-import com.mmfsin.migration.mappers.toOldExercise
 import com.mmfsin.migration.mappers.toOldExerciseList
 import com.mmfsin.migration.mappers.toOldNote
 import com.mmfsin.migration.mappers.toOldRoutine
@@ -18,7 +17,14 @@ import java.io.File
 object RealmMigrationManager {
     fun readInstalledData(context: Context): CompleteOldData {
         val realmFile = File(context.filesDir, "default.realm")
-        if (!realmFile.isFile) return CompleteOldData()
+        if (!realmFile.isFile) {
+            return CompleteOldData(
+                notes = emptyList(),
+                exercises = emptyList(),
+                routines = emptyList(),
+                days = emptyList()
+            )
+        }
 
         val directory = File(context.cacheDir, "legacy-realm-read")
         if (!directory.exists() && !directory.mkdirs()) {

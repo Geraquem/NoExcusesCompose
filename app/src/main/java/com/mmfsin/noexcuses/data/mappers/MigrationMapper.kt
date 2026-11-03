@@ -8,6 +8,7 @@ import com.mmfsin.noexcuses.data.models.DayDTO
 import com.mmfsin.noexcuses.data.models.ExerciseDTO
 import com.mmfsin.noexcuses.data.models.MyRoutineDTO
 import com.mmfsin.noexcuses.data.models.NoteDTO
+import com.mmfsin.noexcuses.domain.models.RoutineColor.Companion.getRandomRoutineColorId
 
 fun OldNote.toNoteDTO() = NoteDTO(
     id = id,
@@ -38,7 +39,8 @@ fun OldRoutine.toRoutineDTO(i: Int) = MyRoutineDTO(
     pinned = doingIt,
     createdByUser = createdByUser,
     pinnedDate = pinnedDate,
-    order = i
+    order = i,
+    colorId = getRandomRoutineColorId()
 )
 
 fun OldDay.toDayDTO(i: Int) = DayDTO(

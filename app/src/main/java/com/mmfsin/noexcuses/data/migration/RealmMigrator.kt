@@ -2,7 +2,6 @@ package com.mmfsin.noexcuses.data.migration
 
 import android.content.Context
 import com.mmfsin.migration.RealmMigrationManager
-import com.mmfsin.migration.models.convert.OldDay
 import com.mmfsin.migration.models.convert.OldRoutine
 import com.mmfsin.noexcuses.data.ddbb.SharedPrefs
 import com.mmfsin.noexcuses.data.ddbb.daos.MigrationDAO
@@ -23,7 +22,8 @@ class RealmMigrator @Inject constructor(
     private val migrationDAO: MigrationDAO
 ) {
     suspend fun migrateIfNeeded() = withContext(Dispatchers.IO) {
-        if (prefs.getMigrationState()) {
+        //        if (prefs.getMigrationState()) {
+        if (false) {
             return@withContext
         }
 
@@ -45,14 +45,7 @@ class RealmMigrator @Inject constructor(
             .mapIndexed { index, oldRoutine -> oldRoutine.toRoutineDTO(index) }
 
         /**** DAYS ****/
-        val routineIds = routines.mapTo(mutableSetOf()) { it.id }
-        val days = oldData.days
-            .filter { it.routineId in routineIds }
-            .groupBy { it.routineId }
-            .flatMap { (routineId, routineDays) ->
-                routineDays.sortedWith(compareBy<OldDay> { it.title.lowercase() }.thenBy { it.id })
-                    .mapIndexed { index, oldDay -> oldDay.toDayDTO(index) }
-            }
+        val days = oldData.days.mapIndexed { index, oldDay -> oldDay.toDayDTO(index) }
 
         migrationDAO.migrate(
             notes = oldData.notes.map { oldNote -> oldNote.toNoteDTO() },

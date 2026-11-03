@@ -390,7 +390,7 @@ fun ExerciseRtnBox(
             }
 
             AnimatedVisibility(expanded && exerciseRtn.series.isNotEmpty()) {
-                Column(Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
+                Column(Modifier.padding(horizontal = 16.dp, vertical = 6.dp)) {
                     ShowSerieHeader()
                     exerciseRtn.series.forEachIndexed { i, serie ->
                         SpacerMini()
@@ -422,13 +422,14 @@ fun ExerciseRtnBox(
                 }
             }
 
-            SpacerMedium()
+            SpacerCustom(12.dp)
 
             Box(
                 Modifier.fillMaxWidth().height(0.5.dp)
                     .padding(horizontal = 12.dp).background(GrayHard)
             )
-            SpacerMini()
+
+            SpacerCustom(2.dp)
 
             TextButton(
                 onClick = { onEditClick() },

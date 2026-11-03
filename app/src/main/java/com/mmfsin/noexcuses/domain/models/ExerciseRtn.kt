@@ -36,7 +36,7 @@ fun getExerciseRtnExamples() = listOf(
         exercise = getExercisesExamples().first(),
         series = listOf(createSerie(0), createSerie(1)),
         rest = "2",
-        notes = "Tener cuidado con las abejas",
+        notes = null,
         superSerie = true,
         order = 0
     ),

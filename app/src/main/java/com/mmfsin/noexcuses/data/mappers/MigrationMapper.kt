@@ -13,6 +13,7 @@ import com.mmfsin.noexcuses.data.models.MyRoutineDTO
 import com.mmfsin.noexcuses.data.models.NoteDTO
 import com.mmfsin.noexcuses.data.models.SerieDTO
 import com.mmfsin.noexcuses.domain.models.RoutineColor.Companion.getRandomRoutineColorId
+import com.mmfsin.noexcuses.util.deletePointZero
 import java.util.UUID
 
 fun OldNote.toNoteDTO() = NoteDTO(
@@ -59,7 +60,7 @@ fun OldExerciseRtn.toExerciseRtnDTO(index: Int) = ExerciseRtnDTO(
     id = id,
     dayId = dayId,
     exerciseId = exerciseId ?: "",
-    rest = time.toString(),
+    rest = time.deletePointZero(),
     notes = notes,
     superSerie = superSerie,
     order = index
@@ -69,6 +70,6 @@ fun OldSerie.toSerieDTO(index: Int) = SerieDTO(
     id = id,
     exerciseRtnId = exerciseRtnId,
     reps = reps,
-    kgs = weight?.toString(),
+    kgs = weight?.deletePointZero(),
     order = index,
 )

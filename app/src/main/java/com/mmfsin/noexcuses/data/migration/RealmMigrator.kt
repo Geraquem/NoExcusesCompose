@@ -7,8 +7,10 @@ import com.mmfsin.noexcuses.data.ddbb.SharedPrefs
 import com.mmfsin.noexcuses.data.ddbb.daos.MigrationDAO
 import com.mmfsin.noexcuses.data.mappers.toDayDTO
 import com.mmfsin.noexcuses.data.mappers.toExerciseDTO
+import com.mmfsin.noexcuses.data.mappers.toExerciseRtnDTO
 import com.mmfsin.noexcuses.data.mappers.toNoteDTO
 import com.mmfsin.noexcuses.data.mappers.toRoutineDTO
+import com.mmfsin.noexcuses.data.mappers.toSerieDTO
 import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
@@ -29,28 +31,18 @@ class RealmMigrator @Inject constructor(
 
         val oldData = RealmMigrationManager.readInstalledData(context)
 
-        /**** NOTES ****/
-        if (oldData.notes.isNotEmpty()) {
-            migrationDAO.insertNotes(oldData.notes.map { oldNote -> oldNote.toNoteDTO() })
-        }
-
-        /**** EXERCISES ****/
-        if (oldData.exercises.isNotEmpty()) {
-            migrationDAO.insertExercises(oldData.exercises.map { oldExercise -> oldExercise.toExerciseDTO() })
-        }
-
         /**** ROUTINES ****/
         val routines = oldData.routines
             .sortedWith(compareBy<OldRoutine> { it.title.lowercase() }.thenBy { it.id })
             .mapIndexed { index, oldRoutine -> oldRoutine.toRoutineDTO(index) }
 
-        /**** DAYS ****/
-        val days = oldData.days.mapIndexed { index, oldDay -> oldDay.toDayDTO(index) }
-
         migrationDAO.migrate(
             notes = oldData.notes.map { oldNote -> oldNote.toNoteDTO() },
+            exercises = oldData.exercises.map { oldExercise -> oldExercise.toExerciseDTO() },
             routines = routines,
-            days = days
+            days = oldData.days.mapIndexed { index, oldDay -> oldDay.toDayDTO(index) },
+            exercisesRtn = oldData.exercisesRtn.mapIndexed { index, oldExRtn-> oldExRtn.toExerciseRtnDTO(index) },
+            series = oldData.series.mapIndexed { index, oldSerie ->oldSerie.toSerieDTO(index)  }
         )
 
         prefs.updateMigrationState(true)

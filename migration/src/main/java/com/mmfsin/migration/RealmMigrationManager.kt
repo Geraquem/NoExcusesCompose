@@ -1,11 +1,15 @@
 package com.mmfsin.migration
 
 import android.content.Context
+import com.mmfsin.migration.mappers.toChExerciseDTOList
 import com.mmfsin.migration.mappers.toOldDay
 import com.mmfsin.migration.mappers.toOldExerciseList
 import com.mmfsin.migration.mappers.toOldNote
 import com.mmfsin.migration.mappers.toOldRoutine
+import com.mmfsin.migration.mappers.toOldSerie
 import com.mmfsin.migration.models.convert.CompleteOldData
+import com.mmfsin.migration.models.realm.ChExerciseDTO
+import com.mmfsin.migration.models.realm.DataDTO
 import com.mmfsin.migration.models.realm.DayDTO
 import com.mmfsin.migration.models.realm.ExerciseDTO
 import com.mmfsin.migration.models.realm.MyRoutineDTO
@@ -22,7 +26,9 @@ object RealmMigrationManager {
                 notes = emptyList(),
                 exercises = emptyList(),
                 routines = emptyList(),
-                days = emptyList()
+                days = emptyList(),
+                exercisesRtn = emptyList(),
+                series = emptyList()
             )
         }
 
@@ -38,7 +44,9 @@ object RealmMigrationManager {
                 NoteDTO::class,
                 ExerciseDTO::class,
                 MyRoutineDTO::class,
-                DayDTO::class
+                DayDTO::class,
+                ChExerciseDTO::class,
+                DataDTO::class
             )
         ).directory(directory.absolutePath)
             .name(copiedRealmFile.name)
@@ -47,12 +55,20 @@ object RealmMigrationManager {
 
         val realm = Realm.open(config)
 
+        /** Series from ExerciseRtn */
+        val oldExercises = realm.query(ChExerciseDTO::class).find()
+        val series = oldExercises.flatMap { exercise ->
+            exercise.data.orEmpty().map { data -> data.toOldSerie(exerciseRtnId = exercise.id) }
+        }
+
         return try {
             CompleteOldData(
                 notes = realm.query(NoteDTO::class).find().map { it.toOldNote() },
                 exercises = realm.query(ExerciseDTO::class).find().filter { it.createdByUser }.toOldExerciseList(),
                 routines = realm.query(MyRoutineDTO::class).find().map { it.toOldRoutine() },
-                days = realm.query(DayDTO::class).find().map { it.toOldDay() }
+                days = realm.query(DayDTO::class).find().map { it.toOldDay() },
+                exercisesRtn = oldExercises.filter { it.exerciseId != null }.toChExerciseDTOList(),
+                series = series,
             )
         } finally {
             realm.close()

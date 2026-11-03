@@ -2,13 +2,18 @@ package com.mmfsin.noexcuses.data.mappers
 
 import com.mmfsin.migration.models.convert.OldDay
 import com.mmfsin.migration.models.convert.OldExercise
+import com.mmfsin.migration.models.convert.OldExerciseRtn
 import com.mmfsin.migration.models.convert.OldNote
 import com.mmfsin.migration.models.convert.OldRoutine
+import com.mmfsin.migration.models.convert.OldSerie
 import com.mmfsin.noexcuses.data.models.DayDTO
 import com.mmfsin.noexcuses.data.models.ExerciseDTO
+import com.mmfsin.noexcuses.data.models.ExerciseRtnDTO
 import com.mmfsin.noexcuses.data.models.MyRoutineDTO
 import com.mmfsin.noexcuses.data.models.NoteDTO
+import com.mmfsin.noexcuses.data.models.SerieDTO
 import com.mmfsin.noexcuses.domain.models.RoutineColor.Companion.getRandomRoutineColorId
+import java.util.UUID
 
 fun OldNote.toNoteDTO() = NoteDTO(
     id = id,
@@ -48,4 +53,22 @@ fun OldDay.toDayDTO(i: Int) = DayDTO(
     routineId = routineId,
     name = title,
     order = i
+)
+
+fun OldExerciseRtn.toExerciseRtnDTO(index: Int) = ExerciseRtnDTO(
+    id = id,
+    dayId = dayId,
+    exerciseId = exerciseId ?: "",
+    rest = time.toString(),
+    notes = notes,
+    superSerie = superSerie,
+    order = index
+)
+
+fun OldSerie.toSerieDTO(index: Int) = SerieDTO(
+    id = id,
+    exerciseRtnId = exerciseRtnId,
+    reps = reps,
+    kgs = weight?.toString(),
+    order = index,
 )

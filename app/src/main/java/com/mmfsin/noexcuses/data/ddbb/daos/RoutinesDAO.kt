@@ -116,10 +116,10 @@ interface RoutinesDAO {
     suspend fun deleteDay(dayId: String)
 
     /****************** EXERCISES ******************/
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertExercisesRtn(exercises: List<ExerciseRtnDTO>)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertExerciseRtn(exercise: ExerciseRtnDTO)
 
     @Query(
@@ -131,7 +131,7 @@ interface RoutinesDAO {
     )
     suspend fun getNextExerciseRtnOrder(dayId: String): Int
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSeries(series: List<SerieDTO>)
 
     @Transaction

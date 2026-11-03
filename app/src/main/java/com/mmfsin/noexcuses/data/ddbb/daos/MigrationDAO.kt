@@ -6,8 +6,10 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Transaction
 import com.mmfsin.noexcuses.data.models.DayDTO
 import com.mmfsin.noexcuses.data.models.ExerciseDTO
+import com.mmfsin.noexcuses.data.models.ExerciseRtnDTO
 import com.mmfsin.noexcuses.data.models.MyRoutineDTO
 import com.mmfsin.noexcuses.data.models.NoteDTO
+import com.mmfsin.noexcuses.data.models.SerieDTO
 
 @Dao
 interface MigrationDAO {
@@ -24,14 +26,26 @@ interface MigrationDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDays(days: List<DayDTO>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertExercisesRtn(exercises: List<ExerciseRtnDTO>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSeries(series: List<SerieDTO>)
+
     @Transaction
     suspend fun migrate(
         notes: List<NoteDTO>,
+        exercises: List<ExerciseDTO>,
         routines: List<MyRoutineDTO>,
-        days: List<DayDTO>
+        days: List<DayDTO>,
+        exercisesRtn: List<ExerciseRtnDTO>,
+        series: List<SerieDTO>
     ) {
         insertNotes(notes)
+        insertExercises(exercises)
         insertRoutines(routines)
         insertDays(days)
+        insertExercisesRtn(exercisesRtn)
+        insertSeries(series)
     }
 }

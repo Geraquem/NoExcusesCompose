@@ -126,7 +126,7 @@ fun StretchBox(stretch: Stretch) {
                 contentAlignment = Alignment.Center
             ) {
                 Icon(painterResource(getMuscularGroupIcon(stretch.mGroup)), null,
-                    modifier = Modifier.size(30.dp))
+                    modifier = Modifier.size(30.dp  ))
             }
 
             SpacerSmall(horizontal = true)

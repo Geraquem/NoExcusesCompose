@@ -39,6 +39,15 @@ fun CustomMainToolbar(onRightIconClick: () -> Unit) {
     TopAppBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
+                SpacerSmall(horizontal = true)
+
+                Icon(
+                    painterResource(R.drawable.ic_logo),
+                    null
+                )
+
+                SpacerSmall(horizontal = true)
+
                 MediumText(
                     text = R.string.app_name,
                     allCaps = true,

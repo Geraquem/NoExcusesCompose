@@ -44,6 +44,8 @@ class RealmMigrator @Inject constructor(
             series = oldData.series.mapIndexed { index, oldSerie ->oldSerie.toSerieDTO(index)  }
         )
 
+        RealmMigrationManager.deleteInstalledData(context)
+
         prefs.updateMigrationState(true)
         check(prefs.getMigrationState()) {
             "Could not persist the legacy Realm migration state"

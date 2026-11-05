@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import com.mmfsin.noexcuses.R
 import com.mmfsin.noexcuses.presentation.core.theme.Black
 import com.mmfsin.noexcuses.presentation.core.theme.White
@@ -41,16 +42,18 @@ fun CustomMainToolbar(onRightIconClick: () -> Unit) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 SpacerSmall(horizontal = true)
 
-                Icon(
-                    painterResource(R.drawable.ic_logo),
-                    null
-                )
+                //                Icon(
+                //                    painterResource(R.drawable.ic_logo),
+                //                    null,
+                //                    modifier = Modifier.size(30.dp)
+                //                )
 
-                SpacerSmall(horizontal = true)
+                //                SpacerSmall(horizontal = true)
 
                 MediumText(
                     text = R.string.app_name,
                     allCaps = true,
+                    fontSize = 26.sp,
                     fontFamily = montserrat_bold,
                 )
             }

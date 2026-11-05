@@ -1,6 +1,7 @@
 package com.mmfsin.noexcuses.domain.models
 
 data class MenuImages(
+    var imageLogoUrl: String,
     var myRoutinesImageUrl: String,
     var dfRoutinesImageUrl: String,
     var exercisesImageUrl: String,

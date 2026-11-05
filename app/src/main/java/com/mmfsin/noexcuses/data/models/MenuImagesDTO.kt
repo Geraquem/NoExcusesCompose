@@ -13,6 +13,10 @@ data class MenuImagesDTO(
     @PrimaryKey
     var id: String = "",
 
+    @get:PropertyName("image_logo")
+    @set:PropertyName("image_logo")
+    var imageLogoUrl: String? = null,
+
     @get:PropertyName("image_my_routines")
     @set:PropertyName("image_my_routines")
     var myRoutinesImageUrl: String? = null,

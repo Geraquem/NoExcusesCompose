@@ -27,6 +27,7 @@ import com.mmfsin.noexcuses.domain.models.Stretching
 import com.mmfsin.noexcuses.util.formatDate
 
 fun MenuImagesDTO.toMenuImages() = MenuImages(
+    imageLogoUrl = imageLogoUrl ?: "",
     myRoutinesImageUrl = myRoutinesImageUrl ?: "",
     dfRoutinesImageUrl = dfRoutinesImageUrl ?: "",
     exercisesImageUrl = exercisesImageUrl ?: "",

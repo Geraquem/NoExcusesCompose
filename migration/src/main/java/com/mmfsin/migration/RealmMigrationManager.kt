@@ -39,29 +39,17 @@ object RealmMigrationManager {
         val copiedRealmFile = File(directory, realmFile.name)
         realmFile.copyTo(copiedRealmFile, overwrite = true)
 
-        val config = RealmConfiguration.Builder(
-            schema = setOf(
-                NoteDTO::class,
-                ExerciseDTO::class,
-                MyRoutineDTO::class,
-                DayDTO::class,
-                ChExerciseDTO::class,
-                DataDTO::class
-            )
-        ).directory(directory.absolutePath)
-            .name(copiedRealmFile.name)
-            .schemaVersion(3)
-            .build()
+        val config = createConfiguration(directory.absolutePath, copiedRealmFile.name)
 
         val realm = Realm.open(config)
 
-        /** Series from ExerciseRtn */
-        val oldExercises = realm.query(ChExerciseDTO::class).find()
-        val series = oldExercises.flatMap { exercise ->
-            exercise.data.orEmpty().map { data -> data.toOldSerie(exerciseRtnId = exercise.id) }
-        }
-
         return try {
+            /** Series from ExerciseRtn */
+            val oldExercises = realm.query(ChExerciseDTO::class).find()
+            val series = oldExercises.flatMap { exercise ->
+                exercise.data.orEmpty().map { data -> data.toOldSerie(exerciseRtnId = exercise.id) }
+            }
+
             CompleteOldData(
                 notes = realm.query(NoteDTO::class).find().map { it.toOldNote() },
                 exercises = realm.query(ExerciseDTO::class).find().filter { it.createdByUser }.toOldExerciseList(),
@@ -72,6 +60,29 @@ object RealmMigrationManager {
             )
         } finally {
             realm.close()
+            Realm.deleteRealm(config)
         }
     }
+
+    fun deleteInstalledData(context: Context) {
+        val realmFile = File(context.filesDir, "default.realm")
+        if (realmFile.isFile) {
+            Realm.deleteRealm(createConfiguration(context.filesDir.absolutePath, realmFile.name))
+        }
+    }
+
+    private fun createConfiguration(directory: String, name: String) =
+        RealmConfiguration.Builder(
+            schema = setOf(
+                NoteDTO::class,
+                ExerciseDTO::class,
+                MyRoutineDTO::class,
+                DayDTO::class,
+                ChExerciseDTO::class,
+                DataDTO::class
+            )
+        ).directory(directory)
+            .name(name)
+            .schemaVersion(3)
+            .build()
 }

@@ -53,7 +53,7 @@ fun CustomMainToolbar(onRightIconClick: () -> Unit) {
                 MediumText(
                     text = R.string.app_name,
                     allCaps = true,
-                    fontSize = 26.sp,
+                    fontSize = 22.sp,
                     fontFamily = montserrat_bold,
                 )
             }

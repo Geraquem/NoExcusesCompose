@@ -287,7 +287,7 @@ fun AddExerciseRtnContent(
                             containerColor = GrayLight,
                             singleLine = false,
                             maxLines = 6,
-                            maxLength = 250,
+                            maxLength = 500,
                             imeAction = ImeAction.None
                         )
                     }

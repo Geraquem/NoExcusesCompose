@@ -281,6 +281,7 @@ fun EditExerciseRtnContent(
                             containerColor = GrayLight,
                             singleLine = false,
                             maxLines = 6,
+                            maxLength = 500,
                             imeAction = ImeAction.None
                         )
                     }

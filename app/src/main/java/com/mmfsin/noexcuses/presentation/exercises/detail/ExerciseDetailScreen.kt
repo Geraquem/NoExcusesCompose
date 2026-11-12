@@ -1,5 +1,6 @@
 package com.mmfsin.noexcuses.presentation.exercises.detail
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -185,11 +186,14 @@ fun ExerciseDetailContent(
                         SmallText(text = e.involvedMuscles)
 
                         SpacerLarge()
-
                     }
                 }
             }
             if (uiStates.exercise == null) LoadingLottie(bgColor = White)
+        }
+
+        BackHandler {
+            goBack()
         }
     }
 }
